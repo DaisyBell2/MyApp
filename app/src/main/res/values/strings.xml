@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MyApp</string>
+    <string name="add_theory">Добавить теорию</string>
+    <string name="theory">Теория</string>
+    <string name="tests">Тесты</string>
+    <string name="check_list">Чек-листы</string>
+    <string name="add_tests">Добавить тест</string>
+    <string name="add_check_list">Добавить чек-лист</string>
+    <string name="title">Заголовок</string>
+    <string name="text">Текст</string>
+    <string name="save">Сохранено</string>
+    <string name="empty">Пустое поле</string>
+    <string name="read">Перейти, посмотреть</string>
+    <string name="next">Далее</string>
+
+</resources>

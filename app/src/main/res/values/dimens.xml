@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_tv_answer">18dp</dimen>
+    <dimen name="padding_tv_question">32dp</dimen>
+    <dimen name="size_tv_answer">18sp</dimen>
+    <dimen name="size_tv_question">24sp</dimen>
+</resources>

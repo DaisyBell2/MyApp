@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/btTheory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:onClick="onClickTheoryList"
+        android:layout_margin="8dp"
+        android:text="@string/theory"/>
+    <Button
+        android:id="@+id/btTests"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:onClick="onClickTestsList"
+        android:layout_margin="8dp"
+        android:text="@string/tests"/>
+    <Button
+        android:id="@+id/btCheckList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:layout_margin="8dp"
+        android:text="@string/check_list"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btAddTheory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClickAddTheory"
+            android:layout_weight="1"
+            android:text="@string/add_theory"/>
+        <Button
+            android:id="@+id/btAddTests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/add_tests"/>
+        <Button
+            android:id="@+id/btAddCheckList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/add_check_list"/>
+    </LinearLayout>
+
+</LinearLayout>

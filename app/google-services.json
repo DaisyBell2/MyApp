@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "179053862214",
+    "firebase_url": "https://handbook-ot-and-tb.firebaseio.com",
+    "project_id": "handbook-ot-and-tb",
+    "storage_bucket": "handbook-ot-and-tb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179053862214:android:2bf2ef68c6059c9ad21947",
+        "android_client_info": {
+          "package_name": "com.daisybell.myapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "179053862214-hkim0r7rvjuk72jdpbjmq5t74tk260kk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvgRn_TdUiWXYa8mjLaSAyJV6YRc0xrUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "179053862214-hkim0r7rvjuk72jdpbjmq5t74tk260kk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

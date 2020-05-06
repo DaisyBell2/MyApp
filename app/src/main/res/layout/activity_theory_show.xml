@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".theory.TheoryShowActivity">
+
+        <TextView
+            android:id="@+id/tvTheoryShowTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:textSize="24sp"/>
+        <TextView
+            android:id="@+id/tvTheoryShowText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/colorBlack"
+            android:layout_margin="10dp"
+            android:textSize="20sp"/>
+
+    </LinearLayout>
+</ScrollView>
