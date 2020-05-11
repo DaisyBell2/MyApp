@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#151515</color>
     <color name="colorAccent">#D3D3D3</color>
 
+    <color name="colorButton">#B5B5B5</color>
+
     <color name="colorTest">#D5D5D5</color>
     <color name="colorWrite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>

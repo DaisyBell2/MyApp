@@ -29,7 +29,6 @@ public class TheoryListActivity extends AppCompatActivity {
     private List<String> mListTitle;
     private List<Theory> mListTheory;
     private DatabaseReference mDataBase;
-    private String THEORY_KEY = "Theory";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +44,7 @@ public class TheoryListActivity extends AppCompatActivity {
         mListTheory = new ArrayList<>();
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mListTitle);
         mLvTheory.setAdapter(mAdapter);
-        mDataBase = FirebaseDatabase.getInstance().getReference(THEORY_KEY);
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.THEORY_KEY);
     }
     private void getDataFromDB() {
         ValueEventListener vListener = new ValueEventListener() {

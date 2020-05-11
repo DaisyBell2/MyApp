@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -17,7 +18,6 @@ public class AddTheoryActivity extends AppCompatActivity {
 
     private EditText mEtTitle, mEtText;
     private DatabaseReference mDataBase;
-    private String THEORY_KEY = "Theory";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class AddTheoryActivity extends AppCompatActivity {
     private void init() {
         mEtTitle = findViewById(R.id.etTitle);
         mEtText = findViewById(R.id.etText);
-        mDataBase = FirebaseDatabase.getInstance().getReference(THEORY_KEY);
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.THEORY_KEY);
     }
     private void showToast(int string) {
         Toast.makeText(AddTheoryActivity.this, string, Toast.LENGTH_SHORT).show();
@@ -42,7 +42,7 @@ public class AddTheoryActivity extends AppCompatActivity {
         Theory newTheory = new Theory(id, title, text);
         if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(text)) {
             mDataBase.push().setValue(newTheory);
-            showToast(R.string.save);
+            showToast(R.string.save_text);
             mEtTitle.getText().clear();
             mEtText.getText().clear();
         } else {

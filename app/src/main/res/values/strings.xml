@@ -8,9 +8,17 @@
     <string name="add_check_list">Добавить чек-лист</string>
     <string name="title">Заголовок</string>
     <string name="text">Текст</string>
-    <string name="save">Сохранено</string>
+    <string name="save">Сохранить</string>
+    <string name="save_text">Сохранено</string>
     <string name="empty">Пустое поле</string>
     <string name="read">Перейти, посмотреть</string>
     <string name="next">Далее</string>
+
+    <string name="enter_name_test">Введите название теста</string>
+    <string name="enter_question">Введите вопрос</string>
+    <string name="enter_answer1">Вариант 1</string>
+    <string name="enter_answer2">Вариант 2</string>
+    <string name="enter_answer3">Вариант 3</string>
+    <string name="enter_answer4">Вариант 4</string>
 
 </resources>
