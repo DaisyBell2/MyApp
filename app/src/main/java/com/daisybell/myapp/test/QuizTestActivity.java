@@ -3,9 +3,11 @@ package com.daisybell.myapp.test;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -19,13 +21,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class QuizTestActivity extends AppCompatActivity {
 
-    private String TAG = "getQuestion";
+    private static String TAG = "getQueTest";
 
     private TextView tvScore;
     private TextView tvQuestion;
@@ -38,10 +38,11 @@ public class QuizTestActivity extends AppCompatActivity {
 
     private DatabaseReference mDataBase;
 
-    private List<Test> mListTest = new ArrayList<>();
-    private List<String> mListNameTest = new ArrayList<>();
-    private Map<String, Test> mMapTest = new TreeMap<>();
-    private Map<String, String> mMapNameTest = new TreeMap<>();
+    Map<String, Object> mMap;
+    Map<String, ArrayList<String>> mMapAllOption;
+    Map<String, Object> mMapQuestion;
+    Map<String, Object> mMapRightAnswer;
+//    Map<String, Object> mMapTestKey;
 
     private String question;
     private int rightAnswer;
@@ -62,7 +63,9 @@ public class QuizTestActivity extends AppCompatActivity {
 
         init();
         getIntentMain();
+        getQuestion();
     }
+
     private void init() {
         mDataBase = FirebaseDatabase.getInstance().getReference(Constant.TESTS_KEY);
         tvScore = findViewById(R.id.tvScore);
@@ -90,27 +93,34 @@ public class QuizTestActivity extends AppCompatActivity {
         }
     }
 
-    private void getDataFromDB() {
+    private void getQuestion() {
         ValueEventListener vListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (mListTest.size() > 0) mListTest.clear();
-                if (mListNameTest.size() > 0) mListNameTest.clear();
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-//                String name_test = ds.getKey();
-//                tvQuestion.append(name_test);
-//                Log.d(TAG, name_test);
-                    Test test = ds.getValue(Test.class);
-                    assert test != null;
-                    mMapTest.put(Constant.KEY_INDEX_TEST, test);
-                    mMapNameTest.put(Constant.KEY_INDEX_TEST, test.nameTest);
-                    mListNameTest.add(test.question);
-                    mListTest.add(test);
-                    Log.d(TAG, "Value is: " + test);
-                    Log.d(TAG, "ListTest is: " + mListTest);
-                    Log.d(TAG, "ListNameTest is: " + mListNameTest);
-                    Log.d(TAG, "MapTest is: " + mMapTest);
-                    Log.d(TAG, "MapNameTest is: " + mMapNameTest);
+
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    String testKey = dataSnapshot1.getKey();
+                    Log.d(TAG, "testKey " + testKey);
+                    assert testKey != null;
+                    Constant.QUEST_SIZE = Constant.INDEX_QUEST_MAP;
+                    Constant.INDEX_QUEST_MAP = 1;
+                    Constant.INDEX_QUEST_MAP_TEST++;
+                    for (DataSnapshot dataSnapshot2 : dataSnapshot1.getChildren()) {
+                        String key2 = dataSnapshot2.getKey();
+                        Test test = dataSnapshot2.getValue(Test.class);
+                        assert test != null;
+                        mMap = test.toMap();
+                        mMapQuestion = test.toMapQuestion();
+                        mMapAllOption = test.toMapAllOption();
+                        mMapRightAnswer = test.toMapRightAnswer();
+                        Constant.INDEX_QUEST_MAP++;
+                        Log.d(TAG, "key2 " + key2);
+                        Log.d(TAG, "test " + test);
+                        Log.d(TAG, "mMap " + mMap);
+                        Log.d(TAG, "mMapQuestion " + mMapQuestion);
+                        Log.d(TAG, "mMapAllOption " + mMapAllOption);
+                        Log.d(TAG, "mMapRightAnswer " + mMapRightAnswer);
+                    }
                 }
             }
 
@@ -120,10 +130,20 @@ public class QuizTestActivity extends AppCompatActivity {
             }
         };
         mDataBase.addValueEventListener(vListener);
+        Constant.TEST_SIZE = Constant.INDEX_QUEST_MAP_TEST;
+        Constant.INDEX_QUEST_MAP_TEST = 0;
+        Constant.INDEX_QUEST_MAP = 1;
     }
-    private void getQuestion() {
-        Test test = new Test();
-        String question = test.getQuestion();
-        tvQuestion.setText(question);
+
+    @SuppressLint("SetTextI18n")
+    public void onClickNextQuestion(View view) {
+        int i = 1;
+        for (Object key : mMapQuestion.values()) {
+            tvQuestion.setText(String.valueOf(key));
+        }
+//        tvQuestion.setText("" + mMapQuestion.get("question" + "("+ 1 +"."+ 2 +")"));
+        Log.d(TAG, "tvQuestion "+ mMapQuestion.values());
+        Log.d(TAG, "tvQuestion.setText "+ tvQuestion.getText().toString());
+        i++;
     }
 }

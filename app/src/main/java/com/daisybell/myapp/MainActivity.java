@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.daisybell.myapp.auth.LoginActivity;
 import com.daisybell.myapp.test.AddQuizTestsActivity;
 import com.daisybell.myapp.test.TestsListActivity;
 import com.daisybell.myapp.theory.AddTheoryActivity;
 import com.daisybell.myapp.theory.TheoryListActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,5 +39,11 @@ public class MainActivity extends AppCompatActivity {
     public void onClickAddTest(View view) {
         Intent intent = new Intent(MainActivity.this, AddQuizTestsActivity.class);
         startActivity(intent);
+    }
+
+    // Выход из аккаунта
+    public void onClickSingOut(View view) {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
     }
 }

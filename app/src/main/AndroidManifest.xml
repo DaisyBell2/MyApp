@@ -9,19 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".test.AddQuizTestsActivity" />
-        <activity android:name=".test.QuizTestActivity" />
-        <activity android:name=".test.TestsListActivity" />
-        <activity android:name=".theory.AddTheoryActivity" />
-        <activity android:name=".theory.TheoryShowActivity" />
-        <activity android:name=".theory.TheoryListActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".auth.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".auth.RegActivity" />
+        <activity android:name=".test.AddQuizTestsActivity" />
+        <activity android:name=".test.QuizTestActivity" />
+        <activity android:name=".test.TestsListActivity" />
+        <activity android:name=".theory.AddTheoryActivity" />
+        <activity android:name=".theory.TheoryShowActivity" />
+        <activity android:name=".theory.TheoryListActivity" />
+        <activity android:name=".MainActivity"> </activity>
     </application>
 
 </manifest>

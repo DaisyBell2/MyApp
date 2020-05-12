@@ -1,8 +1,19 @@
 package com.daisybell.myapp.test;
 
-public class Test {
+import android.os.Parcelable;
+
+import com.daisybell.myapp.Constant;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
+
+public class Test extends ArrayList<Parcelable> {
     public String nameTest, question, option1, option2, option3, option4, rightAnswer;
+//    public String testKey;
     public int id;
+    ArrayList<String> allOption = new ArrayList<>();
+
 
     public Test() {
     }
@@ -17,7 +28,49 @@ public class Test {
         this.option3 = option3;
         this.option4 = option4;
         this.rightAnswer = rightAnswer;
+        allOption.add(option1);
+        allOption.add(option2);
+        allOption.add(option3);
+        allOption.add(option4);
     }
+
+    public Map<String, Object> toMap() {
+        TreeMap<String, Object> result = new TreeMap<>();
+        result.put("id" + "("+Constant.INDEX_QUEST_MAP+")", id);
+        result.put("nameTest" + "("+Constant.INDEX_QUEST_MAP+")", nameTest);
+        result.put("question" + "("+Constant.INDEX_QUEST_MAP+")", question);
+        result.put("option1" + "("+Constant.INDEX_QUEST_MAP+")", option1);
+        result.put("option2" + "("+Constant.INDEX_QUEST_MAP+")", option2);
+        result.put("option3" + "("+Constant.INDEX_QUEST_MAP+")", option3);
+        result.put("option4" + "("+Constant.INDEX_QUEST_MAP+")", option4);
+        result.put("rightAnswer" + "("+Constant.INDEX_QUEST_MAP+")", rightAnswer);
+
+        return result;
+    }
+    public Map<String, Object> toMapQuestion() {
+        TreeMap<String, Object> result = new TreeMap<>();
+        result.put("question" + "("+Constant.INDEX_QUEST_MAP_TEST +"."+ Constant.INDEX_QUEST_MAP+")", question);
+
+        return result;
+    }
+    public Map<String, ArrayList<String>> toMapAllOption() {
+        TreeMap<String, ArrayList<String>> result = new TreeMap<>();
+        result.put("option" + "("+Constant.INDEX_QUEST_MAP_TEST +"."+ Constant.INDEX_QUEST_MAP+")", allOption);
+
+        return result;
+    }
+    public Map<String, Object> toMapRightAnswer() {
+        TreeMap<String, Object> result = new TreeMap<>();
+        result.put("rightAnswer" + "("+Constant.INDEX_QUEST_MAP_TEST +"."+ Constant.INDEX_QUEST_MAP+")", rightAnswer);
+
+        return result;
+    }
+//    public Map<String, Object> toMapTestKey() {
+//        TreeMap<String, Object> result = new TreeMap<>();
+//        result.put("testKey" + "("+Constant.INDEX_QUEST_MAP_TEST+")", testKey);
+//
+//        return result;
+//    }
 
     public String getNameTest() {
         return nameTest;

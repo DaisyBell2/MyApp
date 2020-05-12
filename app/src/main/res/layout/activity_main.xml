@@ -56,5 +56,12 @@
             android:layout_weight="1"
             android:text="@string/add_check_list"/>
     </LinearLayout>
+    <Button
+        android:id="@+id/btSingOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:onClick="onClickSingOut"
+        android:text="@string/sing_out"/>
 
 </LinearLayout>

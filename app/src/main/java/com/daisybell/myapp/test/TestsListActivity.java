@@ -78,6 +78,7 @@ public class TestsListActivity extends AppCompatActivity {
                         Log.d("getData", "ListNameTest of: " + ListNameTest);
                         Log.d("getData", "ListTest of: " + ListTest);
                         Log.d("getData", "NameTest of: " + test.nameTest);
+                        Log.d("getData", "QUANTITY_QUEST of: " + Constant.QUANTITY_QUEST);
                 }
                 mAdapter.notifyDataSetChanged();
             }

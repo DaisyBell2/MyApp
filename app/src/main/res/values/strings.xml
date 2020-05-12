@@ -13,6 +13,13 @@
     <string name="empty">Пустое поле</string>
     <string name="read">Перейти, посмотреть</string>
     <string name="next">Далее</string>
+    <string name="sing_up">Зарегистрироваться</string>
+    <string name="sing_in">Войти</string>
+    <string name="email">Email</string>
+    <string name="password">Пароль</string>
+    <string name="password_again">Повторите пароль</string>
+    <string name="name">Имя</string>
+    <string name="surname">Фамилия</string>
 
     <string name="enter_name_test">Введите название теста</string>
     <string name="enter_question">Введите вопрос</string>
@@ -20,5 +27,12 @@
     <string name="enter_answer2">Вариант 2</string>
     <string name="enter_answer3">Вариант 3</string>
     <string name="enter_answer4">Вариант 4</string>
+
+    <string name="empty_text">Пожалуйста, заполните все поля</string>
+    <string name="adding">Добавлено</string>
+    <string name="saving">Ваш тест сохранён!</string>
+    <string name="empty_data">Нет данных для сохранения</string>
+    <string name="various_password">Разные пароли!</string>
+    <string name="sing_out">Выйти из аккаунта</string>
 
 </resources>

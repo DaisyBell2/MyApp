@@ -87,18 +87,19 @@ public class AddQuizTestsActivity extends AppCompatActivity {
         Test newTest = new Test(id, nameTest, question, option1, option2, option3, option4, rightAnswer);
         if (!TextUtils.isEmpty(nameTest) && !TextUtils.isEmpty(question) && !TextUtils.isEmpty(option1)
                 && !TextUtils.isEmpty(option2) && !TextUtils.isEmpty(option3) && !TextUtils.isEmpty(option4)) {
-            mMap.put("quest" + Constant.INDEX_QUEST, newTest);
+            mMap.put("quest" + Constant.INDEX_QUEST, newTest); // Сохраняем данные в Map
             Constant.INDEX_ID++;
             Constant.INDEX_QUEST++;
+            etEnterNameTest.setEnabled(false);
             etEnterQuestion.setText("");
             etOption1.setText("");
             etOption2.setText("");
             etOption3.setText("");
             etOption4.setText("");
             mRBAnswerOption1.setChecked(true);
-            Toast.makeText(this, "Добавлено", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.adding, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Пожалуйста, заполните все поля", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.empty_text, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -114,7 +115,8 @@ public class AddQuizTestsActivity extends AppCompatActivity {
 //                preferences.edit().putString("key", index_key).apply();
             }
             etEnterNameTest.setText("");
-            Toast.makeText(this, "Ваш тест сохранён!", Toast.LENGTH_SHORT).show();
+            etEnterNameTest.setEnabled(true);
+            Toast.makeText(this, R.string.saving, Toast.LENGTH_SHORT).show();
 
             // Обновляем переменные
             Constant.INDEX_ID = 0;
@@ -130,7 +132,7 @@ public class AddQuizTestsActivity extends AppCompatActivity {
             mMap.clear();
 
         } else {
-            Toast.makeText(this, "Нет данных для сохранения", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.empty_data, Toast.LENGTH_SHORT).show();
         }
     }
     public void onClickLookTests(View view) {

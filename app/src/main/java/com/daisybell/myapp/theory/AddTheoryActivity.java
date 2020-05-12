@@ -35,6 +35,7 @@ public class AddTheoryActivity extends AppCompatActivity {
         Toast.makeText(AddTheoryActivity.this, string, Toast.LENGTH_SHORT).show();
     }
 
+    // Обработчик кнопки "Сохранить". Сохраняет в firebase, то что ввел пользователь
     public void onClickSaveTheory(View view) {
         String id = mDataBase.getKey();
         String title = mEtTitle.getText().toString().trim();
@@ -50,6 +51,7 @@ public class AddTheoryActivity extends AppCompatActivity {
         }
     }
 
+    // Обработчик кнопки "Перейти,посмотреть". Переходит на другое активити
     public void onClickReadTheory(View view) {
         Intent intent = new Intent(AddTheoryActivity.this, TheoryListActivity.class);
         startActivity(intent);
