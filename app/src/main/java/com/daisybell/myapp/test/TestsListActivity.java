@@ -28,6 +28,8 @@ import java.util.TreeMap;
 
 public class TestsListActivity extends AppCompatActivity {
 
+    private static String TAG = "getQueTest";
+
     private DatabaseReference mDataBase;
     private ArrayAdapter<String> mAdapter;
     private List<String> ListNameTest;
@@ -103,6 +105,7 @@ public class TestsListActivity extends AppCompatActivity {
                 intent.putExtra(Constant.TEST_OPTION3, test.option3);
                 intent.putExtra(Constant.TEST_OPTION4, test.option4);
                 intent.putExtra(Constant.TEST_RIGHT_ANSWER, test.rightAnswer);
+                intent.putExtra(Constant.POSITION, position);
                 startActivity(intent);
             }
         });

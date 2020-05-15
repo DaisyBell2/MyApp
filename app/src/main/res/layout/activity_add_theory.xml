@@ -13,11 +13,13 @@
             android:id="@+id/etTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text|textCapSentences"
             android:hint="@string/title"/>
         <EditText
             android:id="@+id/etText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textMultiLine|textCapSentences"
             android:hint="@string/text"/>
         <Button
             android:id="@+id/btSaveTheoty"

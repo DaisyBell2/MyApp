@@ -20,6 +20,10 @@
     <string name="password_again">Повторите пароль</string>
     <string name="name">Имя</string>
     <string name="surname">Фамилия</string>
+    <string name="add_par">Добавить пункт</string>
+    <string name="add_name_check_list">Введите название чек-листа</string>
+    <string name="par">Пункт</string>
+    <string name="back_to_home">Вернуться в главное меню</string>
 
     <string name="enter_name_test">Введите название теста</string>
     <string name="enter_question">Введите вопрос</string>

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.daisybell.myapp.auth.LoginActivity;
+import com.daisybell.myapp.check_list.AddCheckListActivity;
 import com.daisybell.myapp.test.AddQuizTestsActivity;
 import com.daisybell.myapp.test.TestsListActivity;
 import com.daisybell.myapp.theory.AddTheoryActivity;
@@ -45,5 +46,9 @@ public class MainActivity extends AppCompatActivity {
     public void onClickSingOut(View view) {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
+    }
+
+    public void onClickAddCheckList(View view) {
+        startActivity(new Intent(MainActivity.this, AddCheckListActivity.class));
     }
 }

@@ -8,11 +8,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Test extends ArrayList<Parcelable> {
+public class Test  {
     public String nameTest, question, option1, option2, option3, option4, rightAnswer;
-//    public String testKey;
     public int id;
-    ArrayList<String> allOption = new ArrayList<>();
 
 
     public Test() {
@@ -28,40 +26,39 @@ public class Test extends ArrayList<Parcelable> {
         this.option3 = option3;
         this.option4 = option4;
         this.rightAnswer = rightAnswer;
-        allOption.add(option1);
-        allOption.add(option2);
-        allOption.add(option3);
-        allOption.add(option4);
     }
 
     public Map<String, Object> toMap() {
         TreeMap<String, Object> result = new TreeMap<>();
-        result.put("id" + "("+Constant.INDEX_QUEST_MAP+")", id);
-        result.put("nameTest" + "("+Constant.INDEX_QUEST_MAP+")", nameTest);
-        result.put("question" + "("+Constant.INDEX_QUEST_MAP+")", question);
-        result.put("option1" + "("+Constant.INDEX_QUEST_MAP+")", option1);
-        result.put("option2" + "("+Constant.INDEX_QUEST_MAP+")", option2);
-        result.put("option3" + "("+Constant.INDEX_QUEST_MAP+")", option3);
-        result.put("option4" + "("+Constant.INDEX_QUEST_MAP+")", option4);
-        result.put("rightAnswer" + "("+Constant.INDEX_QUEST_MAP+")", rightAnswer);
+        result.put("id" + "_"+Constant.TEST_SIZE+"."+Constant.QUEST_SIZE, id);
+        result.put("nameTest" + "_"+Constant.TEST_SIZE+"."+Constant.QUEST_SIZE, nameTest);
+        result.put("question" + "_"+Constant.TEST_SIZE+"."+Constant.QUEST_SIZE, question);
+        result.put("option1" + "_"+Constant.TEST_SIZE+"."+Constant.QUEST_SIZE, option1);
+        result.put("option2" + "_"+Constant.TEST_SIZE+"."+Constant.QUEST_SIZE, option2);
+        result.put("option3" + "_"+Constant.TEST_SIZE+"."+Constant.QUEST_SIZE, option3);
+        result.put("option4" + "_"+Constant.TEST_SIZE+"."+Constant.QUEST_SIZE, option4);
+        result.put("rightAnswer" + "_"+Constant.TEST_SIZE+"."+Constant.QUEST_SIZE, rightAnswer);
 
         return result;
     }
     public Map<String, Object> toMapQuestion() {
         TreeMap<String, Object> result = new TreeMap<>();
-        result.put("question" + "("+Constant.INDEX_QUEST_MAP_TEST +"."+ Constant.INDEX_QUEST_MAP+")", question);
+        result.put("question" + "_"+Constant.TEST_SIZE+"."+Constant.QUEST_SIZE, question);
 
         return result;
     }
-    public Map<String, ArrayList<String>> toMapAllOption() {
-        TreeMap<String, ArrayList<String>> result = new TreeMap<>();
-        result.put("option" + "("+Constant.INDEX_QUEST_MAP_TEST +"."+ Constant.INDEX_QUEST_MAP+")", allOption);
+    public Map<String, Object> toMapAllOption() {
+        TreeMap<String, Object> result = new TreeMap<>();
+        result.put("opti1on" + "_"+Constant.TEST_SIZE+"."+Constant.QUEST_SIZE, option1);
+        result.put("opti2on" + "_"+Constant.TEST_SIZE+"."+Constant.QUEST_SIZE, option2);
+        result.put("opti3on" + "_"+Constant.TEST_SIZE+"."+Constant.QUEST_SIZE, option3);
+        result.put("opti4on" + "_"+Constant.TEST_SIZE+"."+Constant.QUEST_SIZE, option4);
 
         return result;
     }
     public Map<String, Object> toMapRightAnswer() {
         TreeMap<String, Object> result = new TreeMap<>();
-        result.put("rightAnswer" + "("+Constant.INDEX_QUEST_MAP_TEST +"."+ Constant.INDEX_QUEST_MAP+")", rightAnswer);
+        result.put("rightAnswer" + "_"+Constant.TEST_SIZE+"."+Constant.QUEST_SIZE, rightAnswer);
 
         return result;
     }

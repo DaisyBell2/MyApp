@@ -9,6 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".test.ResultTestActivity"></activity>
+        <activity android:name=".check_list.AddCheckListActivity" />
         <activity android:name=".auth.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +25,7 @@
         <activity android:name=".theory.AddTheoryActivity" />
         <activity android:name=".theory.TheoryShowActivity" />
         <activity android:name=".theory.TheoryListActivity" />
-        <activity android:name=".MainActivity"> </activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

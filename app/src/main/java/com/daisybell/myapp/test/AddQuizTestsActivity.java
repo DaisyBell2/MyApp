@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -88,9 +89,11 @@ public class AddQuizTestsActivity extends AppCompatActivity {
         if (!TextUtils.isEmpty(nameTest) && !TextUtils.isEmpty(question) && !TextUtils.isEmpty(option1)
                 && !TextUtils.isEmpty(option2) && !TextUtils.isEmpty(option3) && !TextUtils.isEmpty(option4)) {
             mMap.put("quest" + Constant.INDEX_QUEST, newTest); // Сохраняем данные в Map
+//            Log.d("mMap", "mMap " + mMap);
             Constant.INDEX_ID++;
             Constant.INDEX_QUEST++;
             etEnterNameTest.setEnabled(false);
+            etEnterNameTest.setTextColor(getResources().getColor(R.color.colorGray));
             etEnterQuestion.setText("");
             etOption1.setText("");
             etOption2.setText("");
@@ -106,10 +109,12 @@ public class AddQuizTestsActivity extends AppCompatActivity {
     // Кнопка для сохранения всего теста в firebase
     public void onClickSaveTest(View view) {
         String mDataBaseId = mDataBase.push().getKey();
+//        Log.d("mMap", "Привет это я!");
         if (!mMap.isEmpty()) {
             for (String key : mMap.keySet()) {
                 assert mDataBaseId != null;
                 mDataBase.child(mDataBaseId).child(key).setValue(mMap.get(key));
+//                Log.d("mMap", "mMap2 " + mMap.get(key));
 //                String index_key = String.valueOf(initKey.add(key));
 //                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 //                preferences.edit().putString("key", index_key).apply();
