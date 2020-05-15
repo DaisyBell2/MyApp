@@ -15,6 +15,8 @@
         android:gravity="center"
         android:padding="@dimen/padding_tv_answer"
         android:text="TextView"
+        android:textStyle="italic"
+        android:textColor="@color/colorBlack"
         android:textSize="@dimen/size_tv_answer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,6 +30,7 @@
         android:gravity="center"
         android:padding="@dimen/padding_tv_question"
         android:text="TextView"
+        android:textColor="@color/colorBlack"
         android:textSize="@dimen/size_tv_question"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:textSize="@dimen/size_tv_answer2"
-            android:tag="1"
+            android:textStyle="italic"
             android:textColor="@color/colorBlack"
             android:text="Text"/>
         <RadioButton
@@ -58,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:textSize="@dimen/size_tv_answer2"
-            android:tag="2"
+            android:textStyle="italic"
             android:textColor="@color/colorBlack"
             android:text="Text"/>
         <RadioButton
@@ -67,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:textSize="@dimen/size_tv_answer2"
-            android:tag="3"
+            android:textStyle="italic"
             android:textColor="@color/colorBlack"
             android:text="Text"/>
         <RadioButton
@@ -76,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:textSize="@dimen/size_tv_answer2"
-            android:tag="4"
+            android:textStyle="italic"
             android:textColor="@color/colorBlack"
             android:text="Text"/>
     </RadioGroup>

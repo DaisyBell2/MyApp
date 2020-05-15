@@ -38,5 +38,6 @@
     <string name="empty_data">Нет данных для сохранения</string>
     <string name="various_password">Разные пароли!</string>
     <string name="sing_out">Выйти из аккаунта</string>
+    <string name="you_result">Ваш результат:</string>
 
 </resources>

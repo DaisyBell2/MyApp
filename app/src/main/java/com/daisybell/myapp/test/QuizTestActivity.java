@@ -86,7 +86,7 @@ public class QuizTestActivity extends AppCompatActivity {
         getDataFromDB();
     }
 
-    private void init() {
+    private void init() { // Инициализируем нужные переменные
         mDataBase = FirebaseDatabase.getInstance().getReference(Constant.TESTS_KEY);
         tvScore = findViewById(R.id.tvScore);
         tvQuestion = findViewById(R.id.tvQuestion);
@@ -102,7 +102,7 @@ public class QuizTestActivity extends AppCompatActivity {
         option.add(rbAnswer4);
     }
 
-    private void getIntentMain() {
+    private void getIntentMain() { // Получаем данные с прошлой активити
         Intent intent = getIntent();
         if (intent != null) {
             tvQuestion.setText(intent.getStringExtra(Constant.TEST_QUESTION));
@@ -120,13 +120,13 @@ public class QuizTestActivity extends AppCompatActivity {
         ValueEventListener vListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds1 : dataSnapshot.getChildren()) {
+                for (DataSnapshot ds1 : dataSnapshot.getChildren()) { // заходим в детей Test
                     String key = ds1.getKey();
 //                    Log.d(TAG, "key " + key);
                     Constant.QUEST_SIZE = 0;
                     Constant.TEST_SIZE++;
 
-                    for (DataSnapshot ds2 : ds1.getChildren()) {
+                    for (DataSnapshot ds2 : ds1.getChildren()) { // заходим в детей Key, туда где все вопросы
                         String key2 = ds2.getKey();
 //                        Log.d(TAG, "key2 " + key2);
                         Test test = ds2.getValue(Test.class);
@@ -141,7 +141,7 @@ public class QuizTestActivity extends AppCompatActivity {
                     }
                     if (index >= 0) {
 
-                        numQuest.add(index);
+                        numQuest.add(index); // С помощью этого узнаюм с каждого теста сколько всего вопросов
                         index = -1;
 //                        Log.d(TAG, "numQuestSize1 " + numQuest.size());
 //                        Log.d(TAG, "numQuest1 " + numQuest);
@@ -157,6 +157,9 @@ public class QuizTestActivity extends AppCompatActivity {
                     option4 = String.valueOf(mMap2.get("option4_" + position + "." + posNumQuest));
                     rightAnswer = String.valueOf(mMap2.get("rightAnswer_" + position + "." + posNumRightAnswer));
                     Log.d(TAG, "rightAnswer1 " + rightAnswer);
+
+                    String score = String.format("%s / %s", posNumQuest+1, numQuest.get(position)+1);
+                    tvScore.setText(score);
             }
 
             @Override
@@ -173,37 +176,44 @@ public class QuizTestActivity extends AppCompatActivity {
     // Обработчик кнопки "Next", меняет вопрос и показывает, верый выбор или нет
     public void onClickNextQuestion(View view) {
         final RadioButton rb = findViewById(rgAllAnswer.getCheckedRadioButtonId());
-        if (rb != null) {
+        if (rb != null) { // Проверяем нажата ли хотябы одна RadioButton
             rightOption();
-            if (posNumQuest > numQuest.get(position)) {
-                if (isClick) {
+            if (posNumQuest > numQuest.get(position)) { // если данный вопрос больше общего количества переходим на дркгое активити
+                if (isClick) { // Запускаем проверку ответа только олин раз
                     for (int i = 0; i < rgAllAnswer.getChildCount(); i++) {
                         rgAllAnswer.getChildAt(i).setEnabled(false);
                     }
                     check(rb);
                     isClick = false;
                 }
-                Toast.makeText(this, "Вопросы кончились!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(QuizTestActivity.this, ResultTestActivity.class);
-                intent.putExtra(Constant.RESULT_TEST, countOfAnswer);
-                intent.putExtra(Constant.NUM_QUEST_TEST, posNumQuest);
-                startActivity(intent);
+//                Toast.makeText(this, "Вопросы кончились!", Toast.LENGTH_SHORT).show();
+                handler.postDelayed(new Runnable() { // через 1 сек, переход на другое активити
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(QuizTestActivity.this, ResultTestActivity.class);
+                        intent.putExtra(Constant.RESULT_TEST, countOfAnswer);
+                        intent.putExtra(Constant.NUM_QUEST_TEST, posNumQuest);
+                        startActivity(intent);
+                    }
+                }, 1000);
             } else {
-                for (int i = 0; i < rgAllAnswer.getChildCount(); i++) {
+                for (int i = 0; i < rgAllAnswer.getChildCount(); i++) { // блокируем RadioButton чтобы нельзя было изменить ответ
                     rgAllAnswer.getChildAt(i).setEnabled(false);
                 }
                 check(rb);
                     handler.postDelayed(new Runnable() {
                         @Override
-                        public void run() {
+                        public void run() { // Очещаем RadioButton через 0.8 сек
                             rgAllAnswer.clearCheck();
                         }
                     }, 800);
                     handler.postDelayed(new Runnable() {
                         @Override
-                        public void run() {
+                        public void run() { // Через 1 секунду меняем цвет, меняем вопрося и т.д
                             rb.setTextColor(getResources().getColor(R.color.colorBlack));
                             getQuestionAndAnswer();
+                            String score = String.format("%s / %s", posNumQuest+1, numQuest.get(position)+1);
+                            tvScore.setText(score);
                             for (int i = 0; i < rgAllAnswer.getChildCount(); i++) {
                                 rgAllAnswer.getChildAt(i).setEnabled(true);
                             }
@@ -221,10 +231,10 @@ public class QuizTestActivity extends AppCompatActivity {
         if (rightOption.equals(radioButton.getText().toString())) {
             radioButton.setTextColor(getResources().getColor(R.color.colorGreen));
             countOfAnswer++;
-            Toast.makeText(this, "Верно", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Верно", Toast.LENGTH_SHORT).show();
         } else {
             radioButton.setTextColor(getResources().getColor(R.color.colorRed));
-            Toast.makeText(this, "Не верно", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Не верно", Toast.LENGTH_SHORT).show();
         }
         Log.d(TAG, "countOfAnswer " + countOfAnswer);
     }
