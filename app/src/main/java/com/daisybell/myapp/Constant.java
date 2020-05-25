@@ -1,5 +1,7 @@
 package com.daisybell.myapp;
 
+import com.daisybell.myapp.check_list.CheckList;
+
 public class Constant {
     public static final String THEORY_TITLE = "theory_title";
     public static final String THEORY_TEXT = "theory_text";
@@ -8,12 +10,22 @@ public class Constant {
     public final static String TESTS_KEY = "Tests";
     public final static String KEY_INDEX_ID = "Index_id";
     public final static String KEY_INDEX_QUEST = "Index_quest";
-    public final static String KEY_INDEX_TEST = "test";
+//    public final static String KEY_INDEX_TEST = "test";
     public final static String RESULT_TEST = "result_test";
     public final static String NUM_QUEST_TEST = "num_quest_test";
 
     public final static String USER_KEY = "Users";
     public final static String INDEX_USER_ID = "index_user_id";
+
+    public final static String CHECK_LIST_KEY = "Check-list";
+    public final static String CHECK_LIST_NAME = "Check-list_name";
+    public final static String CHECK_LIST_BEFORE_AFTER = "Check-list_before_after";
+    public final static String CHECK_LIST_PAR1 = "Check-list_par1";
+    public final static String CHECK_LIST_PAR2 = "Check-list_par2";
+    public final static String CHECK_LIST_PAR3 = "Check-list_par3";
+    public final static String CHECK_LIST_PAR4 = "Check-list_par4";
+    public final static String CHECK_LIST_PAR5 = "Check-list_par5";
+    public static int INDEX_CHECK_LIST_ID = 0;
 
     public static int USER_ID = 0;
     public static int INDEX_QUEST = 0;

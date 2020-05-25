@@ -38,6 +38,8 @@ public class TheoryListActivity extends AppCompatActivity {
         getDataFromDB();
         onClickItem();
     }
+
+    // Инициализация переменных
     private void init() {
         mLvTheory = findViewById(R.id.lvTheory);
         mListTitle = new ArrayList<>();
@@ -46,6 +48,8 @@ public class TheoryListActivity extends AppCompatActivity {
         mLvTheory.setAdapter(mAdapter);
         mDataBase = FirebaseDatabase.getInstance().getReference(Constant.THEORY_KEY);
     }
+
+    // Получение данных с Firebase
     private void getDataFromDB() {
         ValueEventListener vListener = new ValueEventListener() {
             @Override
@@ -68,6 +72,8 @@ public class TheoryListActivity extends AppCompatActivity {
         };
         mDataBase.addValueEventListener(vListener);
     }
+
+    // Обработчик нажатия на list с получения данных от position
     private void onClickItem() {
         mLvTheory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
