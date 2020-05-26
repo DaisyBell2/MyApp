@@ -27,6 +27,9 @@ public class Constant {
     public final static String CHECK_LIST_PAR5 = "Check-list_par5";
     public static int INDEX_CHECK_LIST_ID = 0;
 
+    public final static String RESULT = "Result";
+
+
     public static int USER_ID = 0;
     public static int INDEX_QUEST = 0;
     public static int INDEX_ID = 0;

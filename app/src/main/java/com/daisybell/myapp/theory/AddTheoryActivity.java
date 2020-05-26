@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -15,6 +16,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AddTheoryActivity extends AppCompatActivity {
+
+    Handler handler = new Handler();
 
     private EditText mEtTitle, mEtText;
     private DatabaseReference mDataBase;
@@ -55,7 +58,14 @@ public class AddTheoryActivity extends AppCompatActivity {
     public void onClickReadTheory(View view) {
         Intent intent = new Intent(AddTheoryActivity.this, TheoryListActivity.class);
         startActivity(intent);
-        mEtTitle.getText().clear();
-        mEtText.getText().clear();
+
+        // Очещаем все поля через 0.2 сек
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mEtTitle.getText().clear();
+                mEtText.getText().clear();
+            }
+        }, 200);
     }
 }

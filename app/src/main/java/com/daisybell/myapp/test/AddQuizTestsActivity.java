@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,6 +28,8 @@ import java.util.TreeMap;
 public class AddQuizTestsActivity extends AppCompatActivity {
 
 //    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+    Handler handler = new Handler();
 
     private EditText etEnterNameTest;
     private EditText etEnterQuestion;
@@ -143,6 +146,21 @@ public class AddQuizTestsActivity extends AppCompatActivity {
     public void onClickLookTests(View view) {
         Intent intent = new Intent(AddQuizTestsActivity.this, TestsListActivity.class);
         startActivity(intent);
+        // Очещаем все поля через 0.2 сек
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mMap.clear();
+                etEnterNameTest.getText().clear();
+                etEnterQuestion.getText().clear();
+                etOption1.getText().clear();
+                etOption2.getText().clear();
+                etOption3.getText().clear();
+                etOption4.getText().clear();
+                mRBAnswerOption1.setChecked(true);
+            }
+        }, 200);
+
     }
 
     @Override
