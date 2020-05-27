@@ -17,6 +17,8 @@ public class Constant {
     public final static String USER_KEY = "Users";
     public final static String INDEX_USER_ID = "index_user_id";
 
+    public final static String RESULT_CHECK_LIST_KEY = "ResultCheckList";
+
     public final static String CHECK_LIST_KEY = "Check-list";
     public final static String CHECK_LIST_NAME = "Check-list_name";
     public final static String CHECK_LIST_BEFORE_AFTER = "Check-list_before_after";

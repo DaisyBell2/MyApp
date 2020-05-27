@@ -31,6 +31,7 @@ import java.util.TreeMap;
 public class QuizTestActivity extends AppCompatActivity {
 
     private static String TAG = "getQueTest";
+    private static long back_pressed;
 
     private TextView tvScore;
     private TextView tvQuestion;
@@ -74,6 +75,7 @@ public class QuizTestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_tests);
+        setTitle("Тест");
 
         if (savedInstanceState != null) {
             Constant.INDEX_ID = savedInstanceState.getInt(Constant.KEY_INDEX_ID, 0);
@@ -177,8 +179,8 @@ public class QuizTestActivity extends AppCompatActivity {
     public void onClickNextQuestion(View view) {
         final RadioButton rb = findViewById(rgAllAnswer.getCheckedRadioButtonId());
         if (rb != null) { // Проверяем нажата ли хотябы одна RadioButton
-            rightOption();
-            if (posNumQuest > numQuest.get(position)) { // если данный вопрос больше общего количества переходим на дркгое активити
+            if (posNumQuest <= numQuest.get(position)) rightOption();
+            if (posNumQuest > numQuest.get(position)) { // если данный вопрос больше общего количества переходим на другое активити
                 if (isClick) { // Запускаем проверку ответа только олин раз
                     for (int i = 0; i < rgAllAnswer.getChildCount(); i++) {
                         rgAllAnswer.getChildAt(i).setEnabled(false);
@@ -194,6 +196,7 @@ public class QuizTestActivity extends AppCompatActivity {
                         intent.putExtra(Constant.RESULT_TEST, countOfAnswer);
                         intent.putExtra(Constant.NUM_QUEST_TEST, posNumQuest);
                         startActivity(intent);
+                        finish();
                     }
                 }, 1000);
             } else {
@@ -272,5 +275,16 @@ public class QuizTestActivity extends AppCompatActivity {
                 rightOption = option4;
                 break;
         }
+    }
+
+    // Метод для проверки хочет ли пользователь выйти
+    @Override
+    public void onBackPressed() {
+        if (back_pressed + 2000 > System.currentTimeMillis()) {
+            super.onBackPressed();
+        } else {
+            Toast.makeText(getBaseContext(), "Вы уверены, что хотите выйти из теста?", Toast.LENGTH_SHORT).show();
+        }
+        back_pressed = System.currentTimeMillis();
     }
 }

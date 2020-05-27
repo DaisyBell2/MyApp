@@ -10,6 +10,7 @@
     <color name="colorWrite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
     <color name="colorGray">#4A4949</color>
+    <color name="colorLightGray">#706F6F</color>
 
     <color name="colorGreen">#36CC00</color>
     <color name="colorRed">#BA000E</color>

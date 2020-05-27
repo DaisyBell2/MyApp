@@ -80,12 +80,15 @@
             android:layout_height="wrap_content"
             android:text="Выберите правильный ответ:"
             android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/size_tv_answer"/>
         <RadioGroup
             android:id="@+id/rgAnswerOption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:theme="@style/MyRadioButton"
+            android:layout_marginStart="8dp"
             android:orientation="horizontal">
             <RadioButton
                 android:id="@+id/rbAnswerOption1"
