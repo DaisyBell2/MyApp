@@ -24,6 +24,11 @@
     <string name="add_name_check_list">Введите название чек-листа</string>
     <string name="par">Пункт</string>
     <string name="back_to_home">Вернуться в главное меню</string>
+    <string name="result_tests">Результаты тестов</string>
+    <string name="result_check_list">Результаты чек-листов</string>
+
+    <string name="test_congratulation">Поздравляем!\n Вы успешно прошли данный тест!</string>
+    <string name="test_not_congratulation">К сожалению, вы не прошли данный тест!\n Попробуйте снова позже.</string>
 
     <string name="enter_name_test">Введите название теста</string>
     <string name="enter_question">Введите вопрос</string>

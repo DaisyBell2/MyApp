@@ -9,6 +9,8 @@ import android.view.View;
 import com.daisybell.myapp.auth.LoginActivity;
 import com.daisybell.myapp.check_list.AddCheckListActivity;
 import com.daisybell.myapp.check_list.CheckListNameActivity;
+import com.daisybell.myapp.result.ResultCheckListNameActivity;
+import com.daisybell.myapp.result.ResultTestsNameActivity;
 import com.daisybell.myapp.test.AddQuizTestsActivity;
 import com.daisybell.myapp.test.TestsListActivity;
 import com.daisybell.myapp.theory.AddTheoryActivity;
@@ -56,5 +58,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickCheckList(View view) {
         startActivity(new Intent(MainActivity.this, CheckListNameActivity.class));
+    }
+
+    public void onClickResultTests(View view) {
+        startActivity(new Intent(MainActivity.this, ResultTestsNameActivity.class));
+    }
+
+    public void onClickResultCheckList(View view) {
+        startActivity(new Intent(MainActivity.this, ResultCheckListNameActivity.class));
     }
 }

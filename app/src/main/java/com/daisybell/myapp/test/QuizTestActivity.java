@@ -24,7 +24,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -66,10 +70,13 @@ public class QuizTestActivity extends AppCompatActivity {
     private String option4;
     private String rightAnswer;
     private String rightOption;
+    private String nameTest;
     private int rightAnswerPosition;
     private int countOfQuestion = 0;
     private int countOfAnswer = 0;
     private int position;
+
+    private String startTimeTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +109,12 @@ public class QuizTestActivity extends AppCompatActivity {
         option.add(rbAnswer2);
         option.add(rbAnswer3);
         option.add(rbAnswer4);
+
+        // Получаем время
+        Date currentDate = new Date();
+        // Форматирование времени как "часы:минуты:секунды"
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+        startTimeTest = timeFormat.format(currentDate);
     }
 
     private void getIntentMain() { // Получаем данные с прошлой активити
@@ -113,6 +126,8 @@ public class QuizTestActivity extends AppCompatActivity {
             rbAnswer3.setText(intent.getStringExtra(Constant.TEST_OPTION3));
             rbAnswer4.setText(intent.getStringExtra(Constant.TEST_OPTION4));
             position = intent.getIntExtra(Constant.POSITION, 0);
+
+            nameTest = intent.getStringExtra(Constant.TEST_NAME);
         }
     }
 
@@ -195,6 +210,8 @@ public class QuizTestActivity extends AppCompatActivity {
                         Intent intent = new Intent(QuizTestActivity.this, ResultTestActivity.class);
                         intent.putExtra(Constant.RESULT_TEST, countOfAnswer);
                         intent.putExtra(Constant.NUM_QUEST_TEST, posNumQuest);
+                        intent.putExtra(Constant.START_TIME_TEST, startTimeTest);
+                        intent.putExtra(Constant.TEST_NAME, nameTest);
                         startActivity(intent);
                         finish();
                     }

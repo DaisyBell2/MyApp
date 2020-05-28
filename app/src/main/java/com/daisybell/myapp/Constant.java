@@ -14,10 +14,26 @@ public class Constant {
     public final static String RESULT_TEST = "result_test";
     public final static String NUM_QUEST_TEST = "num_quest_test";
 
+    public final static String RESULT_TESTS = "ResultTests";
+    public final static String START_TIME_TEST = "start_time_test";
+    public final static String RESULT_TESTS_NAME = "ResultTests_fullName";
+    public final static String RESULT_TESTS_NAME_TEST = "ResultTests_nameTest";
+    public final static String RESULT_TESTS_R = "ResultTests_result";
+    public final static String RESULT_TESTS_DATE = "ResultTests_date";
+    public final static String RESULT_TESTS_START_TIME = "ResultTests_startTime";
+    public final static String RESULT_TESTS_FINISH_TIME = "ResultTests_finishTime";
+
     public final static String USER_KEY = "Users";
     public final static String INDEX_USER_ID = "index_user_id";
 
     public final static String RESULT_CHECK_LIST_KEY = "ResultCheckList";
+    public final static String RESULT_CHECK_LIST_NAME = "ResultCheckList_fullName";
+    public final static String RESULT_CHECK_LIST_NAME_CL = "ResultCheckList_name_check_list";
+    public final static String RESULT_CHECK_LIST_PHOTO_URI = "ResultCheckList_photoUri";
+    public final static String RESULT_CHECK_LIST_DATE = "ResultCheckList_date";
+    public final static String RESULT_CHECK_LIST_TIME = "ResultCheckList_time";
+    public final static String RESULT_CHECK_LIST_DONE = "ResultCheckList_doneCheckList";
+    public final static String RESULT_CHECK_LIST_NOT_DONE = "ResultCheckList_notDoneCheckList";
 
     public final static String CHECK_LIST_KEY = "Check-list";
     public final static String CHECK_LIST_NAME = "Check-list_name";

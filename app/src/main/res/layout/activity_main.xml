@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:gravity="center"
+    android:layout_gravity="center"
     android:padding="16dp">
 
     <Button
@@ -59,11 +63,29 @@
             android:text="@string/add_check_list"/>
     </LinearLayout>
     <Button
+        android:id="@+id/btResultTests"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:text="@string/result_tests"
+        android:onClick="onClickResultTests"
+        android:layout_margin="4dp"/>
+    <Button
+        android:id="@+id/btResultCheckList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:text="@string/result_check_list"
+        android:onClick="onClickResultCheckList"
+        android:layout_margin="4dp"/>
+    <Button
         android:id="@+id/btSingOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:onClick="onClickSingOut"
+        android:layout_gravity="center"
         android:text="@string/sing_out"/>
 
 </LinearLayout>
+</ScrollView>
