@@ -3,18 +3,31 @@ package com.daisybell.myapp.test;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.daisybell.myapp.Constant;
+import com.daisybell.myapp.LoadingDialog;
 import com.daisybell.myapp.R;
+import com.daisybell.myapp.theory.Theory;
+import com.daisybell.myapp.theory.TheoryListActivity;
+import com.daisybell.myapp.theory.TheoryShowActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +53,9 @@ public class TestsListActivity extends AppCompatActivity {
     Test test;
     String nameTest;
 
+    LoadingDialog loadingDialog;
+    private TextView tvNotData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +65,10 @@ public class TestsListActivity extends AppCompatActivity {
         init();
         getDataFromDB();
         setOnClickItem();
+
+        loadingDialog = new LoadingDialog(TestsListActivity.this);
+        loadingDialog.startLoadingDialog();
+
     }
     private void init() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -63,6 +83,8 @@ public class TestsListActivity extends AppCompatActivity {
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ListNameTest);
         lvTests.setAdapter(mAdapter);
         mDataBase = FirebaseDatabase.getInstance().getReference(Constant.TESTS_KEY);
+
+        tvNotData = findViewById(R.id.tvNotData);
     }
 
    // Получаем данные с firebase
@@ -84,6 +106,8 @@ public class TestsListActivity extends AppCompatActivity {
                         Log.d("getData", "QUANTITY_QUEST of: " + Constant.QUANTITY_QUEST);
                 }
                 mAdapter.notifyDataSetChanged();
+                goneText();
+                loadingDialog.dismissDialog();
             }
 
             @Override
@@ -111,5 +135,13 @@ public class TestsListActivity extends AppCompatActivity {
             }
         });
     }
+    //Проверка данных, если их нет вывести текст
+    private void goneText() {
 
+        if (ListTest.size() == 0) {
+            tvNotData.setVisibility(View.VISIBLE);
+        } else if (ListTest.size() > 1) {
+            tvNotData.setVisibility(View.GONE);
+        }
+    }
 }

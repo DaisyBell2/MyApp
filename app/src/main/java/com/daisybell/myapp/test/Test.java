@@ -4,14 +4,15 @@ import android.os.Parcelable;
 
 import com.daisybell.myapp.Constant;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Test  {
+public class Test implements Serializable {
     public String nameTest, question, option1, option2, option3, option4, rightAnswer;
     public int id;
-
+    public int position;
 
     public Test() {
     }
@@ -68,6 +69,15 @@ public class Test  {
 //
 //        return result;
 //    }
+
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
     public String getNameTest() {
         return nameTest;

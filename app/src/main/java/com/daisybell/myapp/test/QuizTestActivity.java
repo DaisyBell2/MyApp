@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.R;
+import com.daisybell.myapp.theory.Theory;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -78,6 +79,8 @@ public class QuizTestActivity extends AppCompatActivity {
 
     private String startTimeTest;
 
+    private Test mTest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +107,7 @@ public class QuizTestActivity extends AppCompatActivity {
         rbAnswer2 = findViewById(R.id.rbAnswer2);
         rbAnswer3 = findViewById(R.id.rbAnswer3);
         rbAnswer4 = findViewById(R.id.rbAnswer4);
+        btNext = findViewById(R.id.btNext);
 
         option.add(rbAnswer1);
         option.add(rbAnswer2);
@@ -196,9 +200,10 @@ public class QuizTestActivity extends AppCompatActivity {
         if (rb != null) { // Проверяем нажата ли хотябы одна RadioButton
             if (posNumQuest <= numQuest.get(position)) rightOption();
             if (posNumQuest > numQuest.get(position)) { // если данный вопрос больше общего количества переходим на другое активити
-                if (isClick) { // Запускаем проверку ответа только олин раз
+                if (isClick) { // Запускаем проверку ответа только один раз
                     for (int i = 0; i < rgAllAnswer.getChildCount(); i++) {
                         rgAllAnswer.getChildAt(i).setEnabled(false);
+                        btNext.setEnabled(false);
                     }
                     check(rb);
                     isClick = false;
@@ -219,6 +224,7 @@ public class QuizTestActivity extends AppCompatActivity {
             } else {
                 for (int i = 0; i < rgAllAnswer.getChildCount(); i++) { // блокируем RadioButton чтобы нельзя было изменить ответ
                     rgAllAnswer.getChildAt(i).setEnabled(false);
+                    btNext.setEnabled(false);
                 }
                 check(rb);
                     handler.postDelayed(new Runnable() {
@@ -229,7 +235,7 @@ public class QuizTestActivity extends AppCompatActivity {
                     }, 800);
                     handler.postDelayed(new Runnable() {
                         @Override
-                        public void run() { // Через 1 секунду меняем цвет, меняем вопрося и т.д
+                        public void run() { // Через 1 секунду меняем цвет, меняем вопрос и т.д
                             rb.setTextColor(getResources().getColor(R.color.colorBlack));
                             getQuestionAndAnswer();
                             String score = String.format("%s / %s", posNumQuest+1, numQuest.get(position)+1);
@@ -237,6 +243,7 @@ public class QuizTestActivity extends AppCompatActivity {
                             for (int i = 0; i < rgAllAnswer.getChildCount(); i++) {
                                 rgAllAnswer.getChildAt(i).setEnabled(true);
                             }
+                            btNext.setEnabled(true);
                         }
                     }, 1000);
                 }
