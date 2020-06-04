@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWrite"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/tvItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito"
+            android:text="Text"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito"
+            android:layout_below="@+id/tvItems"
+            android:text="Text"
+            android:textColor="#555555"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tvTir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito"
+            android:layout_below="@+id/tvItems"
+            android:layout_toEndOf="@+id/tvDate"
+            android:text=" / "
+            android:textColor="#555555"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito"
+            android:layout_below="@+id/tvItems"
+            android:layout_toEndOf="@+id/tvTir"
+            android:text="Text"
+            android:textColor="#555555"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+</LinearLayout>

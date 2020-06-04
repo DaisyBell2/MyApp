@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".result.ResultTestsActivity">
+
+    <TextView
+        android:id="@+id/tvFullName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:textSize="24sp"
+        android:textColor="@color/colorBlack"
+        android:layout_margin="8dp"
+        android:gravity="center"
+        android:text="FullName"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvFullName">
+
+        <RelativeLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvNameTest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/colorBlack"
+                android:layout_toEndOf="@+id/tv1"/>
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"
+                android:layout_alignTop="@+id/tvNameTest"
+                android:text="Название теста: "/>
+
+            <TextView
+                android:id="@+id/tvResultTest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/colorBlack"
+                android:layout_below="@id/tvNameTest"
+                android:layout_toEndOf="@+id/tv2"/>
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"
+                android:layout_alignTop="@+id/tvResultTest"
+                android:text="Результат тестирования: "/>
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/colorBlack"
+                android:layout_toEndOf="@+id/tv3"
+                android:layout_below="@id/tvResultTest"/>
+            <TextView
+                android:id="@+id/tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"
+                android:layout_alignTop="@+id/tvDate"
+                android:text="Дата: "/>
+
+            <TextView
+                android:id="@+id/tvStartTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/colorBlack"
+                android:layout_toEndOf="@+id/tv4"
+                android:layout_below="@id/tvDate"/>
+            <TextView
+                android:id="@+id/tv4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"
+                android:layout_alignTop="@+id/tvStartTime"
+                android:text="Время начала тестирования: "/>
+
+            <TextView
+                android:id="@+id/tvFinishTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/colorBlack"
+                android:layout_toEndOf="@+id/tv5"
+                android:layout_below="@id/tvStartTime"/>
+            <TextView
+                android:id="@+id/tv5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"
+                android:layout_alignTop="@+id/tvFinishTime"
+                android:text="Время завершения теста: "/>
+
+        </RelativeLayout>
+    </ScrollView>
+    <Button
+        android:id="@+id/btBackToHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back_to_home"
+        android:layout_marginBottom="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:onClick="onClickBackToHome"/>
+
+</RelativeLayout>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".result.ResultCheckListActivity">
+
+    <TextView
+        android:id="@+id/tvFullName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:textSize="24sp"
+        android:textColor="@color/colorBlack"
+        android:layout_margin="8dp"
+        android:gravity="center"
+        android:text="FullName"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvFullName">
+
+    <RelativeLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvNameCL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:layout_toEndOf="@+id/tv1"/>
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/tvNameCL"
+            android:text="Название чек-листа: "/>
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:layout_below="@id/tvNameCL"
+            android:layout_toEndOf="@+id/tv2"/>
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/tvDate"
+            android:text="Дата: "/>
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:layout_toEndOf="@+id/tv3"
+            android:layout_below="@id/tvDate"/>
+        <TextView
+            android:id="@+id/tv3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/tvTime"
+            android:text="Время: "/>
+
+        <TextView
+            android:id="@+id/tvDone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:layout_toEndOf="@+id/tv4"
+            android:layout_below="@id/tvTime"/>
+        <TextView
+            android:id="@+id/tv4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/tvDone"
+            android:text="Что выполнено: "/>
+
+        <TextView
+            android:id="@+id/tvNotDone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:layout_toEndOf="@+id/tv5"
+            android:layout_below="@id/tvDone"/>
+        <TextView
+            android:id="@+id/tv5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/tvNotDone"
+            android:text="Что не выполнено: "/>
+
+        <TextView
+            android:id="@+id/tv6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"
+            android:layout_below="@+id/tvNotDone"
+            android:text="Фотография рабочего места: "/>
+
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/ivPhoto"
+            android:layout_width="500dp"
+            android:layout_height="500dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_below="@+id/tv6"
+            android:src="@drawable/loading_3"/>
+    </RelativeLayout>
+    </ScrollView>
+    <Button
+        android:id="@+id/btBackToHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back_to_home"
+        android:layout_marginBottom="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:onClick="onClickBackToHome"/>
+
+</RelativeLayout>

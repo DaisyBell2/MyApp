@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".check_list.AddCheckListActivity">
+
+        <EditText
+            android:id="@+id/etNameCheckList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:ems="10"
+            android:hint="@string/add_name_check_list"
+            android:inputType="textPersonName|textCapSentences"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <RadioGroup
+            android:id="@+id/rgPickPoint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:theme="@style/MyRadioButton"
+            app:layout_constraintEnd_toEndOf="@+id/etNameCheckList"
+            app:layout_constraintStart_toStartOf="@+id/etNameCheckList"
+            app:layout_constraintTop_toBottomOf="@+id/etNameCheckList">
+            <RadioButton
+                android:id="@+id/rbBefore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="Перед началом работы"/>
+            <RadioButton
+                android:id="@+id/rbAfter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="По окончанию работы"/>
+        </RadioGroup>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="#171717"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rgPickPoint" />
+
+        <EditText
+            android:id="@+id/etPar1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:ems="10"
+            android:hint="@string/par"
+            android:inputType="textMultiLine|textCapSentences"
+            app:layout_constraintEnd_toEndOf="@+id/etNameCheckList"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/etNameCheckList"
+            app:layout_constraintTop_toBottomOf="@+id/rgPickPoint" />
+        <EditText
+            android:id="@+id/etPar2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="@string/par"
+            android:inputType="textMultiLine|textCapSentences"
+            app:layout_constraintEnd_toEndOf="@+id/etPar1"
+            app:layout_constraintStart_toStartOf="@+id/etPar1"
+            app:layout_constraintTop_toBottomOf="@+id/etPar1" />
+
+        <EditText
+            android:id="@+id/etPar3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="@string/par"
+            android:inputType="textMultiLine|textCapSentences"
+            app:layout_constraintEnd_toEndOf="@+id/etPar2"
+            app:layout_constraintStart_toStartOf="@+id/etPar2"
+            app:layout_constraintTop_toBottomOf="@+id/etPar2" />
+
+        <EditText
+            android:id="@+id/etPar4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="@string/par"
+            android:inputType="textMultiLine|textCapSentences"
+            app:layout_constraintEnd_toEndOf="@+id/etPar2"
+            app:layout_constraintStart_toStartOf="@+id/etPar2"
+            app:layout_constraintTop_toBottomOf="@+id/etPar3" />
+
+        <EditText
+            android:id="@+id/etPar5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="@string/par"
+            android:inputType="textMultiLine|textCapSentences"
+            app:layout_constraintEnd_toEndOf="@+id/etPar4"
+            app:layout_constraintStart_toStartOf="@+id/etPar4"
+            app:layout_constraintTop_toBottomOf="@+id/etPar4" />
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/linearLayoutPar"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:orientation="vertical"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/etPar1"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/etPar1"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/etPar1">-->
+
+<!--        </LinearLayout>-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btAddPar"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:onClick="onClickAddPar"-->
+<!--            android:text="@string/add_par"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/etPar1"-->
+<!--            app:layout_constraintHorizontal_bias="0.497"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/etPar1"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/linearLayoutPar" />-->
+
+    <Button
+        android:id="@+id/btSaveCheckList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:onClick="onClickSaveCheckList"
+        android:text="@string/save"
+        app:layout_constraintEnd_toEndOf="@+id/etPar1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/etPar1"
+        app:layout_constraintTop_toBottomOf="@+id/etPar5" />
+
+        <Button
+            android:id="@+id/btLookCheckList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/read"
+            android:onClick="onClickLookCheckList"
+            app:layout_constraintEnd_toEndOf="@+id/btSaveCheckList"
+            app:layout_constraintStart_toStartOf="@+id/btSaveCheckList"
+            app:layout_constraintTop_toBottomOf="@+id/btSaveCheckList" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
