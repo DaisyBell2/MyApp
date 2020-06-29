@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyApp</string>
+    <string name="app_name">Справочник по ОТ и ТБ</string>
     <string name="add_theory">Добавить теорию</string>
     <string name="theory">Теория</string>
     <string name="tests">Тесты</string>

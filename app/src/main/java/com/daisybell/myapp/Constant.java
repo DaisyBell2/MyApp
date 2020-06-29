@@ -3,6 +3,10 @@ package com.daisybell.myapp;
 import com.daisybell.myapp.check_list.CheckList;
 
 public class Constant {
+
+    public static final String ADMIN_KEY = "Admin";
+    public static final String ADMIN_ID = "";
+
     public static final String THEORY_TITLE = "theory_title";
     public static final String THEORY_TEXT = "theory_text";
     public static final String THEORY_KEY = "Theory";

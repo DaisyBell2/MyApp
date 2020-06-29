@@ -1,9 +1,11 @@
 package com.daisybell.myapp.result;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +25,7 @@ import android.widget.TextView;
 import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.LoadingDialog;
 import com.daisybell.myapp.R;
+import com.daisybell.myapp.check_list.CheckListNameActivity;
 import com.daisybell.myapp.check_list.SaveResultCheckList;
 import com.daisybell.myapp.theory.Theory;
 import com.daisybell.myapp.theory.TheoryListActivity;
@@ -37,10 +40,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResultCheckListNameActivity extends AppCompatActivity {
+    private static String TAG = "myLog";
 
     private ListView lvResultCheckListName;
 //    private ArrayAdapter<String> mAdapter;
-//    private List<String> mListFullName;
+    private List<String> mListFullName;
     private List<SaveResultCheckList> mListCheckList;
     private DatabaseReference mDataBase;
 
@@ -56,8 +60,10 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
         setTitle("Результаты чек-листов");
 
         init();
+        lvResultCheckListName.setLongClickable(true);
         getDataFromDB();
 //        onClickItem();
+//        longDeleteClick();
 
         loadingDialog = new LoadingDialog(ResultCheckListNameActivity.this);
         loadingDialog.startLoadingDialog();
@@ -66,7 +72,7 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
     // Инициализация переменных
     private void init() {
         lvResultCheckListName = findViewById(R.id.lvResultCheckListName);
-//        mListFullName = new ArrayList<>();
+        mListFullName = new ArrayList<>();
         mListCheckList = new ArrayList<>();
         mCustomAdapter = new CustomAdapter(mListCheckList, this);
         lvResultCheckListName.setAdapter(mCustomAdapter);
@@ -82,14 +88,14 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
         ValueEventListener vListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if (mListFullName.size() > 0) mListFullName.clear();
+                if (mListFullName.size() > 0) mListFullName.clear();
                 if (mListCheckList.size() > 0) mListCheckList.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     SaveResultCheckList resultCheckList = ds.getValue(SaveResultCheckList.class);
                     if (resultCheckList != null) {
-//                        mListFullName.add(resultCheckList.fullNameUser + "/"
-//                                + resultCheckList.date + "/"
-//                                + resultCheckList.time);
+                        mListFullName.add(resultCheckList.fullNameUser + "/"
+                                + resultCheckList.date + "/"
+                                + resultCheckList.time);
                         mListCheckList.add(resultCheckList);
                     }
                 }
@@ -215,6 +221,29 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
                 }
             });
 
+            // Метод для удаления данных при долгом нажатии
+//            view.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View v) {
+//
+//                    new AlertDialog.Builder(ResultCheckListNameActivity.this)
+//                        .setIcon(android.R.drawable.ic_menu_delete)
+//                        .setTitle("Удаление данных")
+//                        .setMessage("Вы уверены, что хотите удалить: \"" + mListFullName.get(position) + "\" ?")
+//                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+////                                mDataBase.child(mListFullName.get(position)).removeValue();
+////                                mCustomAdapter.notifyDataSetChanged();
+//                            }
+//                        })
+//                        .setNegativeButton("Нет", null)
+//                        .show();
+//
+//                    return true;
+//                }
+//            });
+
             return view;
         }
 
@@ -259,4 +288,32 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
             return filter;
         }
     }
+
+    // Метод для удаления данных при долгом нажатии
+//    private void longDeleteClick() {
+//        lvResultCheckListName.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+//
+//                new AlertDialog.Builder(ResultCheckListNameActivity.this)
+//                        .setIcon(android.R.drawable.ic_menu_delete)
+//                        .setTitle("Удаление данных")
+//                        .setMessage("Вы уверены, что хотите удалить: \"" + mListFullName.get(position) + "\" ?")
+//                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                String key = mDataBase.getKey();
+//                                Log.d(TAG, "key: " + key);
+////                                mDataBase.child(mListFullName.get(position)).removeValue();
+////                                mCustomAdapter.notifyDataSetChanged();
+//                            }
+//                        })
+//                        .setNegativeButton("Нет", null)
+//                        .show();
+//
+//                return true;
+//            }
+//        });
+//    }
+
 }

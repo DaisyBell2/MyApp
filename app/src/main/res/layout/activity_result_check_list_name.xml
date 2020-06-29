@@ -19,6 +19,7 @@
     <ListView
         android:id="@+id/lvResultCheckListName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:longClickable="true"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

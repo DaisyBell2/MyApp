@@ -77,6 +77,7 @@ public class RegActivity extends AppCompatActivity {
 
                                     Toast.makeText(RegActivity.this, "Успешно!", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(RegActivity.this, MainActivity.class)); // Переходит на другое окно
+                                    finish();
                                 } else {
                                     Toast.makeText(RegActivity.this, "Данные введены некорректно либо почта уже существует!", Toast.LENGTH_SHORT).show();
                                 }

@@ -43,8 +43,7 @@ public class AddTheoryActivity extends AppCompatActivity {
     public void onClickSaveTheory(View view) {
         String id = mDataBase.getKey();
         String title = mEtTitle.getText().toString().trim();
-        String text = mEtText.getText().toString();
-//        String text = mEtText.getText().toString().trim();
+        String text = mEtText.getText().toString().trim();
         Theory newTheory = new Theory(id, title, text);
         if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(text)) {
             mDataBase.push().setValue(newTheory);

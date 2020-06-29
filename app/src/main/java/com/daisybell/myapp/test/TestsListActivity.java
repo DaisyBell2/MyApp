@@ -1,9 +1,11 @@
 package com.daisybell.myapp.test;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ import android.widget.TextView;
 import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.LoadingDialog;
 import com.daisybell.myapp.R;
+import com.daisybell.myapp.check_list.CheckListNameActivity;
 import com.daisybell.myapp.theory.Theory;
 import com.daisybell.myapp.theory.TheoryListActivity;
 import com.daisybell.myapp.theory.TheoryShowActivity;
@@ -65,6 +68,7 @@ public class TestsListActivity extends AppCompatActivity {
         init();
         getDataFromDB();
         setOnClickItem();
+//        longDeleteClick();
 
         loadingDialog = new LoadingDialog(TestsListActivity.this);
         loadingDialog.startLoadingDialog();
@@ -144,4 +148,29 @@ public class TestsListActivity extends AppCompatActivity {
             tvNotData.setVisibility(View.GONE);
         }
     }
+
+    // Метод для удаления данных при долгом нажатии
+//    private void longDeleteClick() {
+//        lvTests.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+//
+//                new AlertDialog.Builder(TestsListActivity.this)
+//                        .setIcon(android.R.drawable.ic_menu_delete)
+//                        .setTitle("Удаление данных")
+//                        .setMessage("Вы уверены, что хотите удалить: \"" + ListNameTest.get(position) + "\" ?")
+//                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                mDataBase.child(ListNameTest.get(position)).removeValue();
+//                                mAdapter.notifyDataSetChanged();
+//                            }
+//                        })
+//                        .setNegativeButton("Нет", null)
+//                        .show();
+//
+//                return true;
+//            }
+//        });
+//    }
 }

@@ -1,9 +1,11 @@
 package com.daisybell.myapp.theory;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +26,7 @@ import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.LoadingDialog;
 import com.daisybell.myapp.MainActivity;
 import com.daisybell.myapp.R;
+import com.daisybell.myapp.check_list.CheckListNameActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,7 +42,7 @@ public class TheoryListActivity extends AppCompatActivity {
 
     private ListView mLvTheory;
 //    private ArrayAdapter<String> mAdapter;
-//    private List<String> mListTitle;
+    private List<String> mListTitle;
     private List<Theory> mListTheory;
     private DatabaseReference mDataBase;
 
@@ -57,6 +60,7 @@ public class TheoryListActivity extends AppCompatActivity {
         init();
         getDataFromDB();
 //        onClickItem();
+//        longDeleteClick();
 
 
         loadingDialog = new LoadingDialog(TheoryListActivity.this);
@@ -67,7 +71,7 @@ public class TheoryListActivity extends AppCompatActivity {
     // Инициализация переменных
     private void init() {
         mLvTheory = findViewById(R.id.lvTheory);
-//        mListTitle = new ArrayList<>();
+        mListTitle = new ArrayList<>();
         mListTheory = new ArrayList<>();
         mCustomAdapter = new CustomAdapter(mListTheory, this);
         mLvTheory.setAdapter(mCustomAdapter);
@@ -83,12 +87,12 @@ public class TheoryListActivity extends AppCompatActivity {
         ValueEventListener vListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//               if (mListTitle.size() > 0)mListTitle.clear();
+                if (mListTitle.size() > 0)mListTitle.clear();
                 if (mListTheory.size() > 0) mListTheory.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Theory theory = ds.getValue(Theory.class);
                     assert theory != null;
-//                   mListTitle.add(theory.title);
+                    mListTitle.add(theory.title);
                     mListTheory.add(theory);
                 }
 //               mAdapter.notifyDataSetChanged();
@@ -245,5 +249,30 @@ public class TheoryListActivity extends AppCompatActivity {
             return filter;
         }
     }
+
+//    // Метод для удаления данных при долгом нажатии
+//    private void longDeleteClick() {
+//        mLvTheory.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+//
+//                new AlertDialog.Builder(TheoryListActivity.this)
+//                        .setIcon(android.R.drawable.ic_menu_delete)
+//                        .setTitle("Удаление данных")
+//                        .setMessage("Вы уверены, что хотите удалить: \"" + mListTitle.get(position) + "\" ?")
+//                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                mDataBase.child(mListTitle.get(position)).removeValue();
+//                                mCustomAdapter.notifyDataSetChanged();
+//                            }
+//                        })
+//                        .setNegativeButton("Нет", null)
+//                        .show();
+//
+//                return true;
+//            }
+//        });
+//    }
 
 }

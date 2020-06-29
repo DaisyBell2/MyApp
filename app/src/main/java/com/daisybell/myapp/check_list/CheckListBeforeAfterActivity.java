@@ -1,8 +1,10 @@
 package com.daisybell.myapp.check_list;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,6 +46,7 @@ public class CheckListBeforeAfterActivity extends AppCompatActivity {
         init();
         getDataFromDB();
         onClickItem();
+//        longDeleteClick();
     }
 
     // Инициализация переменных
@@ -110,4 +113,29 @@ public class CheckListBeforeAfterActivity extends AppCompatActivity {
             }
         });
     }
+
+    // Метод для удаления данных при долгом нажатии
+//    private void longDeleteClick() {
+//        lvBeforeAfter.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+//
+//                new AlertDialog.Builder(CheckListBeforeAfterActivity.this)
+//                        .setIcon(android.R.drawable.ic_menu_delete)
+//                        .setTitle("Удаление данных")
+//                        .setMessage("Вы уверены, что хотите удалить: \"" + mListBeforeAfterCheckList.get(position) + "\" ?")
+//                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                mDataBase.child(mListBeforeAfterCheckList.get(position)).removeValue();
+//                                mAdapter.notifyDataSetChanged();
+//                            }
+//                        })
+//                        .setNegativeButton("Нет", null)
+//                        .show();
+//
+//                return true;
+//            }
+//        });
+//    }
 }
