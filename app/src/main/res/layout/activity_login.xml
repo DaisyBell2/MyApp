@@ -20,7 +20,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="TextFields" />
+        tools:ignore="TextFields"
+        android:padding="12dp"
+        android:drawableStart="@drawable/custom_email_icon"
+        android:drawablePadding="12dp"
+        android:background="@drawable/custom_input"/>
 
     <EditText
         android:id="@+id/etPassword"
@@ -33,7 +37,11 @@
         app:layout_constraintEnd_toEndOf="@+id/etEmail"
         app:layout_constraintStart_toStartOf="@+id/etEmail"
         app:layout_constraintTop_toBottomOf="@+id/etEmail"
-        tools:ignore="TextFields" />
+        tools:ignore="TextFields"
+        android:padding="12dp"
+        android:drawableStart="@drawable/custom_lock_icon"
+        android:drawablePadding="12dp"
+        android:background="@drawable/custom_input"/>
 
     <Button
         android:id="@+id/btSingUp"

@@ -22,7 +22,11 @@
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:padding="12dp"
+            android:drawableStart="@drawable/custom_person_icon"
+            android:drawablePadding="12dp"
+            android:background="@drawable/custom_input"/>
 
         <EditText
             android:id="@+id/etSurname"
@@ -34,7 +38,11 @@
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="@+id/etName"
             app:layout_constraintStart_toStartOf="@+id/etName"
-            app:layout_constraintTop_toBottomOf="@+id/etName" />
+            app:layout_constraintTop_toBottomOf="@+id/etName"
+            android:padding="12dp"
+            android:drawableStart="@drawable/custom_account_icon"
+            android:drawablePadding="12dp"
+            android:background="@drawable/custom_input"/>
 
         <EditText
             android:id="@+id/etEmail"
@@ -46,7 +54,11 @@
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="@+id/etSurname"
             app:layout_constraintStart_toStartOf="@+id/etSurname"
-            app:layout_constraintTop_toBottomOf="@+id/etSurname" />
+            app:layout_constraintTop_toBottomOf="@+id/etSurname"
+            android:padding="12dp"
+            android:drawableStart="@drawable/custom_email_icon"
+            android:drawablePadding="12dp"
+            android:background="@drawable/custom_input"/>
 
         <EditText
             android:id="@+id/etPassword"
@@ -58,7 +70,11 @@
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="@+id/etEmail"
             app:layout_constraintStart_toStartOf="@+id/etEmail"
-            app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+            app:layout_constraintTop_toBottomOf="@+id/etEmail"
+            android:padding="12dp"
+            android:drawableStart="@drawable/custom_lock_icon"
+            android:drawablePadding="12dp"
+            android:background="@drawable/custom_input"/>
 
         <EditText
             android:id="@+id/etPasswordAgain"
@@ -70,7 +86,11 @@
             android:inputType="textPassword"
             app:layout_constraintEnd_toEndOf="@+id/etPassword"
             app:layout_constraintStart_toStartOf="@+id/etPassword"
-            app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/etPassword"
+            android:padding="12dp"
+            android:drawableStart="@drawable/custom_lock_icon"
+            android:drawablePadding="12dp"
+            android:background="@drawable/custom_input"/>
 
         <Button
             android:id="@+id/btSingUp"
