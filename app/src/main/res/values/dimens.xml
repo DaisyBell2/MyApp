@@ -6,4 +6,6 @@
     <dimen name="size_tv_question">24sp</dimen>
 
     <dimen name="size_tv_answer2">20sp</dimen>
+    <dimen name="text_size_btn">18sp</dimen>
+
 </resources>

@@ -5,7 +5,9 @@ import com.daisybell.myapp.check_list.CheckList;
 public class Constant {
 
     public static final String ADMIN_KEY = "Admin";
-    public static final String ADMIN_ID = "";
+    public static String ADMIN_ID = "";
+    public static final String ADMIN_DATE = "Данные при регистрации";
+    public static String USER_ID = "";
 
     public static final String THEORY_TITLE = "theory_title";
     public static final String THEORY_TEXT = "theory_text";
@@ -52,7 +54,7 @@ public class Constant {
     public final static String RESULT = "Result";
 
 
-    public static int USER_ID = 0;
+    public static int USER_INDEX_ID = 0;
     public static int INDEX_QUEST = 0;
     public static int INDEX_ID = 0;
     public static int QUANTITY_QUEST = 0;

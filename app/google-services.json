@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "179053862214-d1lq0pi664fqv0ok1tgmhglrud282e08.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.daisybell.myapp",
+            "certificate_hash": "4e40c6a958890935afeb3cce6b38ff144d005efa"
+          }
+        },
+        {
           "client_id": "179053862214-hkim0r7rvjuk72jdpbjmq5t74tk260kk.apps.googleusercontent.com",
           "client_type": 3
         }

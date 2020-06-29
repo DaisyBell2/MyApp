@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".result.ResultCheckListActivity">
+    tools:context=".result.ResultCheckListActivity"
+    android:background="@color/colorWrite">
 
     <TextView
         android:id="@+id/tvFullName"
@@ -148,6 +149,11 @@
         android:layout_marginBottom="8dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:onClick="onClickBackToHome"/>
+        android:onClick="onClickBackToHome"
+        android:padding="12dp"
+        android:background="@drawable/rounded"
+        android:textAllCaps="false"
+        android:textSize="@dimen/text_size_btn"
+        android:textColor="#FFFFFF"/>
 
 </RelativeLayout>

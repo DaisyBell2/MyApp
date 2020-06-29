@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import com.daisybell.myapp.auth.LoginActivity;
 import com.daisybell.myapp.check_list.AddCheckListActivity;
@@ -15,10 +16,12 @@ import com.daisybell.myapp.test.AddQuizTestsActivity;
 import com.daisybell.myapp.test.TestsListActivity;
 import com.daisybell.myapp.theory.AddTheoryActivity;
 import com.daisybell.myapp.theory.TheoryListActivity;
+import com.daisybell.myapp.user_email.AddNewUserActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Button btAddTheory, btAddTests, btAddCheckList, btAddNewUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle("Главный экран");
 
+        init();
+
+//        Boolean admin =
+//
+//        if ()
+
+    }
+    private void init() {
+        btAddTheory = findViewById(R.id.btAddTheory);
+        btAddTests = findViewById(R.id.btAddTests);
+        btAddCheckList = findViewById(R.id.btAddCheckList);
+        btAddNewUser = findViewById(R.id.btAddNewUser);
     }
 
     public void onClickTheoryList(View view) {
@@ -51,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClickSingOut(View view) {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        finish();
     }
 
     public void onClickAddCheckList(View view) {
@@ -67,5 +83,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickResultCheckList(View view) {
         startActivity(new Intent(MainActivity.this, ResultCheckListNameActivity.class));
+    }
+
+    public void onClickAddNewUser(View view) {
+        startActivity(new Intent(MainActivity.this, AddNewUserActivity.class));
     }
 }

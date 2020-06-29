@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".result.ResultCheckListNameActivity">
+    tools:context=".result.ResultCheckListNameActivity"
+    android:background="@color/colorWrite">
 
     <TextView
         android:id="@+id/tvNotData"

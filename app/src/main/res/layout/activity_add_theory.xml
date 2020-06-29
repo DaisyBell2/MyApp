@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/colorWrite">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +28,10 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded"
             android:onClick="onClickSaveTheory"
-            android:text="@string/save"/>
+            android:text="@string/save"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_size_btn"
+            android:textColor="#FFFFFF"/>
         <Button
             android:id="@+id/btReadTheoty"
             android:layout_width="match_parent"
@@ -35,7 +39,10 @@
             android:background="@drawable/rounded"
             android:onClick="onClickReadTheory"
             android:layout_marginTop="8dp"
-            android:text="@string/read"/>
+            android:text="@string/read"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_size_btn"
+            android:textColor="#FFFFFF"/>
 
     </LinearLayout>
 </ScrollView>

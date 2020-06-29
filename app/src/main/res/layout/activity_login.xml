@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".auth.LoginActivity">
+    tools:context=".auth.LoginActivity"
+    android:background="@color/colorWrite">
 
     <EditText
         android:id="@+id/etEmail"
@@ -41,6 +42,10 @@
         android:layout_marginTop="24dp"
         android:text="@string/sing_up"
         android:onClick="onClickSingUp"
+        android:background="@drawable/rounded"
+        android:textAllCaps="false"
+        android:textSize="@dimen/text_size_btn"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/etPassword"
         app:layout_constraintStart_toStartOf="@+id/etPassword"
         app:layout_constraintTop_toBottomOf="@+id/etPassword" />
@@ -52,6 +57,10 @@
         android:layout_marginTop="8dp"
         android:text="@string/sing_in"
         android:onClick="onClickSingIn"
+        android:background="@drawable/rounded"
+        android:textAllCaps="false"
+        android:textSize="@dimen/text_size_btn"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/btSingUp"
         app:layout_constraintStart_toStartOf="@+id/btSingUp"
         app:layout_constraintTop_toBottomOf="@+id/btSingUp" />

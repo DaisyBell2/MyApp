@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".test.ResultTestActivity">
+    tools:context=".test.ResultTestActivity"
+    android:background="@color/colorWrite">
 
     <TextView
         android:id="@+id/tvTime"
@@ -56,6 +57,11 @@
         android:layout_marginBottom="124dp"
         android:onClick="onClickHome"
         android:text="@string/back_to_home"
+        android:padding="12dp"
+        android:background="@drawable/rounded"
+        android:textAllCaps="false"
+        android:textSize="@dimen/text_size_btn"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

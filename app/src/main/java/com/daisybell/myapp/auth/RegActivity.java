@@ -38,7 +38,7 @@ public class RegActivity extends AppCompatActivity {
     }
     private void init() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Constant.USER_ID = preferences.getInt(Constant.INDEX_USER_ID, 0);
+        Constant.USER_INDEX_ID = preferences.getInt(Constant.INDEX_USER_ID, 0);
 
         etName = findViewById(R.id.etName);
         etSurname = findViewById(R.id.etSurname);
@@ -46,18 +46,19 @@ public class RegActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         etPasswordAgain = findViewById(R.id.etPasswordAgain);
         mAuth = FirebaseAuth.getInstance();
-        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.USER_KEY);
+//        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY + mAuth.getUid());
     }
 
     // Обработчик кнопки "Зарегестрироваться" (сохраняет введеные пользователем данные)
     public void onClickSaveSingUp(View view) {
-        int id = Constant.USER_ID;
-        String name = etName.getText().toString().trim();
-        String surname = etSurname.getText().toString().trim();
-        String email = etEmail.getText().toString().trim();
-        String password = etPassword.getText().toString().trim();
+//        int id = Constant.USER_ID;
+        final String name = etName.getText().toString().trim();
+        final String surname = etSurname.getText().toString().trim();
+        final String email = etEmail.getText().toString().trim();
+        final String password = etPassword.getText().toString().trim();
+        final Boolean admin = true;
         String passwordAgain = etPasswordAgain.getText().toString().trim();
-        final User newUser = new User(id, name, surname, email, password);
+//        final User newUser = new User(name, surname, email, password);
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(surname) && !TextUtils.isEmpty(email) // Проверяем на пустые поля
                 && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(passwordAgain)) {
             if (password.equals(passwordAgain)) { // Сверяем пароли
@@ -68,12 +69,16 @@ public class RegActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) { // Проверяет, все ли успешно
 
                                     String authUserId = mAuth.getUid();
+                                    Constant.ADMIN_ID = authUserId;
+                                    String id = authUserId;
+                                    mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ mAuth.getUid());
                                     assert authUserId != null;
-                                    mDataBase.child(authUserId).setValue(newUser);
-                                    Constant.USER_ID++;
+                                    final User newUser = new User(id, name, surname, email, password,admin);
+                                    mDataBase.child(Constant.ADMIN_DATE).setValue(newUser);
+//                                    Constant.USER_ID++;
 
-                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                                    preferences.edit().putInt(Constant.INDEX_USER_ID, Constant.USER_ID).apply();
+//                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//                                    preferences.edit().putInt(Constant.INDEX_USER_ID, Constant.USER_INDEX_ID).apply();
 
                                     Toast.makeText(RegActivity.this, "Успешно!", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(RegActivity.this, MainActivity.class)); // Переходит на другое окно

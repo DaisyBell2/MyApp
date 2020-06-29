@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.MainActivity;
 import com.daisybell.myapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -45,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         } else {
+//            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             Log.d(TAG,"User null");
         }
     }
@@ -69,6 +71,9 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) { // Проверяет, все ли успешно
+
+//                                Constant.ADMIN_ID = mAuth.getUid();
+
                                 Toast.makeText(LoginActivity.this, "Успешно!", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 finish();

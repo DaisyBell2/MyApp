@@ -1,2 +1,3 @@
+include ':javax.mail'
 rootProject.name='MyApp'
 include ':app'

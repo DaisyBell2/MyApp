@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/colorWrite">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -150,6 +151,10 @@
         android:layout_marginTop="72dp"
         android:onClick="onClickSaveCheckList"
         android:text="@string/save"
+        android:background="@drawable/rounded"
+        android:textAllCaps="false"
+        android:textSize="@dimen/text_size_btn"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/etPar1"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/etPar1"
@@ -159,8 +164,13 @@
             android:id="@+id/btLookCheckList"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/read"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/rounded"
             android:onClick="onClickLookCheckList"
+            android:text="@string/read"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/text_size_btn"
             app:layout_constraintEnd_toEndOf="@+id/btSaveCheckList"
             app:layout_constraintStart_toStartOf="@+id/btSaveCheckList"
             app:layout_constraintTop_toBottomOf="@+id/btSaveCheckList" />

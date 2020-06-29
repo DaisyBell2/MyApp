@@ -2,7 +2,8 @@
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/colorWrite">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -17,7 +18,10 @@
         android:background="@drawable/rounded"
         android:onClick="onClickTheoryList"
         android:layout_margin="8dp"
-        android:text="@string/theory"/>
+        android:text="@string/theory"
+        android:textAllCaps="false"
+        android:textSize="@dimen/text_size_btn"
+        android:textColor="#FFFFFF"/>
     <Button
         android:id="@+id/btTests"
         android:layout_width="match_parent"
@@ -25,7 +29,10 @@
         android:background="@drawable/rounded"
         android:onClick="onClickTestsList"
         android:layout_margin="8dp"
-        android:text="@string/tests"/>
+        android:text="@string/tests"
+        android:textAllCaps="false"
+        android:textSize="@dimen/text_size_btn"
+        android:textColor="#FFFFFF"/>
     <Button
         android:id="@+id/btCheckList"
         android:layout_width="match_parent"
@@ -33,7 +40,10 @@
         android:background="@drawable/rounded"
         android:onClick="onClickCheckList"
         android:layout_margin="8dp"
-        android:text="@string/check_list"/>
+        android:text="@string/check_list"
+        android:textAllCaps="false"
+        android:textSize="@dimen/text_size_btn"
+        android:textColor="#FFFFFF"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,24 +53,39 @@
         <Button
             android:id="@+id/btAddTheory"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:onClick="onClickAddTheory"
             android:layout_weight="1"
-            android:text="@string/add_theory"/>
+            android:text="@string/add_theory"
+            android:layout_margin="3dp"
+            android:background="@drawable/rounded"
+            android:textAllCaps="false"
+            android:textSize="15sp"
+            android:textColor="#FFFFFF"/>
         <Button
             android:id="@+id/btAddTests"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="onClickAddTest"
-            android:text="@string/add_tests"/>
+            android:layout_margin="3dp"
+            android:text="@string/add_tests"
+            android:background="@drawable/rounded"
+            android:textAllCaps="false"
+            android:textSize="15sp"
+            android:textColor="#FFFFFF"/>
         <Button
             android:id="@+id/btAddCheckList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="onClickAddCheckList"
-            android:text="@string/add_check_list"/>
+            android:text="@string/add_check_list"
+            android:layout_margin="3dp"
+            android:background="@drawable/rounded"
+            android:textAllCaps="false"
+            android:textSize="15sp"
+            android:textColor="#FFFFFF"/>
     </LinearLayout>
     <Button
         android:id="@+id/btResultTests"
@@ -69,7 +94,10 @@
         android:background="@drawable/rounded"
         android:text="@string/result_tests"
         android:onClick="onClickResultTests"
-        android:layout_margin="4dp"/>
+        android:layout_margin="4dp"
+        android:textAllCaps="false"
+        android:textSize="@dimen/text_size_btn"
+        android:textColor="#FFFFFF"/>
     <Button
         android:id="@+id/btResultCheckList"
         android:layout_width="match_parent"
@@ -77,7 +105,22 @@
         android:background="@drawable/rounded"
         android:text="@string/result_check_list"
         android:onClick="onClickResultCheckList"
-        android:layout_margin="4dp"/>
+        android:layout_margin="4dp"
+        android:textAllCaps="false"
+        android:textSize="@dimen/text_size_btn"
+        android:textColor="#FFFFFF"/>
+    <Button
+        android:id="@+id/btAddNewUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:text="@string/add_new_user"
+        android:onClick="onClickAddNewUser"
+        android:layout_margin="6dp"
+        android:textAllCaps="false"
+        android:textSize="@dimen/text_size_btn"
+        android:textColor="#FFFFFF"/>
+
     <Button
         android:id="@+id/btSingOut"
         android:layout_width="wrap_content"
@@ -85,7 +128,12 @@
         android:layout_marginTop="15dp"
         android:onClick="onClickSingOut"
         android:layout_gravity="center"
-        android:text="@string/sing_out"/>
+        android:padding="5dp"
+        android:text="@string/sing_out"
+        android:background="@drawable/rounded"
+        android:textAllCaps="false"
+        android:textSize="@dimen/text_size_btn"
+        android:textColor="#FFFFFF"/>
 
 </LinearLayout>
 </ScrollView>

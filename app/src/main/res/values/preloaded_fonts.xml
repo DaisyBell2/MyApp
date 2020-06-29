@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
+        <item>@font/caveat</item>
+        <item>@font/caveat_brush</item>
         <item>@font/nunito</item>
         <item>@font/nunito_light</item>
         <item>@font/nunito_semibold</item>
+        <item>@font/roboto_light</item>
+        <item>@font/roboto_slab</item>
     </array>
 </resources>
