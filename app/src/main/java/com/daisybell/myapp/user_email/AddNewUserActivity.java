@@ -6,34 +6,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daisybell.myapp.Constant;
-import com.daisybell.myapp.MainActivity;
 import com.daisybell.myapp.R;
 import com.daisybell.myapp.auth.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.io.IOException;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -46,9 +43,10 @@ import javax.mail.internet.MimeMessage;
 
 public class AddNewUserActivity extends AppCompatActivity {
 
-    private EditText etName, etSurname, etEmail, etPassword, etPasswordAgain;
+    private EditText etName, etSurname, etEmail, etPassword;
     private Button btSingUp;
-    private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth1;
+    private FirebaseAuth mAuth2;
     private DatabaseReference mDataBase;
     String sEmail, sPassword;
 
@@ -59,11 +57,25 @@ public class AddNewUserActivity extends AppCompatActivity {
         setTitle("Добавление нового пользователя");
 
         init();
+
+
+        mAuth1 = FirebaseAuth.getInstance();
+        FirebaseOptions firebaseOptions = new FirebaseOptions.Builder()
+                .setDatabaseUrl("[https://handbook-ot-and-tb.firebaseio.com/]")
+                .setApiKey("AIzaSyAvgRn_TdUiWXYa8mjLaSAyJV6YRc0xrUY")
+                .setApplicationId("handbook-ot-and-tb").build();
+
+        FirebaseApp myApp = FirebaseApp.initializeApp(getApplicationContext(), firebaseOptions,
+                        "HandbookOT&TB");
+
+        mAuth2 = FirebaseAuth.getInstance(myApp);
+
+
     }
 
     private void init() {
-//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        Constant.USER_ID = preferences.getInt(Constant.INDEX_USER_ID, 0);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Constant.ADMIN_ID = preferences.getString(Constant.ADMIN_ID_INDEX, "");
 
         sEmail = "handbook.OTandTB@gmail.com";
         sPassword = "tBr!5(8G";
@@ -72,9 +84,7 @@ public class AddNewUserActivity extends AppCompatActivity {
         etSurname = findViewById(R.id.etSurname);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
-        etPasswordAgain = findViewById(R.id.etPasswordAgain);
         btSingUp = findViewById(R.id.btSingUp);
-        mAuth = FirebaseAuth.getInstance();
         mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID);
     }
 
@@ -86,18 +96,21 @@ public class AddNewUserActivity extends AppCompatActivity {
         final String email = etEmail.getText().toString().trim();
         final String password = etPassword.getText().toString().trim();
         final Boolean admin = false;
-        String passwordAgain = etPasswordAgain.getText().toString().trim();
+//        String passwordAgain = etPasswordAgain.getText().toString().trim();
 //        final User newUser = new User(name, surname, email, password);
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(surname) && !TextUtils.isEmpty(email) // Проверяем на пустые поля
-                && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(passwordAgain)) {
-            if (password.equals(passwordAgain)) { // Сверяем пароли
-                mAuth.createUserWithEmailAndPassword(email, password) // Создаем аккаунт
+                && !TextUtils.isEmpty(password)) {
+                mAuth2.createUserWithEmailAndPassword(email, password) // Создаем аккаунт
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) { // Проверяет, все ли успешно
+                                if (!task.isSuccessful()) { // Проверяет, все ли успешно
 
-                                    String authUserId = mAuth.getUid();
+                                    Toast.makeText(AddNewUserActivity.this,
+                                            "Данные введены некорректно либо почта уже существует!", Toast.LENGTH_SHORT).show();
+
+                                } else {
+                                    String authUserId = mAuth2.getUid();
                                     Constant.USER_ID = authUserId;
                                     assert authUserId != null;
                                     String id = authUserId;
@@ -149,22 +162,42 @@ public class AddNewUserActivity extends AppCompatActivity {
                                     }
 
 
+                                    mAuth2.signOut();
 //                                    Toast.makeText(AddNewUserActivity.this, "Пользователь создан!", Toast.LENGTH_SHORT).show();
 //                                    startActivity(new Intent(AddNewUserActivity.this, MainActivity.class)); // Переходит на другое окно
 //                                    finish();
-                                } else {
-                                    Toast.makeText(AddNewUserActivity.this, "Данные введены некорректно либо почта уже существует!", Toast.LENGTH_SHORT).show();
                                 }
 
                             }
                         });
-            } else {
-                Toast.makeText(this, R.string.various_password, Toast.LENGTH_SHORT).show();
-            }
 
         } else {
             Toast.makeText(this, R.string.empty_text, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    // Кнопка для заполнения рандомным паролем поле
+    public void onClickGeneratePassword(View view) {
+        final int min = 7;
+        final int max = 9;
+        int rnd = rnd(min, max);
+
+        etPassword.setText(generateString(rnd));
+    }
+    public static int rnd(int min, int max) {
+        max -= min;
+        return (int) (Math.random() * ++max) + min;
+    }
+    // Рандомное генерирование пароля
+    private String generateString(int length) {
+        char[] chars = "QWERTYUIOPASDFGHJKLZXCVBNMmnbvcxzlkjhgfdsapoiuytrewq1234567890!@#$%^&*()".toCharArray();
+        StringBuilder stringBuilder = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            char c = chars[random.nextInt(chars.length)];
+            stringBuilder.append(c);
+        }
+        return stringBuilder.toString();
     }
 
     private class SendMail extends AsyncTask<Message, String, String> {
@@ -216,7 +249,6 @@ public class AddNewUserActivity extends AppCompatActivity {
                         etSurname.setText("");
                         etEmail.setText("");
                         etPassword.setText("");
-                        etPasswordAgain.setText("");
                     }
                 });
                 //Show alert dialog
@@ -224,7 +256,7 @@ public class AddNewUserActivity extends AppCompatActivity {
             }else {
                 //When error
                 Toast.makeText(getApplicationContext()
-                        , "Данные введены некорректно либо почта уже существует!", Toast.LENGTH_SHORT).show();
+                        , "Данные введены некорректно либо почта уже существует!!", Toast.LENGTH_SHORT).show();
             }
         }
     }

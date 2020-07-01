@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btAddTheory, btAddTests, btAddCheckList, btAddNewUser;
 
+    private Boolean emailVerified;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,9 +33,22 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 
-//        Boolean admin =
-//
-//        if ()
+        Intent intent = getIntent();
+        if (intent != null) {
+            emailVerified = intent.getBooleanExtra("emailVerified", false);
+        }
+
+        if (emailVerified) {
+            btAddTheory.setVisibility(View.VISIBLE);
+            btAddTests.setVisibility(View.VISIBLE);
+            btAddCheckList.setVisibility(View.VISIBLE);
+            btAddNewUser.setVisibility(View.VISIBLE);
+        } else {
+            btAddTheory.setVisibility(View.GONE);
+            btAddTests.setVisibility(View.GONE);
+            btAddCheckList.setVisibility(View.GONE);
+            btAddNewUser.setVisibility(View.GONE);
+        }
 
     }
     private void init() {
@@ -87,5 +102,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickAddNewUser(View view) {
         startActivity(new Intent(MainActivity.this, AddNewUserActivity.class));
+    }
+
+    // Полностью закрывает приложение
+    public void onBackPressed() {
+        System.gc();
+        System.exit(0);
     }
 }

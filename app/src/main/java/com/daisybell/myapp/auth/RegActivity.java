@@ -8,7 +8,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -19,14 +21,20 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class RegActivity extends AppCompatActivity {
 
+    private static String TAG = "myLog";
+
     private EditText etName, etSurname, etEmail, etPassword, etPasswordAgain;
+    private Button btSingUp;
     private FirebaseAuth mAuth;
     private DatabaseReference mDataBase;
+    private Boolean successReg = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +45,15 @@ public class RegActivity extends AppCompatActivity {
         init();
     }
     private void init() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Constant.USER_INDEX_ID = preferences.getInt(Constant.INDEX_USER_ID, 0);
+//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        Constant.USER_INDEX_ID = preferences.getInt(Constant.INDEX_USER_ID, 0);
 
         etName = findViewById(R.id.etName);
         etSurname = findViewById(R.id.etSurname);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         etPasswordAgain = findViewById(R.id.etPasswordAgain);
+        btSingUp = findViewById(R.id.btSingUp);
         mAuth = FirebaseAuth.getInstance();
 //        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY + mAuth.getUid());
     }
@@ -67,22 +76,63 @@ public class RegActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) { // Проверяет, все ли успешно
+                                    btSingUp.setEnabled(false);
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    if (user != null) {
+                                        // Метод для указания имени пользователя
+                                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                .setDisplayName(name).build();
+                                        user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Log.d(TAG, "User profile updated.");
+                                                }
+                                            }
+                                        });
+                                        // Метод для отправки письма на указаную почту(Верефикация почты)
+                                        user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
 
-                                    String authUserId = mAuth.getUid();
-                                    Constant.ADMIN_ID = authUserId;
-                                    String id = authUserId;
-                                    mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ mAuth.getUid());
-                                    assert authUserId != null;
-                                    final User newUser = new User(id, name, surname, email, password,admin);
-                                    mDataBase.child(Constant.ADMIN_DATE).setValue(newUser);
-//                                    Constant.USER_ID++;
+                                                    String authUserId = mAuth.getUid();
+                                                    Constant.ADMIN_ID = authUserId;
+                                                    String id = authUserId;
+                                                    mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ mAuth.getUid());
+                                                    assert authUserId != null;
+                                                    final User newUser = new User(id, name, surname, email, password,admin);
+                                                    mDataBase.child(Constant.ADMIN_DATE).setValue(newUser);
 
-//                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//                                    preferences.edit().putInt(Constant.INDEX_USER_ID, Constant.USER_INDEX_ID).apply();
+                                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                                    preferences.edit().putString(Constant.ADMIN_ID_INDEX, Constant.ADMIN_ID).apply();
 
-                                    Toast.makeText(RegActivity.this, "Успешно!", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(RegActivity.this, MainActivity.class)); // Переходит на другое окно
-                                    finish();
+                                                    Toast.makeText(getApplicationContext(), R.string.verification_email, Toast.LENGTH_LONG).show();
+
+                                                    successReg = true;
+
+                                                    etEmail.setText("");
+                                                    etName.setText("");
+                                                    etPassword.setText("");
+                                                    etPasswordAgain.setText("");
+                                                    etSurname.setText("");
+                                                    btSingUp.setEnabled(true);
+
+                                                    Intent intent = new Intent(RegActivity.this, LoginActivity.class);
+                                                    intent.putExtra("email", email);
+                                                    intent.putExtra("password", password);
+                                                    intent.putExtra("success", successReg);
+                                                    startActivity(intent);
+                                                    finish();
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                    }
+//                                    Toast.makeText(RegActivity.this, "Успешно!", Toast.LENGTH_SHORT).show();
+//                                    startActivity(new Intent(RegActivity.this, MainActivity.class)); // Переходит на другое окно
+//                                    finish();
                                 } else {
                                     Toast.makeText(RegActivity.this, "Данные введены некорректно либо почта уже существует!", Toast.LENGTH_SHORT).show();
                                 }
@@ -97,4 +147,22 @@ public class RegActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.empty_text, Toast.LENGTH_SHORT).show();
         }
     }
+
+    // Метод для отправки письма на указаную почту(Верефикация почты)
+//    private void sendEmailVer() {
+//        FirebaseUser user = mAuth.getCurrentUser();
+//
+//        if (user != null) {
+//            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+//                @Override
+//                public void onComplete(@NonNull Task<Void> task) {
+//                    if (task.isSuccessful()) {
+//                        Toast.makeText(getApplicationContext(), R.string.verification_email, Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            });
+//        }
+//    }
 }

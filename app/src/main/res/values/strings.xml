@@ -46,6 +46,9 @@
     <string name="various_password">Разные пароли!</string>
     <string name="sing_out">Выйти из аккаунта</string>
     <string name="you_result">Ваш результат:</string>
+    <string name="verification_email">Спасибо за регистрацию, для получения прав администратора подтвердите вашу почту.</string>
+    <string name="error">Ошибка</string>
+    <string name="generate_password">Сгенерировать пароль</string>
 
 
 </resources>

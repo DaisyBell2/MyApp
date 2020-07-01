@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.daisybell.myapp">
 
@@ -19,6 +20,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".SplashScreenActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"
@@ -29,9 +31,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".user_email.AddNewUserActivity" />
-        <activity android:name=".result.ResultTestsActivity" />
-        <activity android:name=".result.ResultTestsNameActivity" />
+        <activity
+            android:name=".user_email.AddNewUserActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity
+            android:name=".result.ResultTestsActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity
+            android:name=".result.ResultTestsNameActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".result.ResultCheckListActivity"
             android:screenOrientation="portrait"

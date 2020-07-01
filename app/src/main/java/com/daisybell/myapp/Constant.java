@@ -6,6 +6,7 @@ public class Constant {
 
     public static final String ADMIN_KEY = "Admin";
     public static String ADMIN_ID = "";
+    public static String ADMIN_ID_INDEX = "admin_id_index";
     public static final String ADMIN_DATE = "Данные при регистрации";
     public static String USER_ID = "";
 

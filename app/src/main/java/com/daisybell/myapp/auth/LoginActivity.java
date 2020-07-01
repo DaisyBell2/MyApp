@@ -2,23 +2,36 @@ package com.daisybell.myapp.auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.MainActivity;
 import com.daisybell.myapp.R;
+import com.daisybell.myapp.theory.Theory;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -27,6 +40,14 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etEmail, etPassword;
     private FirebaseAuth mAuth;
 
+    private Boolean emailVerified;
+
+    private Boolean successReg = false;
+    private String email;
+    private String password;
+    private String name;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         setTitle("Авторизация");
 
         init();
+
     }
 
     @Override
@@ -41,10 +63,26 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser cUser = mAuth.getCurrentUser();
         if (cUser != null) {
+            emailVerified = cUser.isEmailVerified();
+            name = cUser.getDisplayName();
+            Log.d(TAG, "name: " + name);
 
-            Toast.makeText(this, "Вы вошли как: " + cUser.getEmail(), Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
+            Intent intent = getIntent();
+            if (intent != null) {
+                email = intent.getStringExtra("email");
+                password = intent.getStringExtra("password");
+                successReg = intent.getBooleanExtra("success", false);
+            }
+            if (successReg){
+                etEmail.setText(email);
+                etPassword.setText(password);
+            } else {
+                Toast.makeText(this, "Вы вошли как: " + cUser.getEmail(), Toast.LENGTH_LONG).show();
+                startActivity(new Intent(LoginActivity.this, MainActivity.class)
+                        .putExtra("emailVerified", emailVerified));
+                finish();
+            }
+
         } else {
 //            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             Log.d(TAG,"User null");
@@ -55,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         mAuth = FirebaseAuth.getInstance();
+//        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.USER_KEY);
     }
     // Обработчик кнопки "Зарегестрироваться"
     public void onClickSingUp(View view) {
@@ -72,11 +111,31 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) { // Проверяет, все ли успешно
 
-//                                Constant.ADMIN_ID = mAuth.getUid();
+                                // Прооверяем верифицировал ли пользователь почту
+                                FirebaseUser cUser = mAuth.getCurrentUser();
+                                if (cUser != null) {
+                                    emailVerified = cUser.isEmailVerified();
+                                    name = cUser.getDisplayName();
+                                    Log.d(TAG, "name2: " + name);
 
-                                Toast.makeText(LoginActivity.this, "Успешно!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                finish();
+                                    if (successReg) {
+                                        if (cUser.isEmailVerified()) {
+                                            Toast.makeText(LoginActivity.this, "Добро Пожаловать, "+name+"!", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(LoginActivity.this, MainActivity.class)
+                                                    .putExtra("emailVerified", emailVerified));
+                                            finish();
+                                        } else {
+                                            Toast.makeText(LoginActivity.this, "Проверьте вашу почту для подтверждения Email адреса", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "Добро Пожаловать, "+name+"!", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(LoginActivity.this, MainActivity.class)
+                                                .putExtra("emailVerified", emailVerified));
+                                        finish();
+                                    }
+
+                                }
+
                             } else {
                                 Toast.makeText(LoginActivity.this, "Данного пользователя не существует!", Toast.LENGTH_SHORT).show();
                             }
@@ -86,4 +145,5 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.empty_text, Toast.LENGTH_SHORT).show();
         }
     }
+
 }

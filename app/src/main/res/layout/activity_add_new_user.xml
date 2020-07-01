@@ -1,10 +1,10 @@
-<ScrollView android:layout_width="match_parent"
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/colorWrite">
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
     tools:context=".user_email.AddNewUserActivity">
@@ -18,7 +18,7 @@
             android:layout_marginEnd="32dp"
             android:ems="10"
             android:hint="@string/name"
-            android:inputType="textPersonName"
+            android:inputType="textPersonName|textCapSentences"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -34,7 +34,7 @@
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="@string/surname"
-            android:inputType="textPersonName"
+            android:inputType="textPersonName|textCapSentences"
             app:layout_constraintEnd_toEndOf="@+id/etName"
             app:layout_constraintStart_toStartOf="@+id/etName"
             app:layout_constraintTop_toBottomOf="@+id/etName"
@@ -64,32 +64,46 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:background="@drawable/custom_input"
+            android:drawableStart="@drawable/custom_lock_icon"
+            android:drawablePadding="12dp"
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
+            android:maxLength="30"
+            android:padding="12dp"
             app:layout_constraintEnd_toEndOf="@+id/etEmail"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/etEmail"
-            app:layout_constraintTop_toBottomOf="@+id/etEmail"
-            android:padding="12dp"
-            android:drawableStart="@drawable/custom_lock_icon"
-            android:drawablePadding="12dp"
-            android:background="@drawable/custom_input"/>
+            app:layout_constraintTop_toBottomOf="@+id/etEmail" />
 
-        <EditText
-            android:id="@+id/etPasswordAgain"
-            android:layout_width="0dp"
+        <ImageButton
+            android:id="@+id/btGeneratePassword"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:hint="@string/password_again"
-            android:inputType="textPassword"
+            android:layout_marginEnd="3dp"
+            android:background="@drawable/custom_button"
+            android:padding="6dp"
+            android:onClick="onClickGeneratePassword"
+            app:layout_constraintBottom_toBottomOf="@+id/etPassword"
             app:layout_constraintEnd_toEndOf="@+id/etPassword"
+            app:layout_constraintTop_toTopOf="@+id/etPassword"
+            app:srcCompat="@drawable/ic_random"
+            tools:ignore="VectorDrawableCompat" />
+
+        <TextView
+            android:id="@+id/tvGeneratePassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:fontFamily="@font/roboto_light"
+            android:text="@string/generate_password"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@+id/etPassword"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/etPassword"
-            app:layout_constraintTop_toBottomOf="@+id/etPassword"
-            android:padding="12dp"
-            android:drawableStart="@drawable/custom_lock_icon"
-            android:drawablePadding="12dp"
-            android:background="@drawable/custom_input"/>
+            app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
         <Button
             android:id="@+id/btSingUp"
@@ -103,9 +117,11 @@
             android:textAllCaps="false"
             android:textSize="@dimen/text_size_btn"
             android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="@+id/etPasswordAgain"
-            app:layout_constraintStart_toStartOf="@+id/etPasswordAgain"
-            app:layout_constraintTop_toBottomOf="@+id/etPasswordAgain" />
+            app:layout_constraintEnd_toEndOf="@+id/etPassword"
+            app:layout_constraintStart_toStartOf="@+id/etPassword"
+            app:layout_constraintTop_toBottomOf="@+id/tvGeneratePassword" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
