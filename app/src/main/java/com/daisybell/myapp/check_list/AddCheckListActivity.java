@@ -3,8 +3,10 @@ package com.daisybell.myapp.check_list;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -46,6 +48,9 @@ public class AddCheckListActivity extends AppCompatActivity {
     }
 
     private void init() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Constant.ADMIN_ID = preferences.getString(Constant.ADMIN_ID_INDEX, "");
+
 //        linearLayoutPar = findViewById(R.id.linearLayoutPar);
         etNameCheckList = findViewById(R.id.etNameCheckList);
         etPar1 = findViewById(R.id.etPar1);
@@ -56,7 +61,7 @@ public class AddCheckListActivity extends AppCompatActivity {
         rgPickPoint = findViewById(R.id.rgPickPoint);
         rbBefore = findViewById(R.id.rbBefore);
         rbBefore.setChecked(true);
-        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.CHECK_LIST_KEY);
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.CHECK_LIST_KEY);
     }
         // Создаем новый EditText по нажатию на кнопку "Добавить пункт"
 //    public void onClickAddPar(View view) {

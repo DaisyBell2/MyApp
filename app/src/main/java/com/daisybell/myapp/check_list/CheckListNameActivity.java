@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +23,7 @@ import android.widget.Filterable;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.LoadingDialog;
@@ -58,7 +61,9 @@ public class CheckListNameActivity extends AppCompatActivity {
         init();
         getDataFromDB();
         onClickItem();
-        longDeleteClick();
+        if (Constant.EMAIL_VERIFIED) {
+            longDeleteClick();
+        }
 
 
         loadingDialog = new LoadingDialog(CheckListNameActivity.this);
@@ -68,12 +73,16 @@ public class CheckListNameActivity extends AppCompatActivity {
 
     // Инициализация переменных
     private void init() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Constant.EMAIL_VERIFIED = preferences.getBoolean(Constant.EMAIL_VERIFIED_INDEX, false);
+        Constant.ADMIN_ID = preferences.getString(Constant.ADMIN_ID_INDEX, "");
+
         lvCheckListName = findViewById(R.id.lvCheckListName);
         mListNameCheckList = new ArrayList<>();
         mListCheckList = new ArrayList<>();
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mListNameCheckList);
         lvCheckListName.setAdapter(mAdapter);
-        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.CHECK_LIST_KEY);
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.CHECK_LIST_KEY);
 
         tvNotData = findViewById(R.id.tvNotData);
     }
@@ -142,6 +151,7 @@ public class CheckListNameActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 mDataBase.child(mListNameCheckList.get(position)).removeValue();
                                 mAdapter.notifyDataSetChanged();
+                                Toast.makeText(CheckListNameActivity.this, "Удалено", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton("Нет", null)

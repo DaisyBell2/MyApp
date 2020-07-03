@@ -3,7 +3,9 @@ package com.daisybell.myapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 
@@ -23,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btAddTheory, btAddTests, btAddCheckList, btAddNewUser;
 
-    private Boolean emailVerified;
+//    private Boolean emailVerified;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +35,12 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 
-        Intent intent = getIntent();
-        if (intent != null) {
-            emailVerified = intent.getBooleanExtra("emailVerified", false);
-        }
+//        Intent intent = getIntent();
+//        if (intent != null) {
+//            emailVerified = intent.getBooleanExtra("emailVerified", false);
+//        }
 
-        if (emailVerified) {
+        if (Constant.EMAIL_VERIFIED) {
             btAddTheory.setVisibility(View.VISIBLE);
             btAddTests.setVisibility(View.VISIBLE);
             btAddCheckList.setVisibility(View.VISIBLE);
@@ -52,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void init() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Constant.EMAIL_VERIFIED = preferences.getBoolean(Constant.EMAIL_VERIFIED_INDEX, false);
+
         btAddTheory = findViewById(R.id.btAddTheory);
         btAddTests = findViewById(R.id.btAddTests);
         btAddCheckList = findViewById(R.id.btAddCheckList);

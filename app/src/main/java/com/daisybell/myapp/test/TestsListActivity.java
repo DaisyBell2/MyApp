@@ -23,6 +23,7 @@ import android.widget.Filterable;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.LoadingDialog;
@@ -68,7 +69,9 @@ public class TestsListActivity extends AppCompatActivity {
         init();
         getDataFromDB();
         setOnClickItem();
-//        longDeleteClick();
+        if (Constant.EMAIL_VERIFIED) {
+            longDeleteClick();
+        }
 
         loadingDialog = new LoadingDialog(TestsListActivity.this);
         loadingDialog.startLoadingDialog();
@@ -79,6 +82,7 @@ public class TestsListActivity extends AppCompatActivity {
 //        Constant.INDEX_TEST = preferences.getInt(Constant.KEY_INDEX_TEST, 0);
         Constant.INDEX_ID = preferences.getInt(Constant.KEY_INDEX_ID, 0);
         Constant.INDEX_QUEST = preferences.getInt(Constant.KEY_INDEX_QUEST, 0);
+        Constant.ADMIN_ID = preferences.getString(Constant.ADMIN_ID_INDEX, "");
 //        key = preferences.getString("key", "");
 
         lvTests = findViewById(R.id.lvTests);
@@ -86,7 +90,7 @@ public class TestsListActivity extends AppCompatActivity {
         ListTest = new ArrayList<>();
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ListNameTest);
         lvTests.setAdapter(mAdapter);
-        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.TESTS_KEY);
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.TESTS_KEY);
 
         tvNotData = findViewById(R.id.tvNotData);
     }
@@ -103,11 +107,6 @@ public class TestsListActivity extends AppCompatActivity {
                         assert test != null;
                         ListNameTest.add(test.nameTest);
                         ListTest.add(test);
-                        Log.d("getData", "TEst of: " + test);
-                        Log.d("getData", "ListNameTest of: " + ListNameTest);
-                        Log.d("getData", "ListTest of: " + ListTest);
-                        Log.d("getData", "NameTest of: " + test.nameTest);
-                        Log.d("getData", "QUANTITY_QUEST of: " + Constant.QUANTITY_QUEST);
                 }
                 mAdapter.notifyDataSetChanged();
                 goneText();
@@ -150,27 +149,29 @@ public class TestsListActivity extends AppCompatActivity {
     }
 
     // Метод для удаления данных при долгом нажатии
-//    private void longDeleteClick() {
-//        lvTests.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-//
-//                new AlertDialog.Builder(TestsListActivity.this)
-//                        .setIcon(android.R.drawable.ic_menu_delete)
-//                        .setTitle("Удаление данных")
-//                        .setMessage("Вы уверены, что хотите удалить: \"" + ListNameTest.get(position) + "\" ?")
-//                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                mDataBase.child(ListNameTest.get(position)).removeValue();
-//                                mAdapter.notifyDataSetChanged();
-//                            }
-//                        })
-//                        .setNegativeButton("Нет", null)
-//                        .show();
-//
-//                return true;
-//            }
-//        });
-//    }
+    private void longDeleteClick() {
+        lvTests.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                new AlertDialog.Builder(TestsListActivity.this)
+                        .setIcon(android.R.drawable.ic_menu_delete)
+                        .setTitle("Удаление данных")
+                        .setMessage("Вы уверены, что хотите удалить: \"" + ListNameTest.get(position) + "\" ?")
+                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mDataBase.child(ListNameTest.get(position)).removeValue();
+                                mAdapter.notifyDataSetChanged();
+                                Toast.makeText(TestsListActivity.this, "Удалено", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("Нет", null)
+                        .show();
+
+                return true;
+            }
+        });
+    }
+
 }

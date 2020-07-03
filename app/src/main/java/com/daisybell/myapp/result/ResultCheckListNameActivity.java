@@ -3,11 +3,14 @@ package com.daisybell.myapp.result;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +24,7 @@ import android.widget.Filterable;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.LoadingDialog;
@@ -30,11 +34,17 @@ import com.daisybell.myapp.check_list.SaveResultCheckList;
 import com.daisybell.myapp.theory.Theory;
 import com.daisybell.myapp.theory.TheoryListActivity;
 import com.daisybell.myapp.theory.TheoryShowActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,13 +55,28 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
     private ListView lvResultCheckListName;
 //    private ArrayAdapter<String> mAdapter;
     private List<String> mListFullName;
+    private List<String> mListNamePhoto;
     private List<SaveResultCheckList> mListCheckList;
     private DatabaseReference mDataBase;
+    private DatabaseReference mDataBaseUser;
+    private FirebaseStorage mStorage;
+    private StorageReference storageRef;
+    private String idUser;
+
+    private FirebaseAuth mAuth;
 
     CustomAdapter mCustomAdapter;
 
     LoadingDialog loadingDialog;
     private TextView tvNotData;
+
+    private String key1 = "";
+    private String key2 = "";
+    private boolean delete;
+
+    private int itemIndex = -1;
+    private boolean filter = false;
+//    private ConstraintLayout constLayoutCheckList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +85,14 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
         setTitle("Результаты чек-листов");
 
         init();
-        lvResultCheckListName.setLongClickable(true);
-        getDataFromDB();
+
+        if (Constant.EMAIL_VERIFIED) {
+            getDataFromDB();
+        } else {
+            getDataFromDBForUser();
+        }
+
 //        onClickItem();
-//        longDeleteClick();
 
         loadingDialog = new LoadingDialog(ResultCheckListNameActivity.this);
         loadingDialog.startLoadingDialog();
@@ -71,16 +100,31 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
 
     // Инициализация переменных
     private void init() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Constant.EMAIL_VERIFIED = preferences.getBoolean(Constant.EMAIL_VERIFIED_INDEX, false);
+        Constant.ADMIN_ID = preferences.getString(Constant.ADMIN_ID_INDEX, "");
+
         lvResultCheckListName = findViewById(R.id.lvResultCheckListName);
         mListFullName = new ArrayList<>();
+        mListNamePhoto = new ArrayList<>();
         mListCheckList = new ArrayList<>();
         mCustomAdapter = new CustomAdapter(mListCheckList, this);
         lvResultCheckListName.setAdapter(mCustomAdapter);
+
+//        constLayoutCheckList = findViewById(R.id.constLayoutCheckList);
+
+        mAuth = FirebaseAuth.getInstance();
+        idUser = mAuth.getUid();
 //        mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mListFullName);
 //        lvResultCheckListName.setAdapter(mAdapter);
-        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.RESULT_CHECK_LIST_KEY);
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.RESULT_CHECK_LIST_KEY);
+        mDataBaseUser = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID)
+                .child(Constant.USER_KEY).child(idUser).child(Constant.RESULT_CHECK_LIST_KEY);
 
         tvNotData = findViewById(R.id.tvNotData);
+
+        mStorage = FirebaseStorage.getInstance();
+        storageRef = mStorage.getReference();
     }
 
     // Получение данных с Firebase
@@ -89,13 +133,13 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (mListFullName.size() > 0) mListFullName.clear();
+                if (mListNamePhoto.size() > 0) mListNamePhoto.clear();
                 if (mListCheckList.size() > 0) mListCheckList.clear();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    SaveResultCheckList resultCheckList = ds.getValue(SaveResultCheckList.class);
+                    SaveResultCheckList resultCheckList = ds.getChildren().iterator().next().getValue(SaveResultCheckList.class);
                     if (resultCheckList != null) {
-                        mListFullName.add(resultCheckList.fullNameUser + "/"
-                                + resultCheckList.date + "/"
-                                + resultCheckList.time);
+                        mListFullName.add(resultCheckList.fullNameUser);
+                        mListNamePhoto.add(resultCheckList.namePhoto);
                         mListCheckList.add(resultCheckList);
                     }
                 }
@@ -111,6 +155,35 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
             }
         };
         mDataBase.addValueEventListener(vListener);
+    }
+    // Получение данных с Firebase для User'ов
+    private void getDataFromDBForUser() {
+        ValueEventListener vListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (mListFullName.size() > 0) mListFullName.clear();
+                if (mListNamePhoto.size() > 0) mListNamePhoto.clear();
+                if (mListCheckList.size() > 0) mListCheckList.clear();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    SaveResultCheckList resultCheckList = ds.getChildren().iterator().next().getValue(SaveResultCheckList.class);
+                    if (resultCheckList != null) {
+                        mListFullName.add(resultCheckList.fullNameUser);
+                        mListNamePhoto.add(resultCheckList.namePhoto);
+                        mListCheckList.add(resultCheckList);
+                    }
+                }
+//                mAdapter.notifyDataSetChanged();
+                mCustomAdapter.notifyDataSetChanged();
+                goneText();
+                loadingDialog.dismissDialog();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        mDataBaseUser.addValueEventListener(vListener);
     }
 
     //Проверка данных, если их нет вывести текст
@@ -157,6 +230,8 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 mCustomAdapter.getFilter().filter(newText);
+                filter = true;
+                Log.d(TAG, "filter2: " + filter);
                 return true;
             }
         });
@@ -207,7 +282,7 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
             View view = getLayoutInflater().inflate(R.layout.row_items, null);
 
             TextView tvName = view.findViewById(R.id.tvItems);
-            TextView tvDate = view.findViewById(R.id.tvDate);
+            final TextView tvDate = view.findViewById(R.id.tvDate);
             TextView tvTime = view.findViewById(R.id.tvTime);
             tvName.setText(mCheckListFiltered.get(position).getFullNameUser());
             tvDate.setText(mCheckListFiltered.get(position).getDate());
@@ -221,28 +296,123 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
                 }
             });
 
-            // Метод для удаления данных при долгом нажатии
-//            view.setOnLongClickListener(new View.OnLongClickListener() {
-//                @Override
-//                public boolean onLongClick(View v) {
-//
-//                    new AlertDialog.Builder(ResultCheckListNameActivity.this)
-//                        .setIcon(android.R.drawable.ic_menu_delete)
-//                        .setTitle("Удаление данных")
-//                        .setMessage("Вы уверены, что хотите удалить: \"" + mListFullName.get(position) + "\" ?")
-//                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-////                                mDataBase.child(mListFullName.get(position)).removeValue();
-////                                mCustomAdapter.notifyDataSetChanged();
-//                            }
-//                        })
-//                        .setNegativeButton("Нет", null)
-//                        .show();
-//
-//                    return true;
-//                }
-//            });
+            // Обработчик при долгом нажатии(в данном случае происходит удаление)
+            if (!filter) { // Если фильтер активен удалить нельзя
+                view.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        final String equals = mListFullName.get(position);
+                        final String namePhoto = mListNamePhoto.get(position);
+
+                        new AlertDialog.Builder(ResultCheckListNameActivity.this)
+                                .setIcon(android.R.drawable.ic_menu_delete)
+                                .setTitle("Удаление данных")
+                                .setMessage("Вы уверены, что хотите удалить данный пункт?")
+                                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(final DialogInterface dialog, int which) {
+
+                                        // Удаление у админа
+                                        if (Constant.EMAIL_VERIFIED) {
+                                            delete = false;
+                                            mDataBase.addValueEventListener(new ValueEventListener() {
+
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    if (!delete) {
+                                                        for (DataSnapshot ds1 : snapshot.getChildren()) {
+                                                            key1 = ds1.getKey();
+                                                            itemIndex++;
+                                                            key2 = ds1.getChildren().iterator().next().getKey();
+
+                                                            if (key1 != null && key2 != null && key2.equals(equals)) {
+
+                                                                if (itemIndex == position && !filter) {
+                                                                    // Удаление сперва фотографии с storage, а после если все успешно с RealtimeDatabase
+                                                                    StorageReference deleteRef = storageRef.child("images/"+namePhoto);
+                                                                    deleteRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                        @Override // Успешно
+                                                                        public void onSuccess(Void aVoid) {
+                                                                            mDataBase.child(key1).child(key2).removeValue();
+                                                                            delete = true;
+                                                                            itemIndex = -1;
+                                                                            Toast.makeText(mContext, "Удалено", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                                        @Override // Не удалось удалить
+                                                                        public void onFailure(@NonNull Exception e) {
+                                                                            Toast.makeText(mContext, "Не удалось удалить, попробуйте позже снова", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    });
+//                                                                    Snackbar.make(constLayoutCheckList, "Удалено", Snackbar.LENGTH_LONG).show();
+                                                                    break;
+                                                                }
+                                                            }
+                                                        }
+                                                        mCustomAdapter.notifyDataSetChanged();
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+                                                }
+                                            });
+                                        } else { // Удаление у пользователя
+                                            delete = false;
+                                            mDataBaseUser.addValueEventListener(new ValueEventListener() {
+
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    if (!delete) {
+                                                        for (DataSnapshot ds1 : snapshot.getChildren()) {
+                                                            key1 = ds1.getKey();
+                                                            itemIndex++;
+                                                            key2 = ds1.getChildren().iterator().next().getKey();
+
+                                                            if (key1 != null && key2 != null && key2.equals(equals)) {
+
+                                                                if (itemIndex == position && !filter) {
+                                                                    // Удаление сперва фотографии с storage, а после если все успешно с RealtimeDatabase
+                                                                    StorageReference deleteRef = storageRef.child("images/"+namePhoto);
+                                                                    deleteRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                        @Override // Успешно
+                                                                        public void onSuccess(Void aVoid) {
+                                                                            mDataBase.child(key1).child(key2).removeValue();
+                                                                            delete = true;
+                                                                            itemIndex = -1;
+                                                                            Toast.makeText(mContext, "Удалено", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                                        @Override // Не удалось удалить
+                                                                        public void onFailure(@NonNull Exception e) {
+                                                                            Toast.makeText(mContext, "Не удалось удалить, попробуйте позже снова", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    });
+//                                                                    Snackbar.make(constLayoutCheckList, "Удалено", Snackbar.LENGTH_LONG).show();
+                                                                    break;
+                                                                }
+                                                            }
+                                                        }
+                                                        mCustomAdapter.notifyDataSetChanged();
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
+                                        }
+
+                                    }
+                                })
+                                .setNegativeButton("Нет", null)
+                                .show();
+
+                        return true;
+                    }
+                });
+            }
 
             return view;
         }
@@ -266,7 +436,7 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
                                  || saveResultCheckList.getDate().toLowerCase().contains(searchStr)
                                  || saveResultCheckList.getTime().toLowerCase().contains(searchStr)) {
                                 resultDate.add(saveResultCheckList);
-                                Log.d("TheoryLog", "searchStr1: " + searchStr);
+                                Log.d(TAG, "searchStr1: " + searchStr);
                             }
 
                             filterResults.count = resultDate.size();
@@ -289,31 +459,5 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
         }
     }
 
-    // Метод для удаления данных при долгом нажатии
-//    private void longDeleteClick() {
-//        lvResultCheckListName.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-//
-//                new AlertDialog.Builder(ResultCheckListNameActivity.this)
-//                        .setIcon(android.R.drawable.ic_menu_delete)
-//                        .setTitle("Удаление данных")
-//                        .setMessage("Вы уверены, что хотите удалить: \"" + mListFullName.get(position) + "\" ?")
-//                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                String key = mDataBase.getKey();
-//                                Log.d(TAG, "key: " + key);
-////                                mDataBase.child(mListFullName.get(position)).removeValue();
-////                                mCustomAdapter.notifyDataSetChanged();
-//                            }
-//                        })
-//                        .setNegativeButton("Нет", null)
-//                        .show();
-//
-//                return true;
-//            }
-//        });
-//    }
 
 }

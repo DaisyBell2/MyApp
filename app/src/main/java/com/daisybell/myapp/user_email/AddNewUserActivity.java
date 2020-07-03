@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +27,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -42,6 +45,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class AddNewUserActivity extends AppCompatActivity {
+
+    private static String TAG = "myLog";
 
     private EditText etName, etSurname, etEmail, etPassword;
     private Button btSingUp;
@@ -85,7 +90,7 @@ public class AddNewUserActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btSingUp = findViewById(R.id.btSingUp);
-        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID);
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.USER_KEY);
     }
 
     // Обработчик кнопки "Зарегестрироваться" (сохраняет введеные пользователем данные)
@@ -110,12 +115,29 @@ public class AddNewUserActivity extends AppCompatActivity {
                                             "Данные введены некорректно либо почта уже существует!", Toast.LENGTH_SHORT).show();
 
                                 } else {
+                                    // Метод для указания имени пользователя
+                                    FirebaseUser user = mAuth2.getCurrentUser();
+                                    if (user != null) {
+                                        // Указываем имя пользователю
+                                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                .setDisplayName(name).build();
+                                        user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Log.d(TAG, "User profile updated.");
+                                                }
+                                            }
+                                        });
+                                    }
+
                                     String authUserId = mAuth2.getUid();
                                     Constant.USER_ID = authUserId;
+                                    String fullName = name + " " + surname;
                                     assert authUserId != null;
                                     String id = authUserId;
                                     final User newUser = new User(id, name, surname, email, password, admin);
-                                    mDataBase.child(Constant.USER_KEY).child(authUserId).setValue(newUser);
+                                    mDataBase.child(fullName).setValue(newUser);
 //                                    Constant.USER_ID++;
 
 //                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -238,7 +260,7 @@ public class AddNewUserActivity extends AppCompatActivity {
                 //Initialize alert dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(AddNewUserActivity.this);
                 builder.setCancelable(false);
-                builder.setTitle(Html.fromHtml("<font color='#509324'>Успешно</font>"));
+                builder.setTitle(Html.fromHtml("<font color='#0084D1'>Успешно</font>"));
                 builder.setMessage("Пользователь успешно создан!\nНа указаную почту придет логин и пароль для входа.");
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override

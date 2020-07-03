@@ -3,10 +3,14 @@ package com.daisybell.myapp.auth;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +21,7 @@ import android.widget.Toast;
 import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.MainActivity;
 import com.daisybell.myapp.R;
+import com.daisybell.myapp.user_email.AddNewUserActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -35,6 +40,8 @@ public class RegActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDataBase;
     private Boolean successReg = false;
+
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,12 +78,16 @@ public class RegActivity extends AppCompatActivity {
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(surname) && !TextUtils.isEmpty(email) // Проверяем на пустые поля
                 && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(passwordAgain)) {
             if (password.equals(passwordAgain)) { // Сверяем пароли
+                // Выведем окно закрузки
+                mProgressDialog = ProgressDialog.show(RegActivity.this
+                        ,"Пожалуйста подождите", "Ваш аккаунт создается...", true, false);
+
                 mAuth.createUserWithEmailAndPassword(email, password) // Создаем аккаунт
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) { // Проверяет, все ли успешно
-                                    btSingUp.setEnabled(false);
+
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     if (user != null) {
                                         // Метод для указания имени пользователя
@@ -107,7 +118,7 @@ public class RegActivity extends AppCompatActivity {
                                                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                                                     preferences.edit().putString(Constant.ADMIN_ID_INDEX, Constant.ADMIN_ID).apply();
 
-                                                    Toast.makeText(getApplicationContext(), R.string.verification_email, Toast.LENGTH_LONG).show();
+//                                                    Toast.makeText(getApplicationContext(), R.string.verification_email, Toast.LENGTH_LONG).show();
 
                                                     successReg = true;
 
@@ -118,12 +129,31 @@ public class RegActivity extends AppCompatActivity {
                                                     etSurname.setText("");
                                                     btSingUp.setEnabled(true);
 
-                                                    Intent intent = new Intent(RegActivity.this, LoginActivity.class);
-                                                    intent.putExtra("email", email);
-                                                    intent.putExtra("password", password);
-                                                    intent.putExtra("success", successReg);
-                                                    startActivity(intent);
-                                                    finish();
+                                                    // Закрываем прогресс бар
+                                                    mProgressDialog.dismiss();
+
+                                                    //Initialize alert dialog
+                                                    AlertDialog.Builder builder = new AlertDialog.Builder(RegActivity.this);
+                                                    builder.setCancelable(false);
+                                                    builder.setTitle(Html.fromHtml("<font color='#0084D1'>Успешно</font>"));
+                                                    builder.setMessage(R.string.verification_email);
+                                                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.dismiss();
+                                                            // Закрываем activity и возвращаемся на окно авторизации
+                                                            Intent intent = new Intent(RegActivity.this, LoginActivity.class);
+                                                            intent.putExtra("email", email);
+                                                            intent.putExtra("password", password);
+                                                            intent.putExtra("success", successReg);
+                                                            startActivity(intent);
+                                                            finish();
+                                                        }
+                                                    });
+                                                    //Show alert dialog
+                                                    builder.show();
+
+
                                                 } else {
                                                     Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show();
                                                 }

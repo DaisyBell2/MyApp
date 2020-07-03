@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".check_list.CheckListNameActivity"
-    android:background="@color/colorWrite">
+    android:background="@color/colorWrite"
+    android:id="@+id/constLayoutCheckList">
 
     <TextView
         android:id="@+id/tvNotData"

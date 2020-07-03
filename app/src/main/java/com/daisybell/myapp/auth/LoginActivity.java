@@ -6,7 +6,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Layout;
 import android.text.TextUtils;
 import android.util.Log;
@@ -40,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etEmail, etPassword;
     private FirebaseAuth mAuth;
 
-    private Boolean emailVerified;
+//    private Boolean emailVerified;
 
     private Boolean successReg = false;
     private String email;
@@ -63,9 +65,19 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser cUser = mAuth.getCurrentUser();
         if (cUser != null) {
-            emailVerified = cUser.isEmailVerified();
+            Constant.EMAIL_VERIFIED = cUser.isEmailVerified();
             name = cUser.getDisplayName();
             Log.d(TAG, "name: " + name);
+
+            // Если это админ, запоминаем его Uid
+            if (Constant.EMAIL_VERIFIED) {
+                Constant.ADMIN_ID = mAuth.getUid();
+
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                preferences.edit().putString(Constant.ADMIN_ID_INDEX, Constant.ADMIN_ID).apply();
+            }
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            preferences.edit().putBoolean(Constant.EMAIL_VERIFIED_INDEX, Constant.EMAIL_VERIFIED).apply();
 
             Intent intent = getIntent();
             if (intent != null) {
@@ -79,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Вы вошли как: " + cUser.getEmail(), Toast.LENGTH_LONG).show();
                 startActivity(new Intent(LoginActivity.this, MainActivity.class)
-                        .putExtra("emailVerified", emailVerified));
+                        .putExtra("emailVerified",  Constant.EMAIL_VERIFIED));
                 finish();
             }
 
@@ -90,6 +102,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void init() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Constant.EMAIL_VERIFIED = preferences.getBoolean(Constant.EMAIL_VERIFIED_INDEX, false);
+
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         mAuth = FirebaseAuth.getInstance();
@@ -114,15 +129,25 @@ public class LoginActivity extends AppCompatActivity {
                                 // Прооверяем верифицировал ли пользователь почту
                                 FirebaseUser cUser = mAuth.getCurrentUser();
                                 if (cUser != null) {
-                                    emailVerified = cUser.isEmailVerified();
+                                    Constant.EMAIL_VERIFIED = cUser.isEmailVerified();
                                     name = cUser.getDisplayName();
                                     Log.d(TAG, "name2: " + name);
+
+                                    // Если это админ, запоминаем его Uid
+                                    if  (Constant.EMAIL_VERIFIED) {
+                                        Constant.ADMIN_ID = mAuth.getUid();
+
+                                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                        preferences.edit().putString(Constant.ADMIN_ID_INDEX, Constant.ADMIN_ID).apply();
+                                    }
+                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                    preferences.edit().putBoolean(Constant.EMAIL_VERIFIED_INDEX, Constant.EMAIL_VERIFIED).apply();
 
                                     if (successReg) {
                                         if (cUser.isEmailVerified()) {
                                             Toast.makeText(LoginActivity.this, "Добро Пожаловать, "+name+"!", Toast.LENGTH_SHORT).show();
                                             startActivity(new Intent(LoginActivity.this, MainActivity.class)
-                                                    .putExtra("emailVerified", emailVerified));
+                                                    .putExtra("emailVerified",  Constant.EMAIL_VERIFIED));
                                             finish();
                                         } else {
                                             Toast.makeText(LoginActivity.this, "Проверьте вашу почту для подтверждения Email адреса", Toast.LENGTH_SHORT).show();
@@ -130,7 +155,7 @@ public class LoginActivity extends AppCompatActivity {
                                     } else {
                                         Toast.makeText(LoginActivity.this, "Добро Пожаловать, "+name+"!", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(LoginActivity.this, MainActivity.class)
-                                                .putExtra("emailVerified", emailVerified));
+                                                .putExtra("emailVerified",  Constant.EMAIL_VERIFIED));
                                         finish();
                                     }
 

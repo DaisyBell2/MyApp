@@ -6,11 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +29,7 @@ import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.ProgressButton;
 import com.daisybell.myapp.R;
 import com.daisybell.myapp.auth.User;
+import com.daisybell.myapp.test.SaveResultTests;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,10 +73,13 @@ public class CheckListShowActivity extends AppCompatActivity {
     private StorageReference imagesRef;
 
     private DatabaseReference mDBUser;
+    private DatabaseReference mDBAdmin;
     private DatabaseReference mDataBase;
+    private DatabaseReference mDataBaseUser;
     private FirebaseAuth mAuth;
 
     private String idUser;
+    private String idAdmin;
     private String fullNameUser;
     private String doneCheckList = "";
     private String notDoneCheckList = "";
@@ -81,6 +87,8 @@ public class CheckListShowActivity extends AppCompatActivity {
     private boolean imageViewVisible = false;
 
     private View mView;
+
+    private String namePhoto;
 
 
     @Override
@@ -91,7 +99,12 @@ public class CheckListShowActivity extends AppCompatActivity {
 
         init();
         getIntentMain();
-        getFullNameUser();
+
+        if (Constant.EMAIL_VERIFIED) {
+            getFullNameAdmin();
+        } else {
+            getFullNameUser();
+        }
 
         // Отбработка кнопки "Сохранить"
         mView.setOnClickListener(new View.OnClickListener() {
@@ -111,8 +124,13 @@ public class CheckListShowActivity extends AppCompatActivity {
                             storageRef.child("images/" + photoURI.getLastPathSegment()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
+
                                     downloadPhotoURI = String.valueOf(uri);
+                                    namePhoto = String.valueOf(photoURI.getLastPathSegment());
+
                                     Log.d(TAG, "downloadPhotoURI: " + downloadPhotoURI);
+                                    Log.d(TAG, "photoURILast: " + photoURI.getLastPathSegment());
+                                    Log.d(TAG, "namePhoto: " + namePhoto);
                                     Log.d(TAG,"Uri c firebase получено");
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -141,12 +159,23 @@ public class CheckListShowActivity extends AppCompatActivity {
                                     handler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() { //
+
                                             String nameCheckList = tvCheckListTitle.getText().toString() + " / " + tvCheckListPoint.getText().toString();
                                             SaveResultCheckList newResultCheckList = new SaveResultCheckList(idUser, fullNameUser, nameCheckList, downloadPhotoURI,
-                                                    dateText, timeText, doneCheckList, notDoneCheckList);
-                                            mDataBase.push().setValue(newResultCheckList);
+                                                    dateText, timeText, doneCheckList, notDoneCheckList, namePhoto);
+                                            mDataBase.push().child(fullNameUser).setValue(newResultCheckList);
 //                                    Toast.makeText(CheckListShowActivity.this, "Все данные сохранены!", Toast.LENGTH_SHORT).show();
                                             Log.d(TAG, "Все данные сохранены в firebase");
+
+                                            // Сохранение данных у пользователя
+                                            if (!Constant.EMAIL_VERIFIED) {
+                                                mDataBaseUser = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID)
+                                                        .child(Constant.USER_KEY).child(idUser).child(Constant.RESULT_CHECK_LIST_KEY);
+                                                SaveResultCheckList newResultCheckListUser = new SaveResultCheckList(idUser, fullNameUser, nameCheckList,
+                                                        downloadPhotoURI, dateText, timeText, doneCheckList, notDoneCheckList, namePhoto);
+                                                mDataBaseUser.push().child(fullNameUser).setValue(newResultCheckListUser);
+                                                Log.d(TAG, "Данные user'a успешно добавленны!");
+                                            }
 
                                             ////////////////////////////////////
                                             doneCheckList = "";
@@ -195,6 +224,9 @@ public class CheckListShowActivity extends AppCompatActivity {
     }
 
     private void init() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Constant.EMAIL_VERIFIED = preferences.getBoolean(Constant.EMAIL_VERIFIED_INDEX, false);
+        Constant.ADMIN_ID = preferences.getString(Constant.ADMIN_ID_INDEX, "");
 
         tvCheckListTitle = findViewById(R.id.tvCheckListTitle);
         tvCheckListPoint = findViewById(R.id.tvCheckListPoint);
@@ -210,8 +242,9 @@ public class CheckListShowActivity extends AppCompatActivity {
         mStorage = FirebaseStorage.getInstance();
         storageRef = mStorage.getReference();
 //        imagesRef = storageRef.child("images/");
-        mDBUser = FirebaseDatabase.getInstance().getReference(Constant.USER_KEY);
-        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.RESULT_CHECK_LIST_KEY);
+        mDBUser = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.USER_KEY);
+        mDBAdmin = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.ADMIN_DATE);
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.RESULT_CHECK_LIST_KEY);
         mAuth = FirebaseAuth.getInstance();
 
         mView = findViewById(R.id.btSaveCheckListUser);
@@ -256,6 +289,7 @@ public class CheckListShowActivity extends AppCompatActivity {
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, CAMERA_REQUEST);
+                Log.d(TAG, "photoFile: " + photoFile);
             }
         }
     }
@@ -269,10 +303,14 @@ public class CheckListShowActivity extends AppCompatActivity {
                 imageFileName,  /* префикс */
                 ".jpg",  /* расширение */
                 storageDir /* директория */
+
         );
         // сохраняем пусть для использования с интентом ACTION_VIEW
         mCurrentPhotoPath = image.getAbsolutePath();
         Log.d(TAG, "mCurrentPhotoPath: " + mCurrentPhotoPath);
+        Log.d(TAG, "imageFileName: " + imageFileName);
+        Log.d(TAG, "storageDir: " + storageDir);
+        Log.d(TAG, "image: " + image);
         return image;
     }
 
@@ -302,77 +340,79 @@ public class CheckListShowActivity extends AppCompatActivity {
         }
     }
 
-    public void onClickSaveCheckListUser(View view) {
-        if (imageViewVisible) {
-            blockUnblock(false);
-            StorageReference referenceToImage = storageRef.child("images/" + photoURI.getLastPathSegment());
-            referenceToImage.putFile(photoURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.d(TAG, "Загрузка фото в firebase прошла успешно!");
-                    /////////////////////////////
-                    storageRef.child("images/" + photoURI.getLastPathSegment()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            downloadPhotoURI = String.valueOf(uri);
-                            Log.d(TAG, "downloadPhotoURI: " + downloadPhotoURI);
-                            Log.d(TAG,"Uri c firebase получено");
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d(TAG, "Ошибка в получении uri c firebase");
-                        }
-                    });
+//    public void onClickSaveCheckListUser(View view) {
+////        if (imageViewVisible) {
+////            blockUnblock(false);
+////            StorageReference referenceToImage = storageRef.child("images/" + photoURI.getLastPathSegment());
+////            referenceToImage.putFile(photoURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+////                @Override
+////                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+////                    Log.d(TAG, "Загрузка фото в firebase прошла успешно!");
+////                    /////////////////////////////
+////                    storageRef.child("images/" + photoURI.getLastPathSegment()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+////                        @Override
+////                        public void onSuccess(Uri uri) {
+////                            downloadPhotoURI = String.valueOf(uri);
+////                            Log.d(TAG, "downloadPhotoURI: " + downloadPhotoURI);
+////                            Log.d(TAG,"Uri c firebase получено");
+////                        }
+////                    }).addOnFailureListener(new OnFailureListener() {
+////                        @Override
+////                        public void onFailure(@NonNull Exception e) {
+////                            Log.d(TAG, "Ошибка в получении uri c firebase");
+////                        }
+////                    });
+////
+////                    ///////////////////////
+////                    if (cbPar1.isChecked()) doneCheckList += cbPar1.getText() + ", ";
+////                    else notDoneCheckList += cbPar1.getText() + ", ";
+////                    if (cbPar2.isChecked()) doneCheckList += cbPar2.getText() + ", ";
+////                    else notDoneCheckList += cbPar2.getText() + ", ";
+////                    if (cbPar3.isChecked()) doneCheckList += cbPar3.getText() + ", ";
+////                    else notDoneCheckList += cbPar3.getText() + ", ";
+////                    if (cbPar4.isChecked()) doneCheckList += cbPar4.getText() + ", ";
+////                    else notDoneCheckList += cbPar4.getText() + ", ";
+////                    if (cbPar5.isChecked()) doneCheckList += cbPar5.getText() + ", ";
+////                    else notDoneCheckList += cbPar5.getText() + ", ";
+////                    //////////////////////////////////
+////                    handler.postDelayed(new Runnable() {
+////                        @Override
+////                        public void run() { //
+////                            String nameCheckList = tvCheckListTitle.getText().toString() + " / " + tvCheckListPoint.getText().toString();
+////                            SaveResultCheckList newResultCheckList = new SaveResultCheckList(idUser, fullNameUser, nameCheckList, downloadPhotoURI,
+////                                    dateText, timeText, doneCheckList, notDoneCheckList, namePhoto);
+////                            mDataBase.push().setValue(newResultCheckList);
+////                            Toast.makeText(CheckListShowActivity.this, "Все данные сохранены!", Toast.LENGTH_SHORT).show();
+////                            Log.d(TAG, "Все данные сохранены в firebase");
+////
+////                            ////////////////////////////////////
+////                            doneCheckList = "";
+////                            notDoneCheckList = "";
+////                            cleaning();
+////                            blockUnblock(true);
+////
+////                            finish();
+////                        }
+////                    }, 800);
+////
+////
+////
+////                }
+////            }).addOnFailureListener(new OnFailureListener() {
+////                @Override
+////                public void onFailure(@NonNull Exception e) {
+////                    Toast.makeText(CheckListShowActivity.this, "Ошибка", Toast.LENGTH_SHORT).show();
+////                    Log.d(TAG, "Ошибка: " + e);
+////                }
+////            });
+////
+////
+////        } else {
+////            Toast.makeText(this, "Вы не сделали фотографию рабочего места!", Toast.LENGTH_SHORT).show();
+////        }
+////    }
 
-                    ///////////////////////
-                    if (cbPar1.isChecked()) doneCheckList += cbPar1.getText() + ", ";
-                    else notDoneCheckList += cbPar1.getText() + ", ";
-                    if (cbPar2.isChecked()) doneCheckList += cbPar2.getText() + ", ";
-                    else notDoneCheckList += cbPar2.getText() + ", ";
-                    if (cbPar3.isChecked()) doneCheckList += cbPar3.getText() + ", ";
-                    else notDoneCheckList += cbPar3.getText() + ", ";
-                    if (cbPar4.isChecked()) doneCheckList += cbPar4.getText() + ", ";
-                    else notDoneCheckList += cbPar4.getText() + ", ";
-                    if (cbPar5.isChecked()) doneCheckList += cbPar5.getText() + ", ";
-                    else notDoneCheckList += cbPar5.getText() + ", ";
-                    //////////////////////////////////
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() { //
-                            String nameCheckList = tvCheckListTitle.getText().toString() + " / " + tvCheckListPoint.getText().toString();
-                            SaveResultCheckList newResultCheckList = new SaveResultCheckList(idUser, fullNameUser, nameCheckList, downloadPhotoURI,
-                                    dateText, timeText, doneCheckList, notDoneCheckList);
-                            mDataBase.push().setValue(newResultCheckList);
-                            Toast.makeText(CheckListShowActivity.this, "Все данные сохранены!", Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, "Все данные сохранены в firebase");
 
-                            ////////////////////////////////////
-                            doneCheckList = "";
-                            notDoneCheckList = "";
-                            cleaning();
-                            blockUnblock(true);
-
-                            finish();
-                        }
-                    }, 800);
-
-
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(CheckListShowActivity.this, "Ошибка", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "Ошибка: " + e);
-                }
-            });
-
-
-        } else {
-            Toast.makeText(this, "Вы не сделали фотографию рабочего места!", Toast.LENGTH_SHORT).show();
-        }
-    }
     // Отбработка кнопки "Сохранить"
 
 //    // Обработчик ImageView, для увеличения картинки по нажатию
@@ -382,8 +422,8 @@ public class CheckListShowActivity extends AppCompatActivity {
 //        isImageScaled = !isImageScaled;
 //    }
 
+    // Получаем fullName user'a
     private void getFullNameUser() {
-
         ValueEventListener vListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -406,6 +446,27 @@ public class CheckListShowActivity extends AppCompatActivity {
             }
         };
         mDBUser.addValueEventListener(vListener);
+    }
+    // Получаем fullName admin'a
+    private void getFullNameAdmin() {
+        ValueEventListener vListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                idAdmin = mAuth.getUid();
+                Log.d(TAG, "idAdmin: " + idAdmin);
+
+                User user = dataSnapshot.getValue(User.class);
+                if (user != null) {
+                    fullNameUser = (user.name + " " + user.surname);
+                    Log.d(TAG, "fullNameAdmin: " + fullNameUser);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        mDBAdmin.addValueEventListener(vListener);
     }
 
     // Метод для зачеркивания текста в checkBox

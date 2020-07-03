@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.TabHost;
@@ -31,7 +33,7 @@ import java.util.Locale;
 public class ResultTestActivity extends AppCompatActivity {
 
     private static double needsPoints = 75.0; // Сколько нужно баллов для прохода
-    private static String TAG = "ResultTests";
+    private static String TAG = "MyLog";
 
     private static long back_pressed;
     private TextView tvResultTest2, tvCongratulation;
@@ -41,17 +43,21 @@ public class ResultTestActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDBUser;
+    private DatabaseReference mDBAdmin;
     private DatabaseReference mDataBase;
+    private DatabaseReference mDataBaseUser;
 
     Handler handler = new Handler();
 
     private String idUser;
+    private String idAdmin;
     private String result;
     private String fullNameUser;
     private String startTimeTest;
     private String finishTimeTest;
     private String nameTest;
     private String dateTest;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,15 +66,25 @@ public class ResultTestActivity extends AppCompatActivity {
         setTitle("Результат теста");
 
         init();
-        getFullNameUser();
+
+        if (Constant.EMAIL_VERIFIED) {
+            getFullNameAdmin();
+        } else {
+            getFullNameUser();
+        }
+
         getIntentMain();
         getDateAndTime();
         getResult();
+
 
         handler.postDelayed(new Runnable() {
             @Override
             public void run() { // Сохраняем данные через 1сек
                 setDataInDB();
+                if (!Constant.EMAIL_VERIFIED) {
+                    setDataInDBForUser();
+                }
             }
         }, 1000);
 
@@ -85,12 +101,17 @@ public class ResultTestActivity extends AppCompatActivity {
 //        back_pressed = System.currentTimeMillis();
 //    }
     private void init() { // Инициализируем переменые
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Constant.EMAIL_VERIFIED = preferences.getBoolean(Constant.EMAIL_VERIFIED_INDEX, false);
+        Constant.ADMIN_ID = preferences.getString(Constant.ADMIN_ID_INDEX, "");
+
         tvResultTest2 = findViewById(R.id.tvResultTest2);
         tvCongratulation = findViewById(R.id.tvCongratulation);
 
         mAuth = FirebaseAuth.getInstance();
-        mDBUser = FirebaseDatabase.getInstance().getReference(Constant.USER_KEY);
-        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.RESULT_TESTS);
+        mDBUser = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.USER_KEY);
+        mDBAdmin = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.ADMIN_DATE);
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.RESULT_TESTS);
 
         Intent intent = getIntent();
         countOfAnswer = intent.getIntExtra(Constant.RESULT_TEST, 0);
@@ -136,13 +157,14 @@ public class ResultTestActivity extends AppCompatActivity {
         }
     }
 
+    // Получаем fullName user'a
     private void getFullNameUser() {
-
         ValueEventListener vListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 idUser = mAuth.getUid();
                 Log.d(TAG, "idUser: " + idUser);
+
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     String key = ds.getKey();
                     if (idUser != null && idUser.equals(key)) {
@@ -163,10 +185,44 @@ public class ResultTestActivity extends AppCompatActivity {
         mDBUser.addValueEventListener(vListener);
     }
 
+    // Получаем fullName admin'a
+    private void getFullNameAdmin() {
+        ValueEventListener vListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                idAdmin = mAuth.getUid();
+                Log.d(TAG, "idAdmin: " + idAdmin);
+
+                User user = dataSnapshot.getValue(User.class);
+                if (user != null) {
+                    fullNameUser = (user.name + " " + user.surname);
+                    Log.d(TAG, "fullNameAdmin: " + fullNameUser);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        mDBAdmin.addValueEventListener(vListener);
+    }
+
     private void setDataInDB() {
+        String key = nameTest + "_" + fullNameUser;
         SaveResultTests resultTests = new SaveResultTests(fullNameUser, nameTest, result, dateTest, startTimeTest, finishTimeTest);
-        mDataBase.push().setValue(resultTests);
+        mDataBase.push().child(key).setValue(resultTests);
         Log.d(TAG, "Данные успешно добавленны!");
+    }
+
+    // Добавляет информацию пользователю для будущего просмотра
+    private void setDataInDBForUser() {
+        String key = nameTest + "_" + fullNameUser;
+        mDataBaseUser = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID)
+                .child(Constant.USER_KEY).child(idUser).child(Constant.RESULT_TESTS);
+
+        SaveResultTests resultTests = new SaveResultTests(fullNameUser, nameTest, result, dateTest, startTimeTest, finishTimeTest);
+        mDataBaseUser.push().child(key).setValue(resultTests);
+        Log.d(TAG, "Данные user'a успешно добавленны!");
     }
 
 

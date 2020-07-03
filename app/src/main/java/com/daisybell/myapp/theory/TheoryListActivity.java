@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +23,7 @@ import android.widget.Filterable;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.LoadingDialog;
@@ -51,6 +54,13 @@ public class TheoryListActivity extends AppCompatActivity {
     LoadingDialog loadingDialog;
     private TextView tvNotData;
 
+    private String key1 = "";
+    private String key2 = "";
+    private boolean delete;
+
+    private int itemIndex = -1;
+    private boolean filter = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +80,10 @@ public class TheoryListActivity extends AppCompatActivity {
 
     // Инициализация переменных
     private void init() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Constant.EMAIL_VERIFIED = preferences.getBoolean(Constant.EMAIL_VERIFIED_INDEX, false);
+        Constant.ADMIN_ID = preferences.getString(Constant.ADMIN_ID_INDEX, "");
+
         mLvTheory = findViewById(R.id.lvTheory);
         mListTitle = new ArrayList<>();
         mListTheory = new ArrayList<>();
@@ -77,7 +91,7 @@ public class TheoryListActivity extends AppCompatActivity {
         mLvTheory.setAdapter(mCustomAdapter);
 //        mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mListTitle);
 //        mLvTheory.setAdapter(mAdapter);
-        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.THEORY_KEY);
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.THEORY_KEY);
 
         tvNotData = findViewById(R.id.tvNotData);
     }
@@ -148,6 +162,7 @@ public class TheoryListActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 mCustomAdapter.getFilter().filter(newText);
+                filter = true;
                 return true;
             }
         });
@@ -208,6 +223,33 @@ public class TheoryListActivity extends AppCompatActivity {
                 }
             });
 
+            // Если не использовался поиск и пользователь админ(долгое нажатие -> удаление)
+            if (!filter && Constant.EMAIL_VERIFIED) {
+                view.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        final String equals = mListTitle.get(position);
+
+                        new AlertDialog.Builder(TheoryListActivity.this)
+                                .setIcon(android.R.drawable.ic_menu_delete)
+                                .setTitle("Удаление данных")
+                                .setMessage("Вы уверены, что хотите удалить: \"" + equals + "\" ?")
+                                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                            mDataBase.child(equals).removeValue();
+                                            mCustomAdapter.notifyDataSetChanged();
+                                            Toast.makeText(mContext, "Удалено", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setNegativeButton("Нет", null)
+                                .show();
+
+                        return true;
+                    }
+                });
+            }
+
             return view;
         }
 
@@ -250,29 +292,5 @@ public class TheoryListActivity extends AppCompatActivity {
         }
     }
 
-//    // Метод для удаления данных при долгом нажатии
-//    private void longDeleteClick() {
-//        mLvTheory.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-//
-//                new AlertDialog.Builder(TheoryListActivity.this)
-//                        .setIcon(android.R.drawable.ic_menu_delete)
-//                        .setTitle("Удаление данных")
-//                        .setMessage("Вы уверены, что хотите удалить: \"" + mListTitle.get(position) + "\" ?")
-//                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                mDataBase.child(mListTitle.get(position)).removeValue();
-//                                mCustomAdapter.notifyDataSetChanged();
-//                            }
-//                        })
-//                        .setNegativeButton("Нет", null)
-//                        .show();
-//
-//                return true;
-//            }
-//        });
-//    }
 
 }

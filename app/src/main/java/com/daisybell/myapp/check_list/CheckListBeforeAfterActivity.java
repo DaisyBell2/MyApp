@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.daisybell.myapp.Constant;
+import com.daisybell.myapp.LoadingDialog;
 import com.daisybell.myapp.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +33,7 @@ public class CheckListBeforeAfterActivity extends AppCompatActivity {
 
     private ListView lvBeforeAfter;
     private ArrayAdapter<String> mAdapter;
+    private List<String> mListNameCheckList;
     private List<String> mListBeforeAfterCheckList;
     private List<CheckList> mListCheckList;
     private DatabaseReference mDataBase;
@@ -46,17 +50,26 @@ public class CheckListBeforeAfterActivity extends AppCompatActivity {
         init();
         getDataFromDB();
         onClickItem();
-//        longDeleteClick();
+
+//        if (Constant.EMAIL_VERIFIED) {
+//            longDeleteClick();
+//        }
+
     }
 
     // Инициализация переменных
     private void init() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Constant.EMAIL_VERIFIED = preferences.getBoolean(Constant.EMAIL_VERIFIED_INDEX, false);
+        Constant.ADMIN_ID = preferences.getString(Constant.ADMIN_ID_INDEX, "");
+
         lvBeforeAfter = findViewById(R.id.lvBeforeAfter);
+        mListNameCheckList = new ArrayList<>();
         mListBeforeAfterCheckList = new ArrayList<>();
         mListCheckList = new ArrayList<>();
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mListBeforeAfterCheckList);
         lvBeforeAfter.setAdapter(mAdapter);
-        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.CHECK_LIST_KEY);
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.CHECK_LIST_KEY);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -69,6 +82,7 @@ public class CheckListBeforeAfterActivity extends AppCompatActivity {
         ValueEventListener vListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (mListNameCheckList.size() > 0) mListNameCheckList.clear();
                 if (mListBeforeAfterCheckList.size() > 0) mListBeforeAfterCheckList.clear();
                 if (mListCheckList.size() > 0) mListCheckList.clear();
                 for (DataSnapshot ds1 : dataSnapshot.getChildren()) {
@@ -76,9 +90,11 @@ public class CheckListBeforeAfterActivity extends AppCompatActivity {
                     for (DataSnapshot ds2 : ds1.getChildren()) {
                         if (position == testPosition) {
                         CheckList checkList = ds2.getValue(CheckList.class);
-                        assert checkList != null;
-                        mListBeforeAfterCheckList.add(checkList.beforeAfter);
-                        mListCheckList.add(checkList);
+                            if (checkList != null) {
+                                mListNameCheckList.add(checkList.nameCheckList);
+                                mListBeforeAfterCheckList.add(checkList.beforeAfter);
+                                mListCheckList.add(checkList);
+                            }
                         Log.d(TAG, "mListBeforeAfterCheckList: " + mListBeforeAfterCheckList);
                         Log.d(TAG, "mListCheckList: " + mListCheckList);
                         }
@@ -127,7 +143,7 @@ public class CheckListBeforeAfterActivity extends AppCompatActivity {
 //                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
 //                            @Override
 //                            public void onClick(DialogInterface dialog, int which) {
-//                                mDataBase.child(mListBeforeAfterCheckList.get(position)).removeValue();
+//                                mDataBase.child(mListNameCheckList.get(position)).child(mListBeforeAfterCheckList.get(position)).removeValue();
 //                                mAdapter.notifyDataSetChanged();
 //                            }
 //                        })
@@ -138,4 +154,5 @@ public class CheckListBeforeAfterActivity extends AppCompatActivity {
 //            }
 //        });
 //    }
+
 }

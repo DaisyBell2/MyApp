@@ -5,13 +5,13 @@ import android.net.Uri;
 import java.io.Serializable;
 
 public class SaveResultCheckList implements Serializable {
-    public String idUser, fullNameUser, nameCheckList, photoUri, date, time, doneCheckList, notDoneCheckList;
+    public String idUser, fullNameUser, nameCheckList, photoUri, date, time, doneCheckList, notDoneCheckList, namePhoto;
 
     public SaveResultCheckList() {
     }
 
     public SaveResultCheckList(String idUser, String fullNameUser, String nameCheckList, String photoUri,
-                               String date, String time, String doneCheckList, String notDoneCheckList) {
+                               String date, String time, String doneCheckList, String notDoneCheckList, String namePhoto) {
         this.idUser = idUser;
         this.fullNameUser = fullNameUser;
         this.nameCheckList = nameCheckList;
@@ -20,6 +20,7 @@ public class SaveResultCheckList implements Serializable {
         this.time = time;
         this.doneCheckList = doneCheckList;
         this.notDoneCheckList = notDoneCheckList;
+        this.namePhoto = namePhoto;
     }
 
     public String getIdUser() {

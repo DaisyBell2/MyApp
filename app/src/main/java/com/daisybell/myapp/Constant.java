@@ -6,9 +6,12 @@ public class Constant {
 
     public static final String ADMIN_KEY = "Admin";
     public static String ADMIN_ID = "";
+    public static String USER_ID = "";
     public static String ADMIN_ID_INDEX = "admin_id_index";
     public static final String ADMIN_DATE = "Данные при регистрации";
-    public static String USER_ID = "";
+
+    public static Boolean EMAIL_VERIFIED = false;
+    public static final String EMAIL_VERIFIED_INDEX = "email_verified";
 
     public static final String THEORY_TITLE = "theory_title";
     public static final String THEORY_TEXT = "theory_text";

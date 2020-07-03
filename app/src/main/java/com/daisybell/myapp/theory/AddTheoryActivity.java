@@ -3,8 +3,10 @@ package com.daisybell.myapp.theory;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -31,9 +33,12 @@ public class AddTheoryActivity extends AppCompatActivity {
         init();
     }
     private void init() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Constant.ADMIN_ID = preferences.getString(Constant.ADMIN_ID_INDEX, "");
+
         mEtTitle = findViewById(R.id.etTitle);
         mEtText = findViewById(R.id.etText);
-        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.THEORY_KEY);
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.THEORY_KEY);
     }
     private void showToast(int string) {
         Toast.makeText(AddTheoryActivity.this, string, Toast.LENGTH_SHORT).show();
@@ -46,7 +51,7 @@ public class AddTheoryActivity extends AppCompatActivity {
         String text = mEtText.getText().toString().trim();
         Theory newTheory = new Theory(id, title, text);
         if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(text)) {
-            mDataBase.push().setValue(newTheory);
+            mDataBase.child(title).setValue(newTheory);
             showToast(R.string.save_text);
             mEtTitle.getText().clear();
             mEtText.getText().clear();

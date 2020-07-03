@@ -64,6 +64,7 @@ public class AddQuizTestsActivity extends AppCompatActivity {
 //        Constant.INDEX_TEST = preferences.getInt(Constant.KEY_INDEX_TEST, 0);
         Constant.INDEX_ID = preferences.getInt(Constant.KEY_INDEX_ID, 0);
         Constant.INDEX_QUEST = preferences.getInt(Constant.KEY_INDEX_QUEST, 0);
+        Constant.ADMIN_ID = preferences.getString(Constant.ADMIN_ID_INDEX, "");
 
         etEnterNameTest = findViewById(R.id.etEnterNameTest);
         etEnterQuestion = findViewById(R.id.etEnterQuestion);
@@ -74,7 +75,7 @@ public class AddQuizTestsActivity extends AppCompatActivity {
         mRadioGroup = findViewById(R.id.rgAnswerOption);
         mRBAnswerOption1 = findViewById(R.id.rbAnswerOption1);
         mRBAnswerOption1.setChecked(true);
-        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.TESTS_KEY);
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.TESTS_KEY);
     }
 
     // Кнопка для добавления вопроса и сохранения его в Map
@@ -112,12 +113,12 @@ public class AddQuizTestsActivity extends AppCompatActivity {
 
     // Кнопка для сохранения всего теста в firebase
     public void onClickSaveTest(View view) {
-        String mDataBaseId = mDataBase.push().getKey();
+//        String mDataBaseId = mDataBase.push().getKey();
+        String nameTest = etEnterNameTest.getText().toString().trim();
 //        Log.d("mMap", "Привет это я!");
         if (!mMap.isEmpty()) {
             for (String key : mMap.keySet()) {
-                assert mDataBaseId != null;
-                mDataBase.child(mDataBaseId).child(key).setValue(mMap.get(key));
+                mDataBase.child(nameTest).child(key).setValue(mMap.get(key));
 //                Log.d("mMap", "mMap2 " + mMap.get(key));
 //                String index_key = String.valueOf(initKey.add(key));
 //                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());

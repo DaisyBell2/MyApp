@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".result.ResultTestsNameActivity"
-    android:background="@color/colorWrite">
+    android:background="@color/colorWrite"
+    android:id="@+id/constLayoutTest">
 
     <TextView
         android:id="@+id/tvNotData"

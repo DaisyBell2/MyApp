@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -99,7 +101,10 @@ public class QuizTestActivity extends AppCompatActivity {
     }
 
     private void init() { // Инициализируем нужные переменные
-        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.TESTS_KEY);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Constant.ADMIN_ID = preferences.getString(Constant.ADMIN_ID_INDEX, "");
+
+        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.TESTS_KEY);
         tvScore = findViewById(R.id.tvScore);
         tvQuestion = findViewById(R.id.tvQuestion);
         rgAllAnswer = findViewById(R.id.rgAllAnswer);
