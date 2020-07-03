@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,14 +14,21 @@ import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.daisybell.myapp.Constant;
+import com.daisybell.myapp.MainActivity;
 import com.daisybell.myapp.R;
+import com.daisybell.myapp.auth.LoginActivity;
 import com.daisybell.myapp.auth.User;
+import com.daisybell.myapp.menu.AboutApplicationActivity;
+import com.daisybell.myapp.menu.SettingsActivity;
+import com.daisybell.myapp.menu.UsersActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -32,6 +40,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 
@@ -55,23 +64,35 @@ public class AddNewUserActivity extends AppCompatActivity {
     private DatabaseReference mDataBase;
     String sEmail, sPassword;
 
+    private FirebaseApp myApp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_user);
-        setTitle("Добавление нового пользователя");
 
         init();
 
 
+        boolean hasBeenInitialized = false;
+        List<FirebaseApp> firebaseApps = FirebaseApp.getApps(this);
+        for (FirebaseApp app : firebaseApps) {
+            if (app.getName().equals("HandbookOT&TB")) {
+                hasBeenInitialized = true;
+            }
+        }
         mAuth1 = FirebaseAuth.getInstance();
         FirebaseOptions firebaseOptions = new FirebaseOptions.Builder()
                 .setDatabaseUrl("[https://handbook-ot-and-tb.firebaseio.com/]")
                 .setApiKey("AIzaSyAvgRn_TdUiWXYa8mjLaSAyJV6YRc0xrUY")
                 .setApplicationId("handbook-ot-and-tb").build();
 
-        FirebaseApp myApp = FirebaseApp.initializeApp(getApplicationContext(), firebaseOptions,
-                        "HandbookOT&TB");
+        if (!hasBeenInitialized) {
+            myApp = FirebaseApp.initializeApp(getApplicationContext(), firebaseOptions,
+                    "HandbookOT&TB");
+        } else {
+            myApp = FirebaseApp.getInstance("HandbookOT&TB");
+        }
 
         mAuth2 = FirebaseAuth.getInstance(myApp);
 
@@ -280,6 +301,44 @@ public class AddNewUserActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext()
                         , "Данные введены некорректно либо почта уже существует!!", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    // Метод для отображения 3х точек на toolbar'e
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem search_item = menu.findItem(R.id.search_view);
+        MenuItem users_item = menu.findItem(R.id.users);
+        search_item.setVisible(false);
+        if (!Constant.EMAIL_VERIFIED) {
+            users_item.setVisible(false);
+        }
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.users: // Пользователи
+                startActivity(new Intent(AddNewUserActivity.this, UsersActivity.class));
+                return true;
+            case R.id.settings: // Настройки
+                startActivity(new Intent(AddNewUserActivity.this, SettingsActivity.class));
+                return true;
+            case R.id.about_application: // О приложении
+                startActivity(new Intent(AddNewUserActivity.this, AboutApplicationActivity.class));
+                return true;
+            case R.id.sing_out: // Выход из аккаунта
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(AddNewUserActivity.this, LoginActivity.class));
+                finish();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

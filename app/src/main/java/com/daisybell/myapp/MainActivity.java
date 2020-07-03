@@ -1,17 +1,24 @@
 package com.daisybell.myapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.daisybell.myapp.auth.LoginActivity;
 import com.daisybell.myapp.check_list.AddCheckListActivity;
 import com.daisybell.myapp.check_list.CheckListNameActivity;
+import com.daisybell.myapp.menu.AboutApplicationActivity;
+import com.daisybell.myapp.menu.SettingsActivity;
+import com.daisybell.myapp.menu.UsersActivity;
 import com.daisybell.myapp.result.ResultCheckListNameActivity;
 import com.daisybell.myapp.result.ResultTestsNameActivity;
 import com.daisybell.myapp.test.AddQuizTestsActivity;
@@ -31,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Главный экран");
 
         init();
 
@@ -82,12 +88,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // Выход из аккаунта
-    public void onClickSingOut(View view) {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(MainActivity.this, LoginActivity.class));
-        finish();
-    }
+//    // Выход из аккаунта
+//    public void onClickSingOut(View view) {
+//        FirebaseAuth.getInstance().signOut();
+//        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//        finish();
+//    }
 
     public void onClickAddCheckList(View view) {
         startActivity(new Intent(MainActivity.this, AddCheckListActivity.class));
@@ -114,4 +120,42 @@ public class MainActivity extends AppCompatActivity {
         System.gc();
         System.exit(0);
     }
+
+    // Метод для отображения 3х точек на toolbar'e
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem search_item = menu.findItem(R.id.search_view);
+        MenuItem users_item = menu.findItem(R.id.users);
+        search_item.setVisible(false);
+        if (!Constant.EMAIL_VERIFIED) {
+            users_item.setVisible(false);
+        }
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.users: // Пользователи
+                startActivity(new Intent(MainActivity.this, UsersActivity.class));
+                return true;
+            case R.id.settings: // Настройки
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                return true;
+            case R.id.about_application: // О приложении
+                startActivity(new Intent(MainActivity.this, AboutApplicationActivity.class));
+                return true;
+            case R.id.sing_out: // Выход из аккаунта
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }

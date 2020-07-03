@@ -95,7 +95,6 @@ public class CheckListShowActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_list_show);
-        setTitle("Чек-лист");
 
         init();
         getIntentMain();

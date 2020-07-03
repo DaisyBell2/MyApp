@@ -87,7 +87,6 @@ public class QuizTestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_tests);
-        setTitle("Тест");
 
         if (savedInstanceState != null) {
             Constant.INDEX_ID = savedInstanceState.getInt(Constant.KEY_INDEX_ID, 0);

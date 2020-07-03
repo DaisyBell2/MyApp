@@ -42,7 +42,6 @@ public class AddCheckListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_check_list);
-        setTitle("Создание чек-листа");
 
         init();
     }

@@ -28,7 +28,6 @@ public class ResultTestsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_tests);
-        setTitle("Результаты тестов");
 
         init();
         getIntentMain();

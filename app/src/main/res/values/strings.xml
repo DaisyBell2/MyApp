@@ -29,9 +29,11 @@
     <string name="result_check_list">Результаты чек-листов</string>
     <string name="add_new_user">Добавить нового пользователя</string>
 
+<!--    Текст в результате теста-->
     <string name="test_congratulation">Поздравляем!\n Вы успешно прошли данный тест!</string>
     <string name="test_not_congratulation">К сожалению, вы не прошли данный тест!\n Попробуйте снова позже.</string>
 
+<!--    Текст в добавлении теста-->
     <string name="enter_name_test">Введите название теста</string>
     <string name="enter_question">Введите вопрос</string>
     <string name="enter_answer1">Вариант 1</string>
@@ -49,6 +51,28 @@
     <string name="verification_email">Спасибо за регистрацию, для получения прав администратора подтвердите вашу почту.</string>
     <string name="error">Ошибка</string>
     <string name="generate_password">Сгенерировать пароль</string>
+    <string name="settings">Настройки</string>
+    <string name="search_view">Search View</string>
+    <string name="about_application">О приложении</string>
+    <string name="users">Пользователи</string>
+
+<!--    Название экранов (title)-->
+    <string name="main_title">Главный экран</string>
+    <string name="theory_title">Теория</string>
+    <string name="add_theory_title">Создание теории</string>
+    <string name="test_title">Тест</string>
+    <string name="add_test_title">Создание теста</string>
+    <string name="reg_title">Регистрация</string>
+    <string name="login_title">Авторизация</string>
+    <string name="add_check_list_title">Создание чек-листа</string>
+    <string name="result_test_title">Результат теста</string>
+    <string name="check_list_title">Чек-лист</string>
+    <string name="result_check_lists_title">Результаты чек-листов</string>
+    <string name="result_tests_title">Результаты тестов</string>
+    <string name="add_new_user_title">Добавление нового пользователя</string>
+    <string name="users_title">Пользователи</string>
+    <string name="settings_title">Настройки</string>
+    <string name="about_application_title">О приложении</string>
 
 
 </resources>

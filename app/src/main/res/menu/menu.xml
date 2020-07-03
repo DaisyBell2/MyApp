@@ -3,9 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/search_view"
-        android:title="Search View"
+        android:title="@string/search_view"
         android:icon="@android:drawable/ic_menu_search"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         app:actionViewClass="android.widget.SearchView"/>
+
+
+    <item
+        android:id="@+id/users"
+        android:title="@string/users"
+        android:orderInCategory="1"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings"
+        android:orderInCategory="2"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/about_application"
+        android:title="@string/about_application"
+        android:orderInCategory="3"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/sing_out"
+        android:title="@string/sing_out"
+        android:orderInCategory="4"
+        app:showAsAction="never"/>
 
 </menu>
