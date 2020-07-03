@@ -24,6 +24,7 @@ import com.daisybell.myapp.theory.Theory;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthResult;
@@ -39,7 +40,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private static String TAG = "myLog";
 
-    private EditText etEmail, etPassword;
+    private EditText etEmail;
+    private TextInputLayout etPassword;
     private FirebaseAuth mAuth;
 
 //    private Boolean emailVerified;
@@ -87,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             if (successReg){
                 etEmail.setText(email);
-                etPassword.setText(password);
+                etPassword.getEditText().setText(password);
             } else {
                 Toast.makeText(this, "Вы вошли как: " + cUser.getEmail(), Toast.LENGTH_LONG).show();
                 startActivity(new Intent(LoginActivity.this, MainActivity.class)
@@ -118,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
     // Обработчик кнопки "Войти"
     public void onClickSingIn(View view) {
         String email = etEmail.getText().toString().trim();
-        String password = etPassword.getText().toString().trim();
+        String password = etPassword.getEditText().getText().toString().trim();
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
             mAuth.signInWithEmailAndPassword(email, password) // Заходит в акаунт(если он есть)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

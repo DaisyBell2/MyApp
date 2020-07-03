@@ -24,6 +24,7 @@ import com.daisybell.myapp.R;
 import com.daisybell.myapp.user_email.AddNewUserActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,7 +36,8 @@ public class RegActivity extends AppCompatActivity {
 
     private static String TAG = "myLog";
 
-    private EditText etName, etSurname, etEmail, etPassword, etPasswordAgain;
+    private EditText etName, etSurname, etEmail;
+    private TextInputLayout etPassword, etPasswordAgain;
     private Button btSingUp;
     private FirebaseAuth mAuth;
     private DatabaseReference mDataBase;
@@ -71,9 +73,9 @@ public class RegActivity extends AppCompatActivity {
         final String name = etName.getText().toString().trim();
         final String surname = etSurname.getText().toString().trim();
         final String email = etEmail.getText().toString().trim();
-        final String password = etPassword.getText().toString().trim();
+        final String password = etPassword.getEditText().getText().toString().trim();
         final Boolean admin = true;
-        String passwordAgain = etPasswordAgain.getText().toString().trim();
+        String passwordAgain = etPasswordAgain.getEditText().getText().toString().trim();
 //        final User newUser = new User(name, surname, email, password);
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(surname) && !TextUtils.isEmpty(email) // Проверяем на пустые поля
                 && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(passwordAgain)) {
@@ -124,8 +126,8 @@ public class RegActivity extends AppCompatActivity {
 
                                                     etEmail.setText("");
                                                     etName.setText("");
-                                                    etPassword.setText("");
-                                                    etPasswordAgain.setText("");
+                                                    etPassword.getEditText().setText("");
+                                                    etPasswordAgain.getEditText().setText("");
                                                     etSurname.setText("");
                                                     btSingUp.setEnabled(true);
 
