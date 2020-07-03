@@ -1,13 +1,18 @@
 package com.daisybell.myapp.theory;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -72,5 +77,33 @@ public class AddTheoryActivity extends AppCompatActivity {
                 mEtText.getText().clear();
             }
         }, 200);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.support_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.support_item) {
+            new AlertDialog.Builder(AddTheoryActivity.this)
+                    .setIcon(android.R.drawable.ic_menu_help)
+                    .setTitle(R.string.support_title)
+                    .setMessage(R.string.support_message)
+                    .setPositiveButton("Понятно", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    })
+                    .show();
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

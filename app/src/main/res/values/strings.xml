@@ -74,5 +74,12 @@
     <string name="settings_title">Настройки</string>
     <string name="about_application_title">О приложении</string>
 
+<!--   AlertDialog с подсказкой-->
+    <string name="support">Support</string>
+    <string name="support_title">Подсказка</string>
+    <string name="support_message">"Для удобной загрузки теории, откройте на телефоне нужный документ с техникой безопасности в любом удобном вам редакторе."
+                            "\nДалее зажмите пальцем любое слово и выберите \"Выделить все\", "
+                            "после нажмите на \"Копировать\".\nВставьте всё в поле \"Текст\" в данном приложении."</string>
+
 
 </resources>
