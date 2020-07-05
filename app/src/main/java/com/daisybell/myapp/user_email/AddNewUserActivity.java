@@ -62,7 +62,7 @@ public class AddNewUserActivity extends AppCompatActivity {
     private FirebaseAuth mAuth1;
     private FirebaseAuth mAuth2;
     private DatabaseReference mDataBase;
-    String sEmail, sPassword;
+    private String sEmail, sPassword;
 
     private FirebaseApp myApp;
 
@@ -158,7 +158,7 @@ public class AddNewUserActivity extends AppCompatActivity {
                                     assert authUserId != null;
                                     String id = authUserId;
                                     final User newUser = new User(id, name, surname, email, password, admin);
-                                    mDataBase.child(fullName).setValue(newUser);
+                                    mDataBase.child(authUserId).setValue(newUser);
 //                                    Constant.USER_ID++;
 
 //                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());

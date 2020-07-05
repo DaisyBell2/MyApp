@@ -52,7 +52,7 @@
 
         <RadioButton
             android:id="@+id/rbAnswer1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:textSize="@dimen/size_tv_answer2"
@@ -61,7 +61,7 @@
             android:text="Text"/>
         <RadioButton
             android:id="@+id/rbAnswer2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:textSize="@dimen/size_tv_answer2"
@@ -70,7 +70,7 @@
             android:text="Text"/>
         <RadioButton
             android:id="@+id/rbAnswer3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:textSize="@dimen/size_tv_answer2"
@@ -79,7 +79,7 @@
             android:text="Text"/>
         <RadioButton
             android:id="@+id/rbAnswer4"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:textSize="@dimen/size_tv_answer2"

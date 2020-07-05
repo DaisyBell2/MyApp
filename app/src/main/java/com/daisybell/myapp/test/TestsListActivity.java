@@ -45,7 +45,7 @@ import java.util.TreeMap;
 
 public class TestsListActivity extends AppCompatActivity {
 
-    private static String TAG = "getQueTest";
+    private static String TAG = "myLog";
 
     private DatabaseReference mDataBase;
     private ArrayAdapter<String> mAdapter;
@@ -114,7 +114,7 @@ public class TestsListActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("getError" ,"Failed to read value.", databaseError.toException());
+                Log.d(TAG ,"Failed to read value.", databaseError.toException());
             }
         };
         mDataBase.addValueEventListener(vListener);

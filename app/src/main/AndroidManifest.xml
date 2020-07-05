@@ -19,18 +19,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".menu.AboutApplicationActivity"
+        <activity android:name=".ForgetPasswordActivity"
+            android:label="@string/forget_password_title"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/about_application_title"/>
-        <activity android:name=".menu.SettingsActivity"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity android:name=".ChangePasswordActivity"
+            android:label="@string/change_password_title"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/settings_title"/>
-        <activity android:name=".menu.UsersActivity"
+            tools:ignore="LockedOrientationActivity"/>
+        <activity
+            android:name=".menu.AboutApplicationActivity"
+            android:label="@string/about_application_title"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/users_title"/>
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".menu.SettingsActivity"
+            android:label="@string/settings_title"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".menu.UsersActivity"
+            android:label="@string/users_title"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".SplashScreenActivity"
             android:screenOrientation="portrait"
@@ -44,114 +60,114 @@
         </activity>
         <activity
             android:name=".user_email.AddNewUserActivity"
+            android:label="@string/add_new_user_title"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/add_new_user_title"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".result.ResultTestsActivity"
+            android:label="@string/result_tests_title"
             android:parentActivityName=".result.ResultTestsNameActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/result_tests_title"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".result.ResultTestsNameActivity"
+            android:label="@string/result_tests_title"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/result_tests_title"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".result.ResultCheckListActivity"
+            android:label="@string/result_check_lists_title"
             android:parentActivityName=".result.ResultCheckListNameActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/result_check_lists_title"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".result.ResultCheckListNameActivity"
+            android:label="@string/result_check_lists_title"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/result_check_lists_title"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".check_list.CheckListShowActivity"
+            android:label="@string/check_list_title"
             android:parentActivityName=".check_list.CheckListBeforeAfterActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/check_list_title"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".check_list.CheckListBeforeAfterActivity"
+            android:label="@string/check_list_title"
             android:parentActivityName=".check_list.CheckListNameActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/check_list_title"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".check_list.CheckListNameActivity"
+            android:label="@string/check_list_title"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/check_list_title"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".test.ResultTestActivity"
+            android:label="@string/result_test_title"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/result_test_title"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".check_list.AddCheckListActivity"
+            android:label="@string/add_check_list_title"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/add_check_list_title"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".auth.LoginActivity"
+            android:label="@string/login_title"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/login_title"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".auth.RegActivity"
+            android:label="@string/reg_title"
             android:parentActivityName=".auth.LoginActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/reg_title"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".test.AddQuizTestsActivity"
+            android:label="@string/add_test_title"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/add_test_title"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".test.QuizTestActivity"
+            android:label="@string/test_title"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/test_title"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".test.TestsListActivity"
+            android:label="@string/test_title"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/test_title"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".theory.AddTheoryActivity"
+            android:label="@string/add_theory_title"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/add_theory_title"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".theory.TheoryShowActivity"
+            android:label="@string/theory_title"
             android:parentActivityName=".theory.TheoryListActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/theory_title"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".theory.TheoryListActivity"
+            android:label="@string/theory_title"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/theory_title"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".MainActivity"
+            android:label="@string/main_title"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            android:label="@string/main_title"/>
+            tools:ignore="LockedOrientationActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

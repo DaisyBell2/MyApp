@@ -79,15 +79,15 @@ public class RegActivity extends AppCompatActivity {
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(surname) && !TextUtils.isEmpty(email) // Проверяем на пустые поля
                 && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(passwordAgain)) {
             if (password.equals(passwordAgain)) { // Сверяем пароли
-                // Выведем окно закрузки
-                mProgressDialog = ProgressDialog.show(RegActivity.this
-                        ,"Пожалуйста подождите", "Ваш аккаунт создается...", true, false);
 
                 mAuth.createUserWithEmailAndPassword(email, password) // Создаем аккаунт
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) { // Проверяет, все ли успешно
+                                if (task.isSuccessful()) {
+                                    // Выведем окно закрузки
+                                    mProgressDialog = ProgressDialog.show(RegActivity.this
+                                            ,"Пожалуйста подождите", "Ваш аккаунт создается...", true, false);// Проверяет, все ли успешно
 
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     if (user != null) {
@@ -156,6 +156,7 @@ public class RegActivity extends AppCompatActivity {
 
 
                                                 } else {
+                                                    mProgressDialog.dismiss();
                                                     Toast.makeText(getApplicationContext(), R.string.error, Toast.LENGTH_SHORT).show();
                                                 }
                                             }

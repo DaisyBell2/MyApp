@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.daisybell.myapp.Constant;
+import com.daisybell.myapp.ForgetPasswordActivity;
 import com.daisybell.myapp.MainActivity;
 import com.daisybell.myapp.R;
 import com.daisybell.myapp.theory.Theory;
@@ -172,4 +173,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    // Кнопка для перехода на окно для сброса пароля
+//    public void onClickForgetPassword(View view) {
+//        startActivity(new Intent(LoginActivity.this, ForgetPasswordActivity.class));
+//        finish();
+//    }
 }

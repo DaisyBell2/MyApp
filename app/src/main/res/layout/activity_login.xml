@@ -101,4 +101,21 @@
         app:layout_constraintEnd_toEndOf="@+id/btSingUp"
         app:layout_constraintStart_toStartOf="@+id/btSingUp"
         app:layout_constraintTop_toBottomOf="@+id/btSingUp" />
+
+<!--    Сброс пароля-->
+<!--    <TextView-->
+<!--        android:id="@+id/tvForgetPassword"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Забыли пароль?"-->
+<!--        android:textColor="@color/colorPrimary"-->
+<!--        android:textSize="15sp"-->
+<!--        android:fontFamily="@font/nunito"-->
+<!--        android:onClick="onClickForgetPassword"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.9"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btSingIn"-->
+<!--        app:layout_constraintVertical_bias="0.9" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
