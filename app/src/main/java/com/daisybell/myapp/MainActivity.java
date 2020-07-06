@@ -115,12 +115,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, AddNewUserActivity.class));
     }
 
-    // Полностью закрывает приложение
-    public void onBackPressed() {
-        System.gc();
-        System.exit(0);
-    }
-
     // Метод для отображения 3х точек на toolbar'e
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -150,8 +144,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.sing_out: // Выход из аккаунта
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                finish();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -27,7 +27,12 @@ import android.widget.Toast;
 import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.LoadingDialog;
 import com.daisybell.myapp.R;
+import com.daisybell.myapp.auth.LoginActivity;
+import com.daisybell.myapp.menu.AboutApplicationActivity;
+import com.daisybell.myapp.menu.SettingsActivity;
+import com.daisybell.myapp.menu.UsersActivity;
 import com.daisybell.myapp.test.SaveResultTests;
+import com.daisybell.myapp.theory.TheoryListActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -199,6 +204,10 @@ public class ResultTestsNameActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu, menu);
 
         MenuItem menuItem = menu.findItem(R.id.search_view);
+        MenuItem users_item = menu.findItem(R.id.users);
+        if (!Constant.EMAIL_VERIFIED) {
+            users_item.setVisible(false);
+        }
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -222,11 +231,29 @@ public class ResultTestsNameActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.search_view) {
-            return true;
+        switch (id) {
+            case R.id.search_view:
+                return true;
+            case R.id.users: // Пользователи
+                startActivity(new Intent(ResultTestsNameActivity.this, UsersActivity.class));
+                return true;
+            case R.id.settings: // Настройки
+                startActivity(new Intent(ResultTestsNameActivity.this, SettingsActivity.class));
+                return true;
+            case R.id.about_application: // О приложении
+                startActivity(new Intent(ResultTestsNameActivity.this, AboutApplicationActivity.class));
+                return true;
+            case R.id.sing_out: // Выход из аккаунта
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(ResultTestsNameActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
-        return super.onOptionsItemSelected(item);
     }
 
     // Создаем свой адаптер

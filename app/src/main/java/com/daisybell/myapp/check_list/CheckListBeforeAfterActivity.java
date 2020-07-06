@@ -10,6 +10,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,7 +19,13 @@ import android.widget.ListView;
 
 import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.LoadingDialog;
+import com.daisybell.myapp.MainActivity;
 import com.daisybell.myapp.R;
+import com.daisybell.myapp.auth.LoginActivity;
+import com.daisybell.myapp.menu.AboutApplicationActivity;
+import com.daisybell.myapp.menu.SettingsActivity;
+import com.daisybell.myapp.menu.UsersActivity;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -129,29 +137,43 @@ public class CheckListBeforeAfterActivity extends AppCompatActivity {
         });
     }
 
-    // Метод для удаления данных при долгом нажатии
-//    private void longDeleteClick() {
-//        lvBeforeAfter.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-//
-//                new AlertDialog.Builder(CheckListBeforeAfterActivity.this)
-//                        .setIcon(android.R.drawable.ic_menu_delete)
-//                        .setTitle("Удаление данных")
-//                        .setMessage("Вы уверены, что хотите удалить: \"" + mListBeforeAfterCheckList.get(position) + "\" ?")
-//                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                mDataBase.child(mListNameCheckList.get(position)).child(mListBeforeAfterCheckList.get(position)).removeValue();
-//                                mAdapter.notifyDataSetChanged();
-//                            }
-//                        })
-//                        .setNegativeButton("Нет", null)
-//                        .show();
-//
-//                return true;
-//            }
-//        });
-//    }
+    // Метод для отображения 3х точек на toolbar'e
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem search_item = menu.findItem(R.id.search_view);
+        MenuItem users_item = menu.findItem(R.id.users);
+        search_item.setVisible(false);
+        if (!Constant.EMAIL_VERIFIED) {
+            users_item.setVisible(false);
+        }
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.users: // Пользователи
+                startActivity(new Intent(CheckListBeforeAfterActivity.this, UsersActivity.class));
+                return true;
+            case R.id.settings: // Настройки
+                startActivity(new Intent(CheckListBeforeAfterActivity.this, SettingsActivity.class));
+                return true;
+            case R.id.about_application: // О приложении
+                startActivity(new Intent(CheckListBeforeAfterActivity.this, AboutApplicationActivity.class));
+                return true;
+            case R.id.sing_out: // Выход из аккаунта
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(CheckListBeforeAfterActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
 }

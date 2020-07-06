@@ -7,4 +7,20 @@
     tools:context=".menu.UsersActivity"
     android:background="@color/colorWrite">
 
+    <TextView
+        android:id="@+id/tvNotData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="25sp"
+        android:textColor="@color/colorBlack"
+        android:visibility="gone"
+        android:text="@string/no_data"
+        android:gravity="center"/>
+
+    <ListView
+        android:id="@+id/lvUsers"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:longClickable="true"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

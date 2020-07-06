@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.MainActivity;
 import com.daisybell.myapp.R;
+import com.daisybell.myapp.auth.LoginActivity;
 import com.daisybell.myapp.auth.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -227,7 +228,8 @@ public class ResultTestActivity extends AppCompatActivity {
 
     // Обработчик кнопки "Домой", возвращает на главную страницу
     public void onClickHome(View view) {
-        startActivity(new Intent(ResultTestActivity.this, MainActivity.class));
-        finish();
+        Intent intent = new Intent(ResultTestActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

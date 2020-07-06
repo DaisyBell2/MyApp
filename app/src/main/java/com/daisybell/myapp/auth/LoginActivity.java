@@ -19,8 +19,10 @@ import android.widget.Toast;
 
 import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.ForgetPasswordActivity;
+import com.daisybell.myapp.LoadingDialog;
 import com.daisybell.myapp.MainActivity;
 import com.daisybell.myapp.R;
+import com.daisybell.myapp.result.ResultCheckListNameActivity;
 import com.daisybell.myapp.theory.Theory;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -44,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etEmail;
     private TextInputLayout etPassword;
     private FirebaseAuth mAuth;
+
+    LoadingDialog loadingDialog;
 
 //    private Boolean emailVerified;
 
@@ -110,6 +114,7 @@ public class LoginActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         mAuth = FirebaseAuth.getInstance();
+        loadingDialog = new LoadingDialog(LoginActivity.this);
 //        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.USER_KEY);
     }
     // Обработчик кнопки "Зарегестрироваться"
@@ -122,6 +127,9 @@ public class LoginActivity extends AppCompatActivity {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getEditText().getText().toString().trim();
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
+
+            loadingDialog.startLoadingDialog();
+
             mAuth.signInWithEmailAndPassword(email, password) // Заходит в акаунт(если он есть)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -147,14 +155,17 @@ public class LoginActivity extends AppCompatActivity {
 
                                     if (successReg) {
                                         if (cUser.isEmailVerified()) {
+                                            loadingDialog.dismissDialog();
                                             Toast.makeText(LoginActivity.this, "Добро Пожаловать, "+name+"!", Toast.LENGTH_SHORT).show();
                                             startActivity(new Intent(LoginActivity.this, MainActivity.class)
                                                     .putExtra("emailVerified",  Constant.EMAIL_VERIFIED));
                                             finish();
                                         } else {
+                                            loadingDialog.dismissDialog();
                                             Toast.makeText(LoginActivity.this, "Проверьте вашу почту для подтверждения Email адреса", Toast.LENGTH_SHORT).show();
                                         }
                                     } else {
+                                        loadingDialog.dismissDialog();
                                         Toast.makeText(LoginActivity.this, "Добро Пожаловать, "+name+"!", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(LoginActivity.this, MainActivity.class)
                                                 .putExtra("emailVerified",  Constant.EMAIL_VERIFIED));
@@ -164,6 +175,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
 
                             } else {
+                                loadingDialog.dismissDialog();
                                 Toast.makeText(LoginActivity.this, "Данного пользователя не существует!", Toast.LENGTH_SHORT).show();
                             }
                         }

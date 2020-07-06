@@ -15,6 +15,8 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -26,9 +28,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daisybell.myapp.Constant;
+import com.daisybell.myapp.MainActivity;
 import com.daisybell.myapp.ProgressButton;
 import com.daisybell.myapp.R;
+import com.daisybell.myapp.auth.LoginActivity;
 import com.daisybell.myapp.auth.User;
+import com.daisybell.myapp.menu.AboutApplicationActivity;
+import com.daisybell.myapp.menu.SettingsActivity;
+import com.daisybell.myapp.menu.UsersActivity;
 import com.daisybell.myapp.test.SaveResultTests;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -576,5 +583,43 @@ public class CheckListShowActivity extends AppCompatActivity {
         imageView.setVisibility(View.GONE);
         imageView.setImageDrawable(null);
         imageViewVisible = false;
+    }
+
+    // Метод для отображения 3х точек на toolbar'e
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem search_item = menu.findItem(R.id.search_view);
+        MenuItem users_item = menu.findItem(R.id.users);
+        search_item.setVisible(false);
+        if (!Constant.EMAIL_VERIFIED) {
+            users_item.setVisible(false);
+        }
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.users: // Пользователи
+                startActivity(new Intent(CheckListShowActivity.this, UsersActivity.class));
+                return true;
+            case R.id.settings: // Настройки
+                startActivity(new Intent(CheckListShowActivity.this, SettingsActivity.class));
+                return true;
+            case R.id.about_application: // О приложении
+                startActivity(new Intent(CheckListShowActivity.this, AboutApplicationActivity.class));
+                return true;
+            case R.id.sing_out: // Выход из аккаунта
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(CheckListShowActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

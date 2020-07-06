@@ -29,8 +29,12 @@ import android.widget.Toast;
 import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.LoadingDialog;
 import com.daisybell.myapp.R;
+import com.daisybell.myapp.auth.LoginActivity;
 import com.daisybell.myapp.check_list.CheckListNameActivity;
 import com.daisybell.myapp.check_list.SaveResultCheckList;
+import com.daisybell.myapp.menu.AboutApplicationActivity;
+import com.daisybell.myapp.menu.SettingsActivity;
+import com.daisybell.myapp.menu.UsersActivity;
 import com.daisybell.myapp.theory.Theory;
 import com.daisybell.myapp.theory.TheoryListActivity;
 import com.daisybell.myapp.theory.TheoryShowActivity;
@@ -219,6 +223,10 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu, menu);
 
         MenuItem menuItem = menu.findItem(R.id.search_view);
+        MenuItem users_item = menu.findItem(R.id.users);
+        if (!Constant.EMAIL_VERIFIED) {
+            users_item.setVisible(false);
+        }
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -242,11 +250,29 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.search_view) {
-            return true;
+        switch (id) {
+            case R.id.search_view:
+                return true;
+            case R.id.users: // Пользователи
+                startActivity(new Intent(ResultCheckListNameActivity.this, UsersActivity.class));
+                return true;
+            case R.id.settings: // Настройки
+                startActivity(new Intent(ResultCheckListNameActivity.this, SettingsActivity.class));
+                return true;
+            case R.id.about_application: // О приложении
+                startActivity(new Intent(ResultCheckListNameActivity.this, AboutApplicationActivity.class));
+                return true;
+            case R.id.sing_out: // Выход из аккаунта
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(ResultCheckListNameActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
-        return super.onOptionsItemSelected(item);
     }
 
     // Создаем свой адаптер
@@ -371,22 +397,22 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
                                                             if (key1 != null && key2 != null && key2.equals(equals)) {
 
                                                                 if (itemIndex == position && !filter) {
-                                                                    // Удаление сперва фотографии с storage, а после если все успешно с RealtimeDatabase
-                                                                    StorageReference deleteRef = storageRef.child("images/"+namePhoto);
-                                                                    deleteRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                        @Override // Успешно
-                                                                        public void onSuccess(Void aVoid) {
-                                                                            mDataBase.child(key1).child(key2).removeValue();
+//                                                                    // Удаление сперва фотографии с storage, а после если все успешно с RealtimeDatabase
+//                                                                    StorageReference deleteRef = storageRef.child("images/"+namePhoto);
+//                                                                    deleteRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                                                        @Override // Успешно
+//                                                                        public void onSuccess(Void aVoid) {
+                                                                            mDataBaseUser.child(key1).child(key2).removeValue();
                                                                             delete = true;
                                                                             itemIndex = -1;
                                                                             Toast.makeText(mContext, "Удалено", Toast.LENGTH_SHORT).show();
-                                                                        }
-                                                                    }).addOnFailureListener(new OnFailureListener() {
-                                                                        @Override // Не удалось удалить
-                                                                        public void onFailure(@NonNull Exception e) {
-                                                                            Toast.makeText(mContext, "Не удалось удалить, попробуйте позже снова", Toast.LENGTH_SHORT).show();
-                                                                        }
-                                                                    });
+//                                                                        }
+//                                                                    }).addOnFailureListener(new OnFailureListener() {
+//                                                                        @Override // Не удалось удалить
+//                                                                        public void onFailure(@NonNull Exception e) {
+//                                                                            Toast.makeText(mContext, "Не удалось удалить, попробуйте позже снова", Toast.LENGTH_SHORT).show();
+//                                                                        }
+//                                                                    });
 //                                                                    Snackbar.make(constLayoutCheckList, "Удалено", Snackbar.LENGTH_LONG).show();
                                                                     break;
                                                                 }

@@ -89,6 +89,10 @@
     <string name="btn_send">Отправить</string>
     <string name="change_password_title">Смена пароля</string>
     <string name="forget_password_title">Восстановление пароля</string>
+    <string name="no_data">Данных нет</string>
+    <string name="change_password_text">Вы можете сменить свой пароль на другой</string>
+    <string name="delete_account">Удалить аккаунт</string>
+    <string name="delete_account_text">Вы можете польностью удалить свой аккаунт</string>
 
 
 </resources>

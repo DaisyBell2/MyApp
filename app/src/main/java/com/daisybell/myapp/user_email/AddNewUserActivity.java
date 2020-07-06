@@ -333,8 +333,9 @@ public class AddNewUserActivity extends AppCompatActivity {
                 return true;
             case R.id.sing_out: // Выход из аккаунта
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(AddNewUserActivity.this, LoginActivity.class));
-                finish();
+                Intent intent = new Intent(AddNewUserActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
 
                 return true;
             default:

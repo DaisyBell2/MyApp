@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -17,7 +19,13 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.daisybell.myapp.Constant;
+import com.daisybell.myapp.MainActivity;
 import com.daisybell.myapp.R;
+import com.daisybell.myapp.auth.LoginActivity;
+import com.daisybell.myapp.menu.AboutApplicationActivity;
+import com.daisybell.myapp.menu.SettingsActivity;
+import com.daisybell.myapp.menu.UsersActivity;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -170,5 +178,43 @@ public class AddQuizTestsActivity extends AppCompatActivity {
         savedInstanceState.getInt(Constant.KEY_INDEX_ID, Constant.INDEX_ID);
         savedInstanceState.getInt(Constant.KEY_INDEX_QUEST, Constant.INDEX_QUEST);
         //savedInstanceState.getInt(Constant.KEY_INDEX_TEST, Constant.INDEX_TEST);
+    }
+
+    // Метод для отображения 3х точек на toolbar'e
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem search_item = menu.findItem(R.id.search_view);
+        MenuItem users_item = menu.findItem(R.id.users);
+        search_item.setVisible(false);
+        if (!Constant.EMAIL_VERIFIED) {
+            users_item.setVisible(false);
+        }
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.users: // Пользователи
+                startActivity(new Intent(AddQuizTestsActivity.this, UsersActivity.class));
+                return true;
+            case R.id.settings: // Настройки
+                startActivity(new Intent(AddQuizTestsActivity.this, SettingsActivity.class));
+                return true;
+            case R.id.about_application: // О приложении
+                startActivity(new Intent(AddQuizTestsActivity.this, AboutApplicationActivity.class));
+                return true;
+            case R.id.sing_out: // Выход из аккаунта
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(AddQuizTestsActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
