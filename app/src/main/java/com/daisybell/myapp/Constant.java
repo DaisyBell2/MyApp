@@ -9,6 +9,8 @@ public class Constant {
     public static String USER_ID = "";
     public static String ADMIN_ID_INDEX = "admin_id_index";
     public static final String ADMIN_DATE = "Данные при регистрации";
+    public static final String PDF_FILE_KEY = "PDF-File";
+    public static final String PDF_FILE_STORAGE_KEY = "PDF-File/";
 
     public static Boolean EMAIL_VERIFIED = false;
     public static final String EMAIL_VERIFIED_INDEX = "email_verified";

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".theory.AddTheoryPDFFragment"
+    android:background="@color/colorWrite"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/etNamePDFFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/file_name"/>
+    <Button
+        android:id="@+id/btSavePDFFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/upload_file"
+        android:background="@drawable/rounded"
+        android:layout_marginTop="8dp"
+        android:textAllCaps="false"
+        android:textSize="@dimen/text_size_btn"
+        android:textColor="#FFFFFF"/>
+
+</LinearLayout>

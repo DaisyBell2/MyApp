@@ -7,7 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:padding="10dp">
 
         <EditText
             android:id="@+id/etEnterNameTest"
@@ -127,7 +128,7 @@
             <Button
                 android:id="@+id/btAddQuestion"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="Добавить вопрос"
                 android:onClick="onClickAddQuestion"
                 android:layout_weight="1"
@@ -139,7 +140,7 @@
             <Button
                 android:id="@+id/btSaveTest"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="Сохранить тест"
                 android:onClick="onClickSaveTest"
                 android:layout_weight="1"

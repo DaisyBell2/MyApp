@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/colorWrite">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/etTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text|textCapSentences"
+            android:hint="@string/title"/>
+        <EditText
+            android:id="@+id/etText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine|textCapSentences"
+            android:hint="@string/text"/>
+        <Button
+            android:id="@+id/btSaveTheory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded"
+            android:text="@string/save"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_size_btn"
+            android:textColor="#FFFFFF"/>
+        <Button
+            android:id="@+id/btReadTheory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded"
+            android:layout_marginTop="8dp"
+            android:text="@string/read"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_size_btn"
+            android:textColor="#FFFFFF"/>
+
+    </LinearLayout>
+</ScrollView>

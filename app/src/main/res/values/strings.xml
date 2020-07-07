@@ -6,7 +6,7 @@
     <string name="check_list">Чек-листы</string>
     <string name="add_tests">Добавить тест</string>
     <string name="add_check_list">Добавить чек-лист</string>
-    <string name="title">Заголовок</string>
+    <string name="title">Название</string>
     <string name="text">Текст</string>
     <string name="save">Сохранить</string>
     <string name="save_text">Сохранено</string>
@@ -79,7 +79,8 @@
     <string name="support_title">Подсказка</string>
     <string name="support_message">"Для удобной загрузки теории, откройте на телефоне нужный документ с техникой безопасности в любом удобном для вас редакторе."
                             "\nДалее зажмите пальцем любое слово и выберите \"Выделить все\", "
-                            "после нажмите на \"Копировать\".\nВставьте всё в поле \"Текст\" в данном приложении."</string>
+                            "после нажмите на \"Копировать\".\nВставьте всё в поле \"Текст\" в данном приложении."
+                            +"\n\nЛибо можете загрузить PDF файл с вашего телефона."</string>
     <string name="change_password">Сменить пароль</string>
     <string name="your_password">Введите ваш пароль</string>
     <string name="new_password">Новый пароль</string>
@@ -93,6 +94,10 @@
     <string name="change_password_text">Вы можете сменить свой пароль на другой</string>
     <string name="delete_account">Удалить аккаунт</string>
     <string name="delete_account_text">Вы можете польностью удалить свой аккаунт</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="file_name">Введите название файла</string>
+    <string name="upload_file">Выбрать и загрузить файл</string>
 
 
 </resources>

@@ -5,7 +5,9 @@
 <!--    <color name="colorAccent">#D3D3D3</color>-->
     <color name="colorPrimary">#0084D1</color>
     <color name="colorPrimaryDark">#01649E</color>
-    <color name="colorAccent">#d0dffe</color>
+    <color name="colorAccent">#49CFEF</color>
+
+    <color name="colorStroke">#d0dffe</color>
 <!--    d0dffe-->
 
     <color name="colorButton">#B5B5B5</color>
