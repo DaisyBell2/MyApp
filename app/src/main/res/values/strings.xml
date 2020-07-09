@@ -94,10 +94,14 @@
     <string name="change_password_text">Вы можете сменить свой пароль на другой</string>
     <string name="delete_account">Удалить аккаунт</string>
     <string name="delete_account_text">Вы можете польностью удалить свой аккаунт</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="file_name">Введите название файла</string>
     <string name="upload_file">Выбрать и загрузить файл</string>
+
+<!--    About Activity-->
+    <string name="about_text">Данное приложение предназначается для облегчения решения задач по проверки и изучению охраны труда и техники безопасности на предприятии.</string>
+    <string name="developer">Разработчик: Борзикова Алина\nСвязь с разработчиком: handbook.otandtb@gmzil.com</string>
+    <string name="contact_with_me">Связь с разработчиком: handbook.otandtb@gmzil.com</string>
 
 
 </resources>

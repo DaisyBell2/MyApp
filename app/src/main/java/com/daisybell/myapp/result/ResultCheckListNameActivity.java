@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +23,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,7 +73,8 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
 
     CustomAdapter mCustomAdapter;
 
-    LoadingDialog loadingDialog;
+//    LoadingDialog loadingDialog;
+    private ProgressBar mProgressBar;
     private TextView tvNotData;
 
     private String key1 = "";
@@ -97,8 +100,10 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
 
 //        onClickItem();
 
-        loadingDialog = new LoadingDialog(ResultCheckListNameActivity.this);
-        loadingDialog.startLoadingDialog();
+//        loadingDialog = new LoadingDialog(ResultCheckListNameActivity.this);
+//        loadingDialog.startLoadingDialog();
+        mProgressBar = findViewById(R.id.pbRCLName);
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     // Инициализация переменных
@@ -149,7 +154,8 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
 //                mAdapter.notifyDataSetChanged();
                 mCustomAdapter.notifyDataSetChanged();
                 goneText();
-                loadingDialog.dismissDialog();
+//                loadingDialog.dismissDialog();
+                mProgressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -178,7 +184,8 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
 //                mAdapter.notifyDataSetChanged();
                 mCustomAdapter.notifyDataSetChanged();
                 goneText();
-                loadingDialog.dismissDialog();
+//                loadingDialog.dismissDialog();
+                mProgressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -237,8 +244,11 @@ public class ResultCheckListNameActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 mCustomAdapter.getFilter().filter(newText);
-                filter = true;
-                Log.d(TAG, "filter2: " + filter);
+                if (!TextUtils.isEmpty(newText)) {
+                    filter = true;
+                } else {
+                    filter = false;
+                }
                 return true;
             }
         });

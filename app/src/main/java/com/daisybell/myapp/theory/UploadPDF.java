@@ -1,6 +1,8 @@
 package com.daisybell.myapp.theory;
 
-public class UploadPDF {
+import java.io.Serializable;
+
+public class UploadPDF implements Serializable {
 
     public String name;
     public String url;

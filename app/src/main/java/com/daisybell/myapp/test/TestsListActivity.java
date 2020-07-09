@@ -21,6 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,7 +64,8 @@ public class TestsListActivity extends AppCompatActivity {
     Test test;
     String nameTest;
 
-    LoadingDialog loadingDialog;
+//    LoadingDialog loadingDialog;
+    private ProgressBar mProgressBar;
     private TextView tvNotData;
 
     @Override
@@ -78,8 +80,10 @@ public class TestsListActivity extends AppCompatActivity {
             longDeleteClick();
         }
 
-        loadingDialog = new LoadingDialog(TestsListActivity.this);
-        loadingDialog.startLoadingDialog();
+//        loadingDialog = new LoadingDialog(TestsListActivity.this);
+//        loadingDialog.startLoadingDialog();
+        mProgressBar = findViewById(R.id.pbTestList);
+        mProgressBar.setVisibility(View.VISIBLE);
 
     }
     private void init() {
@@ -115,7 +119,8 @@ public class TestsListActivity extends AppCompatActivity {
                 }
                 mAdapter.notifyDataSetChanged();
                 goneText();
-                loadingDialog.dismissDialog();
+//                loadingDialog.dismissDialog();
+                mProgressBar.setVisibility(View.GONE);
             }
 
             @Override

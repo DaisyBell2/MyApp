@@ -17,7 +17,8 @@
         android:textColor="@color/colorBlack"
         android:layout_margin="8dp"
         android:gravity="center"
-        android:text="FullName"/>
+        android:text="FullName"
+        android:textIsSelectable="true"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +37,8 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="@color/colorBlack"
-            android:layout_toEndOf="@+id/tv1"/>
+            android:layout_toEndOf="@+id/tv1"
+            android:textIsSelectable="true"/>
         <TextView
             android:id="@+id/tv1"
             android:layout_width="wrap_content"
@@ -45,7 +47,8 @@
             android:textColor="@color/colorBlack"
             android:textStyle="bold"
             android:layout_alignTop="@+id/tvNameCL"
-            android:text="Название чек-листа: "/>
+            android:text="Название чек-листа: "
+            android:textIsSelectable="true"/>
 
         <TextView
             android:id="@+id/tvDate"
@@ -54,7 +57,8 @@
             android:textSize="18sp"
             android:textColor="@color/colorBlack"
             android:layout_below="@id/tvNameCL"
-            android:layout_toEndOf="@+id/tv2"/>
+            android:layout_toEndOf="@+id/tv2"
+            android:textIsSelectable="true"/>
         <TextView
             android:id="@+id/tv2"
             android:layout_width="wrap_content"
@@ -63,7 +67,8 @@
             android:textColor="@color/colorBlack"
             android:textStyle="bold"
             android:layout_alignTop="@+id/tvDate"
-            android:text="Дата: "/>
+            android:text="Дата: "
+            android:textIsSelectable="true"/>
 
         <TextView
             android:id="@+id/tvTime"
@@ -72,7 +77,8 @@
             android:textSize="18sp"
             android:textColor="@color/colorBlack"
             android:layout_toEndOf="@+id/tv3"
-            android:layout_below="@id/tvDate"/>
+            android:layout_below="@id/tvDate"
+            android:textIsSelectable="true"/>
         <TextView
             android:id="@+id/tv3"
             android:layout_width="wrap_content"
@@ -81,7 +87,8 @@
             android:textColor="@color/colorBlack"
             android:textStyle="bold"
             android:layout_alignTop="@+id/tvTime"
-            android:text="Время: "/>
+            android:text="Время: "
+            android:textIsSelectable="true"/>
 
         <TextView
             android:id="@+id/tvDone"
@@ -90,7 +97,8 @@
             android:textSize="18sp"
             android:textColor="@color/colorBlack"
             android:layout_toEndOf="@+id/tv4"
-            android:layout_below="@id/tvTime"/>
+            android:layout_below="@id/tvTime"
+            android:textIsSelectable="true"/>
         <TextView
             android:id="@+id/tv4"
             android:layout_width="wrap_content"
@@ -99,7 +107,8 @@
             android:textColor="@color/colorBlack"
             android:textStyle="bold"
             android:layout_alignTop="@+id/tvDone"
-            android:text="Что выполнено: "/>
+            android:text="Что выполнено: "
+            android:textIsSelectable="true"/>
 
         <TextView
             android:id="@+id/tvNotDone"
@@ -108,7 +117,8 @@
             android:textSize="18sp"
             android:textColor="@color/colorBlack"
             android:layout_toEndOf="@+id/tv5"
-            android:layout_below="@id/tvDone"/>
+            android:layout_below="@id/tvDone"
+            android:textIsSelectable="true"/>
         <TextView
             android:id="@+id/tv5"
             android:layout_width="wrap_content"
@@ -117,7 +127,8 @@
             android:textColor="@color/colorBlack"
             android:textStyle="bold"
             android:layout_alignTop="@+id/tvNotDone"
-            android:text="Что не выполнено: "/>
+            android:text="Что не выполнено: "
+            android:textIsSelectable="true"/>
 
         <TextView
             android:id="@+id/tv6"
@@ -127,7 +138,8 @@
             android:textColor="@color/colorBlack"
             android:textStyle="bold"
             android:layout_below="@+id/tvNotDone"
-            android:text="Фотография рабочего места: "/>
+            android:text="Фотография рабочего места: "
+            android:textIsSelectable="true"/>
 
 
         <pl.droidsonroids.gif.GifImageView

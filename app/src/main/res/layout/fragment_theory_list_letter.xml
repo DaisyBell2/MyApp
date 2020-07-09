@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".theory.TheoryListLetterFragment"
     android:background="@color/colorWrite">
+
+    <ProgressBar
+        android:id="@+id/pbLetterList"
+        android:visibility="gone"
+        android:indeterminate="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
 
     <TextView
         android:id="@+id/tvNotData"
@@ -14,11 +22,11 @@
         android:textColor="@color/colorBlack"
         android:visibility="gone"
         android:text="@string/no_data"
-        android:gravity="center"/>
+        android:layout_centerInParent="true"/>
 
     <ListView
         android:id="@+id/lvTheory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</FrameLayout>
+</RelativeLayout>

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,7 +62,8 @@ public class ResultTestsNameActivity extends AppCompatActivity {
 
     CustomAdapter mCustomAdapter;
 
-    LoadingDialog loadingDialog;
+//    LoadingDialog loadingDialog;
+    private ProgressBar mProgressBar;
     private TextView tvNotData;
 
     private String key1 = "";
@@ -86,8 +89,10 @@ public class ResultTestsNameActivity extends AppCompatActivity {
 //        onClickItem();
         Log.d(TAG, "filter1: " + filter);
 
-        loadingDialog = new LoadingDialog(ResultTestsNameActivity.this);
-        loadingDialog.startLoadingDialog();
+//        loadingDialog = new LoadingDialog(ResultTestsNameActivity.this);
+//        loadingDialog.startLoadingDialog();
+        mProgressBar = findViewById(R.id.pbRTestsName);
+        mProgressBar.setVisibility(View.VISIBLE);
 
     }
 
@@ -133,7 +138,8 @@ public class ResultTestsNameActivity extends AppCompatActivity {
 //                mAdapter.notifyDataSetChanged();
                 mCustomAdapter.notifyDataSetChanged();
                 goneText();
-                loadingDialog.dismissDialog();
+//                loadingDialog.dismissDialog();
+                mProgressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -160,7 +166,8 @@ public class ResultTestsNameActivity extends AppCompatActivity {
 //                mAdapter.notifyDataSetChanged();
                 mCustomAdapter.notifyDataSetChanged();
                 goneText();
-                loadingDialog.dismissDialog();
+//                loadingDialog.dismissDialog();
+                mProgressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -218,8 +225,11 @@ public class ResultTestsNameActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 mCustomAdapter.getFilter().filter(newText);
-                filter = true;
-                Log.d(TAG, "filter2: " + filter);
+                if (!TextUtils.isEmpty(newText)) {
+                    filter = true;
+                } else {
+                    filter = false;
+                }
                 return true;
             }
         });

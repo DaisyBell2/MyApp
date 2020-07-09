@@ -12,6 +12,7 @@
         android:id="@+id/etNamePDFFile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="text|textCapSentences"
         android:hint="@string/file_name"/>
     <Button
         android:id="@+id/btSavePDFFile"

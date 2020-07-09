@@ -18,14 +18,14 @@ import com.daisybell.myapp.ChangePasswordActivity;
 import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.R;
 import com.daisybell.myapp.auth.LoginActivity;
-import com.daisybell.myapp.result.ResultCheckListNameActivity;
-import com.daisybell.myapp.user_email.AddNewUserActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -33,6 +33,8 @@ public class SettingsActivity extends AppCompatActivity {
     private DatabaseReference mDataBaseUser;
     private FirebaseAuth mAuth;
     private String idUser;
+
+    private StorageReference mStorageReferencePhoto;
 
     private ProgressDialog mProgressDialog;
 
@@ -54,6 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
         mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.ADMIN_DATE);
         mDataBaseUser = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID)
                 .child(Constant.USER_KEY).child(idUser);
+//        mStorageReferencePhoto = FirebaseStorage.getInstance().getReference("");
     }
 
     // Кнопка для смены пароля
@@ -84,6 +87,7 @@ public class SettingsActivity extends AppCompatActivity {
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
                                                     if (Constant.EMAIL_VERIFIED) {
+                                                        //TODO: Delete photo and pdf
                                                         mDataBase.removeValue();
                                                     } else {
                                                         mDataBaseUser.removeValue();

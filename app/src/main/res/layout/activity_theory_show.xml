@@ -20,14 +20,16 @@
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_margin="8dp"
             android:gravity="center"
-            android:textSize="24sp"/>
+            android:textSize="24sp"
+            android:textIsSelectable="true"/>
         <TextView
             android:id="@+id/tvTheoryShowText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="@color/colorBlack"
             android:layout_margin="10dp"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:textIsSelectable="true"/>
 
     </LinearLayout>
 </ScrollView>

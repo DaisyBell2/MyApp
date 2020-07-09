@@ -21,6 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,7 +57,8 @@ public class CheckListNameActivity extends AppCompatActivity {
     private List<CheckList> mListCheckList;
     private DatabaseReference mDataBase;
 
-    LoadingDialog loadingDialog;
+//    LoadingDialog loadingDialog;
+    private ProgressBar mProgressBar;
     private TextView tvNotData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +73,10 @@ public class CheckListNameActivity extends AppCompatActivity {
         }
 
 
-        loadingDialog = new LoadingDialog(CheckListNameActivity.this);
-        loadingDialog.startLoadingDialog();
+//        loadingDialog = new LoadingDialog(CheckListNameActivity.this);
+//        loadingDialog.startLoadingDialog();
+        mProgressBar = findViewById(R.id.pbCLName);
+        mProgressBar.setVisibility(View.VISIBLE);
 
     }
 
@@ -109,7 +113,8 @@ public class CheckListNameActivity extends AppCompatActivity {
                 }
                 mAdapter.notifyDataSetChanged();
                 goneText();
-                loadingDialog.dismissDialog();
+//                loadingDialog.dismissDialog();
+                mProgressBar.setVisibility(View.GONE);
             }
 
             @Override

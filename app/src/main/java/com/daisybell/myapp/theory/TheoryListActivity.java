@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,10 @@ public class TheoryListActivity extends AppCompatActivity {
 
     private TheoryListLetterFragment mTheoryListLetterFragment;
     private TheoryListPDFFragment mTheoryListPDFFragment;
+
+    TheoryListLetterFragment.CustomAdapter mCustomAdapter;
+    TheoryListPDFFragment.CustomAdapter mCustomAdapterPDF;
+    public boolean filterUse = false;
 
 //    private static String TAG = "myLog";
 //

@@ -11,7 +11,7 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -20,16 +20,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ForgetPasswordActivity"
+        <activity android:name=".theory.TheoryShowPDFActivity"
+            android:label="@string/theory_title"
+            android:parentActivityName=".theory.TheoryListActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ForgetPasswordActivity"
             android:label="@string/forget_password_title"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
-        <activity android:name=".ChangePasswordActivity"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ChangePasswordActivity"
             android:label="@string/change_password_title"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".menu.AboutApplicationActivity"
             android:label="@string/about_application_title"

@@ -12,6 +12,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +24,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,7 +57,8 @@ public class TheoryListLetterFragment extends Fragment {
 
     CustomAdapter mCustomAdapter;
 
-    LoadingDialog loadingDialog;
+//    LoadingDialog loadingDialog;
+    private ProgressBar mProgressBar;
     private TextView tvNotData;
 
     private String key1 = "";
@@ -95,8 +99,10 @@ public class TheoryListLetterFragment extends Fragment {
 
         getDataFromDB();
 
-        loadingDialog = new LoadingDialog(getActivity());
-        loadingDialog.startLoadingDialog();
+//        loadingDialog = new LoadingDialog(getActivity());
+//        loadingDialog.startLoadingDialog();
+        mProgressBar = v.findViewById(R.id.pbLetterList);
+        mProgressBar.setVisibility(View.VISIBLE);
 
         return v;
     }
@@ -117,7 +123,8 @@ public class TheoryListLetterFragment extends Fragment {
 //               mAdapter.notifyDataSetChanged();
                 mCustomAdapter.notifyDataSetChanged();
                 goneText();
-                loadingDialog.dismissDialog();
+//                loadingDialog.dismissDialog();
+                mProgressBar.setVisibility(View.GONE);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -156,7 +163,11 @@ public class TheoryListLetterFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 mCustomAdapter.getFilter().filter(newText);
-                filter = true;
+                if (!TextUtils.isEmpty(newText)) {
+                    filter = true;
+                } else {
+                    filter = false;
+                }
                 return true;
             }
         });

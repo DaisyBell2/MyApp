@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.LoadingDialog;
 import com.daisybell.myapp.R;
+import com.daisybell.myapp.auth.LoginActivity;
 import com.daisybell.myapp.auth.User;
 import com.daisybell.myapp.check_list.SaveResultCheckList;
 import com.daisybell.myapp.result.ResultCheckListActivity;
@@ -62,7 +65,8 @@ public class UsersActivity extends AppCompatActivity {
 
     CustomAdapter mCustomAdapter;
 
-    LoadingDialog loadingDialog;
+//    LoadingDialog loadingDialog;
+    private ProgressBar mProgressBar;
     private TextView tvNotData;
 
     private String key1 = "";
@@ -80,8 +84,10 @@ public class UsersActivity extends AppCompatActivity {
         getDataFromDB();
 
 
-        loadingDialog = new LoadingDialog(UsersActivity.this);
-        loadingDialog.startLoadingDialog();
+//        loadingDialog = new LoadingDialog(UsersActivity.this);
+//        loadingDialog.startLoadingDialog();
+        mProgressBar = findViewById(R.id.pbUserList);
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     // Инициализация переменных
@@ -118,7 +124,8 @@ public class UsersActivity extends AppCompatActivity {
                 }
                 mCustomAdapter.notifyDataSetChanged();
                 goneText();
-                loadingDialog.dismissDialog();
+//                loadingDialog.dismissDialog();
+                mProgressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -144,6 +151,9 @@ public class UsersActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu, menu);
 
         MenuItem menuItem = menu.findItem(R.id.search_view);
+        MenuItem users_item = menu.findItem(R.id.users);
+        users_item.setVisible(false);
+
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -154,8 +164,11 @@ public class UsersActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 mCustomAdapter.getFilter().filter(newText);
-                filter = true;
-                Log.d(TAG, "filter2: " + filter);
+                if (!TextUtils.isEmpty(newText)) {
+                    filter = true;
+                } else {
+                    filter = false;
+                }
                 return true;
             }
         });
@@ -167,11 +180,29 @@ public class UsersActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.search_view) {
-            return true;
+        switch (id) {
+            case R.id.search_view:
+                return true;
+            case R.id.users: // Пользователи
+                startActivity(new Intent(UsersActivity.this, UsersActivity.class));
+                return true;
+            case R.id.settings: // Настройки
+                startActivity(new Intent(UsersActivity.this, SettingsActivity.class));
+                return true;
+            case R.id.about_application: // О приложении
+                startActivity(new Intent(UsersActivity.this, AboutApplicationActivity.class));
+                return true;
+            case R.id.sing_out: // Выход из аккаунта
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(UsersActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
-        return super.onOptionsItemSelected(item);
     }
 
     // Создаем свой адаптер

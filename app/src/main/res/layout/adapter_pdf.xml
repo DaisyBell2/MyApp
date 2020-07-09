@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWrite">
+    
+    <ImageView
+        android:id="@+id/ivPDF"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/pdf1"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:scaleType="fitXY"/>
+
+    <TextView
+        android:id="@+id/tvPDFName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="File Name"
+        android:layout_toRightOf="@id/ivPDF"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingRight="10dp"
+        android:textSize="16sp"
+        android:textColor="@color/colorBlack"/>
+
+</RelativeLayout>
