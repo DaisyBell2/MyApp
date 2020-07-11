@@ -164,5 +164,19 @@
             app:layout_constraintStart_toStartOf="@+id/etPasswordAgain"
             app:layout_constraintTop_toBottomOf="@+id/etPasswordAgain" />
 
+        <TextView
+            android:id="@+id/tvPrivacyPolicyLink"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btSingUp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

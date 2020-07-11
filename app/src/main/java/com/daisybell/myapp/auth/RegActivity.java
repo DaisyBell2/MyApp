@@ -12,10 +12,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daisybell.myapp.Constant;
@@ -43,6 +45,9 @@ public class RegActivity extends AppCompatActivity {
     private DatabaseReference mDataBase;
     private Boolean successReg = false;
 
+    private String link = "<html>При регистрации вы соглашаетесь с <a href=\"https://handbook-ot-tb.flycricket.io/privacy.html\">политикой конфиденциальности</a> приложения.</html>";
+    private TextView tvPrivacyPolicyLink;
+
     private ProgressDialog mProgressDialog;
 
     @Override
@@ -51,6 +56,9 @@ public class RegActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reg);
 
         init();
+
+        tvPrivacyPolicyLink.setText(Html.fromHtml(link));
+        tvPrivacyPolicyLink.setMovementMethod(LinkMovementMethod.getInstance());
     }
     private void init() {
 //        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -63,6 +71,8 @@ public class RegActivity extends AppCompatActivity {
         etPasswordAgain = findViewById(R.id.etPasswordAgain);
         btSingUp = findViewById(R.id.btSingUp);
         mAuth = FirebaseAuth.getInstance();
+
+        tvPrivacyPolicyLink = findViewById(R.id.tvPrivacyPolicyLink);
 //        mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY + mAuth.getUid());
     }
 

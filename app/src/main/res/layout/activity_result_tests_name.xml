@@ -24,7 +24,7 @@
         android:textColor="@color/colorBlack"
         android:visibility="gone"
         android:text="@string/no_data"
-        android:layout_centerInParent="true"/>
+        android:gravity="center"/>
 
     <ListView
         android:id="@+id/lvResultTestsName"

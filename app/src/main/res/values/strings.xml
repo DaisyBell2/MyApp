@@ -100,8 +100,9 @@
 
 <!--    About Activity-->
     <string name="about_text">Данное приложение предназначается для облегчения решения задач по проверки и изучению охраны труда и техники безопасности на предприятии.</string>
-    <string name="developer">Разработчик: Борзикова Алина\nСвязь с разработчиком: handbook.otandtb@gmzil.com</string>
-    <string name="contact_with_me">Связь с разработчиком: handbook.otandtb@gmzil.com</string>
+    <string name="developer">Разработчик: Борзикова Алина\nСвязь с разработчиком: handbook.otandtb@gmail.com</string>
+    <string name="contact_with_me">Связь с разработчиком: handbook.otandtb@gmail.com</string>
+    <string name="privacy_policy_link">При регистрации вы соглашаетесь с политикой конфиденциальности приложения.</string>
 
 
 </resources>

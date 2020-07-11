@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,23 +19,33 @@ import com.daisybell.myapp.ChangePasswordActivity;
 import com.daisybell.myapp.Constant;
 import com.daisybell.myapp.R;
 import com.daisybell.myapp.auth.LoginActivity;
+import com.daisybell.myapp.check_list.SaveResultCheckList;
+import com.daisybell.myapp.theory.UploadPDF;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SettingsActivity extends AppCompatActivity {
+
+    private final static String TAG = "myLog";
 
     private DatabaseReference mDataBase;
     private DatabaseReference mDataBaseUser;
     private FirebaseAuth mAuth;
     private String idUser;
-
-    private StorageReference mStorageReferencePhoto;
 
     private ProgressDialog mProgressDialog;
 
@@ -56,7 +67,6 @@ public class SettingsActivity extends AppCompatActivity {
         mDataBase = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID).child(Constant.ADMIN_DATE);
         mDataBaseUser = FirebaseDatabase.getInstance().getReference(Constant.ADMIN_KEY +"_"+ Constant.ADMIN_ID)
                 .child(Constant.USER_KEY).child(idUser);
-//        mStorageReferencePhoto = FirebaseStorage.getInstance().getReference("");
     }
 
     // Кнопка для смены пароля
