@@ -69,6 +69,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         init();
 
+        
         if (Constant.EMAIL_VERIFIED) {
             getPasswordDBAdmin();
         } else {
@@ -212,6 +213,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 User user = snapshot.getValue(User.class);
                 if (user != null) {
                     passwordUser = user.password;
+                    Log.d(TAG, "passwordUser: " + passwordUser);
                     emailUser = user.email;
                 }
             }
@@ -230,6 +232,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 User user = snapshot.getValue(User.class);
                 if (user != null) {
                     passwordUser = user.password;
+                    Log.d(TAG, "passwordUser: " + passwordUser);
                     emailUser = user.email;
                 }
             }
