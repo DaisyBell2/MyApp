@@ -1,5 +1,5 @@
 # Справочник по ОТ&ТБ
-<p align="center">
+<p>
  <a href="https://imgbb.com/"><img src="https://i.ibb.co/470jRyq/icon.jpg" 
  alt="icon" border="0" height="150"></a>
 </p>
@@ -32,7 +32,7 @@
 - И много других функций.
 
 ## Дизайн
-<p align="center">
+<p>
  <a href="https://ibb.co/1Zyph6G"><img src="https://i.ibb.co/VVnhrmY/Screenshot-7.png"
   alt="Screenshot-7" border="0" height="300"></a>
  <a href="https://ibb.co/p1cLkz0"><img src="https://i.ibb.co/HK6H9zF/Screenshot-1.png"
