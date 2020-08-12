@@ -47,10 +47,21 @@
   alt="Screenshot-5" border="0" height="300"></a>
 </p>
 
+## Gif
+![gif](demo.gif)
+
 ## Создано с помощью
 - [Android Studio](https://developer.android.com/studio) - IDE для разработки.
 - Java - язык программирования.
-- [Firebase](https://firebase.google.com/?hl=ru) - сервис для хранения всх данных.
+- [Firebase](https://firebase.google.com/?hl=ru) - сервис для хранения всех данных.
 
 ## Авторы
 - Борзикова Алина - полная разработка проекта.
+
+## Контактная информация
+
+- E-mail: alina_borz@mail.ru
+- Telegram: @DaisyB_ell
+- VK: [Борзикова Алина](https://vk.com/alinka_borz)
+- Linkedin: www.linkedin.com/in/alina-borzikova
+- Google Play: https://play.google.com/store/apps/developer?id=Alina+Borzikova
