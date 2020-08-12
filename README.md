@@ -59,9 +59,10 @@
 - Борзикова Алина - полная разработка проекта.
 
 ## Контактная информация
-
 - E-mail: alina_borz@mail.ru
 - Telegram: @DaisyB_ell
 - VK: [Борзикова Алина](https://vk.com/alinka_borz)
 - Linkedin: www.linkedin.com/in/alina-borzikova
 - Google Play: https://play.google.com/store/apps/developer?id=Alina+Borzikova
+
+### Видео защиты дипломной работы: https://youtu.be/OlTJ7tLIsb4
